@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
 
 
 type FormValues = {
@@ -21,6 +21,7 @@ type FormValues = {
 
 function Login() {
   const form = useForm<FormValues>()
+  const clientId = '965214593163-kk7v57ub0b6r1up0ee3ve5cl8raaiu6j.apps.googleusercontent.com'
   const navigate = useNavigate()
   const { register, handleSubmit, formState, setError } = form
   const { errors } = formState
@@ -44,6 +45,28 @@ function Login() {
       console.error('Error registering user:', error);
     }
   };
+
+  const handleGoogleLoginSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    const { credential } = credentialResponse;
+    console.log('leajdc', credential);
+    try {
+      const response = await userAxios.post("/google-login", {
+        credential,
+      });
+      console.log('wehfblwe', response);
+
+      if (response) {
+        navigate("/home");
+      } else {
+        console.error("Failed to store user data in the database.");
+      }
+    } catch (error) {
+      console.error("Error while processing Google login:", error);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <style>
@@ -51,7 +74,6 @@ function Login() {
           body {
             background-color: #e5e5e5;
           }
-          
         `}
 
       </style>
@@ -108,16 +130,14 @@ function Login() {
             Create an Account?
             <Link to="/register" style={{ marginLeft: '5px' }}>Signup</Link>
           </Typography>
-          {/* <GoogleOAuthProvider clientId={clientId}>
+          <GoogleOAuthProvider clientId={clientId}>
             <GoogleLogin
-              onSuccess={credentialResponse => {
-                console.log(credentialResponse);
-              }}
+              onSuccess={handleGoogleLoginSuccess}
               onError={() => {
                 console.log('Login Failed');
               }}
             />
-          </GoogleOAuthProvider> */}
+          </GoogleOAuthProvider>
 
 
 
