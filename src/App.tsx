@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import UserRoutes from './routes/userRoute'
+import RecruiterRoute from './routes/recruiterRoute';
+import AdminRoute from './routes/adminRoute';
 import Login from './components/user/auth/Login';
 
 
@@ -11,6 +13,10 @@ function App() {
       <Router>
         <Routes>
           <Route path='/*' element={<UserRoutes />} />
+          <Route path='/recruiter/*' element={<RecruiterRoute />} />
+          <Route path='/admin/*' element={<AdminRoute />} />
+
+
         </Routes>
       </Router>
     </div>

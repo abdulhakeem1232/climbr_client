@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import login from "../../../assets/login.jpg"
 import logo from "../../../assets/logo.png"
@@ -7,16 +7,16 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { endpoints, userAxios, } from '../../../endpoints/userEndpoint';
+import { recruiterendpoints, recruiterAxios } from '../../../endpoints/recruiterEndpoints'
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
-
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 type FormValues = {
-  username: string;
   email: string;
-  mobile: string;
   password: string;
-  confirmpassword: string
+  isRecruiter: boolean
 }
 
 function Login() {
@@ -24,18 +24,32 @@ function Login() {
   const clientId = '965214593163-kk7v57ub0b6r1up0ee3ve5cl8raaiu6j.apps.googleusercontent.com'
   const navigate = useNavigate()
   const { register, handleSubmit, formState, setError } = form
+  const [isRecruiter, setIsRecruiter] = useState(false);
   const { errors } = formState
   const onsubmit = async (data: FormValues) => {
     console.log('sr');
     console.log(data);
     try {
-      const response = await userAxios.post(endpoints.login, data);
-      console.log('User login:', response.data, response);
-
-
-      if (response.data.success) {
-        navigate('/home')
+      let response: any
+      if (isRecruiter == false) {
+        response = await userAxios.post(endpoints.login, data);
+        console.log('User login:', response.data, response);
       } else {
+        response = await recruiterAxios.post(recruiterendpoints.login, data);
+        console.log('Usewwr login:', response.data, response);
+      }
+      if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
+        console.log('user');
+
+        navigate('/home')
+      } else if (response.data.success && isRecruiter == true) {
+        navigate('/recruiter/home')
+
+      } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {
+        navigate('/admin/home')
+
+      }
+      else {
         setError("email", {
           type: "manual",
           message: "Invalid Credentials"
@@ -83,10 +97,11 @@ function Login() {
           <img src={login} alt="signup" className="w-[650px] h-[650px] object-contain" />
         </div>
         <div className='w-[50%] flex-1 p-[2px]  flex flex-col justify-center items-center'>
-          <img src={logo} alt="" className="h-36  mx-auto" />
+          < img src={logo} alt="" className="h-36  mx-auto" />
           <Typography variant='h4'>Welcome Back</Typography>
 
           <form onSubmit={handleSubmit(onsubmit)} style={{ display: 'flex', flexDirection: 'column' }} noValidate>
+            <p className="error-message">{errors.email?.message}</p>
             <TextField
               label="E-mail"
               variant="outlined"
@@ -98,7 +113,7 @@ function Login() {
                 required: "E-Mail is Required"
               })}
             />
-            <p className="error-message">{errors.email?.message}</p>
+
             <TextField
               label="Password"
               variant="outlined"
@@ -111,20 +126,23 @@ function Login() {
                 required: "Password is Required",
               })}
             />
-            <p className="error-message">{errors.password?.message}</p>
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isRecruiter}
+                  onChange={(e) => setIsRecruiter(e.target.checked)}
+                  name="isRecruiter"
+                  color="primary"
+                />
+              }
+              label="I am a recruiter"
+            />
             <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }} className='w-[300px]' >
               Login
             </Button>
           </form>
-          {/* <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<img src={google} alt="Custom Icon" className='w-4 h-4' />}
-            className='w-[300px]'
-            style={{ marginBottom: '10px' }}
-          >
-            Login with Google
-          </Button> */}
+
 
           <Typography variant="body1" className='m-3' style={{ marginBottom: '20px' }}>
             Create an Account?
@@ -138,12 +156,9 @@ function Login() {
               }}
             />
           </GoogleOAuthProvider>
-
-
-
         </div>
       </div>
-    </div>
+    </div >
 
   );
 }

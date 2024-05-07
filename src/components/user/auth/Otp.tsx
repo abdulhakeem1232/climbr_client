@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
+import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
+import Cookies from 'js-cookie';
 
 
 function Otp() {
@@ -51,13 +53,30 @@ function Otp() {
     event.preventDefault();
     const otp = `${input1Ref.current?.value}${input2Ref.current?.value}${input3Ref.current?.value}${input4Ref.current?.value}`;
     console.log('Submitted OTP:', otp);
-    const response = await userAxios.post(endpoints.otp, { otp })
-    console.log(response);
-    if (response.data.success) {
+    const isRecruiter = Cookies.get('isRecruiter');
+    console.log('isRecruiter:', isRecruiter);
+    let response: any
+    if (isRecruiter == 'false') {
+      console.log('falseee');
+
+      response = await userAxios.post(endpoints.otp, { otp })
+    } else {
+      console.log('trueee');
+
+      response = await recruiterAxios.post(recruiterendpoints.otp, { otp })
+
+    }
+    console.log(response.data.success, isRecruiter, 'wehviks');
+    if (response.data.success && isRecruiter == 'false') {
       console.log('iiigg');
       localStorage.removeItem('otp');
       navigate('/home')
-    } else {
+    } else if (response.data.success && isRecruiter == 'true') {
+      console.log('routetruee');
+
+      navigate('/recruiter/home')
+    }
+    else {
       setErrorMsg('Invalid OTP')
     }
   }
