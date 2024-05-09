@@ -15,4 +15,8 @@ export const recruiterendpoints = {
     register: `${API_GATEWAY_BASE_URL}/register`,
     otp:`${API_GATEWAY_BASE_URL}/verifyOtp` ,
     login:`${API_GATEWAY_BASE_URL}/login` ,
+    getall:`${API_GATEWAY_BASE_URL}/getallrecruiter` ,
+    updateStatus:`${API_GATEWAY_BASE_URL}/updateStatus`,
+    approve:`${API_GATEWAY_BASE_URL}/approve`
+
   };

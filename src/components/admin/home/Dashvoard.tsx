@@ -3,7 +3,16 @@ import React from 'react'
 function Dashboard() {
     return (
         <div>
-            Welcome To Admin Dashboard
+            <h1>Welcome To Admin Dashboard</h1>
+            <h1>Welcome To Admin Dashboard</h1>
+
+
+
+
+
+
+
+
         </div>
     )
 }

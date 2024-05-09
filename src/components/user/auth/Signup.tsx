@@ -11,8 +11,6 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useForm } from 'react-hook-form';
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
 import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
-
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 
 type FormValues = {
@@ -25,25 +23,14 @@ type FormValues = {
   companyemail?: string;
 }
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
+
 
 function Signup() {
   const navigate = useNavigate()
   const [isRecruiter, setIsRecruiter] = useState(false);
   const form = useForm<FormValues>()
   const { register, handleSubmit, formState, getValues, setError } = form
-  const { errors } = formState
-  const [companyCertificatePhoto, setCompanyCertificatePhoto] = useState<FileList | null>(null);
+  const { errors } = formState;
   const onsubmit = async (data: FormValues) => {
     console.log('sr');
     console.log(data);
@@ -54,7 +41,7 @@ function Signup() {
       if (response.data.success) {
         navigate('/otp')
       } else {
-        if (response.data.msg === "email already exist") {
+        if (response.data.msg == "email already exist") {
           setError("email", {
             type: "manual",
             message: "Email already exists"

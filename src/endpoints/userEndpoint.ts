@@ -15,6 +15,9 @@ export const endpoints = {
     register: `${API_GATEWAY_BASE_URL}/register`,
     otp:`${API_GATEWAY_BASE_URL}/verifyOtp` ,
     login:`${API_GATEWAY_BASE_URL}/login` ,
+    getall:`${API_GATEWAY_BASE_URL}/getalluser`,
+    updateStatus:`${API_GATEWAY_BASE_URL}/updateStatus`
+
 
 
   };

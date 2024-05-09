@@ -46,7 +46,7 @@ function Login() {
         navigate('/recruiter/home')
 
       } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {
-        navigate('/admin/home')
+        navigate('/admin/dashboard')
 
       }
       else {
@@ -108,7 +108,7 @@ function Login() {
               margin="normal"
               size="small"
               color="secondary"
-              className='w-[300px]'
+              className='w-[280px]'
               {...register('email', {
                 required: "E-Mail is Required"
               })}
@@ -121,7 +121,7 @@ function Login() {
               type="password"
               size="small"
               color="secondary"
-              className='w-[300px]'
+              className='w-[280px]'
               {...register('password', {
                 required: "Password is Required",
               })}
@@ -138,13 +138,16 @@ function Login() {
               }
               label="I am a recruiter"
             />
-            <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }} className='w-[300px]' >
+            <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '5px', marginTop: '10px' }} className='w-[300px]' >
               Login
             </Button>
           </form>
+          <Typography variant="body2" className='m-3' style={{ marginBottom: '10px' }}>
+            <Link to="/register" style={{ marginLeft: '180px' }}>Forgot password?</Link>
+          </Typography>
 
 
-          <Typography variant="body1" className='m-3' style={{ marginBottom: '20px' }}>
+          <Typography variant="body1" className='m-3' style={{ marginBottom: '10px' }}>
             Create an Account?
             <Link to="/register" style={{ marginLeft: '5px' }}>Signup</Link>
           </Typography>

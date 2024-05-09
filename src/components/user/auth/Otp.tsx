@@ -73,7 +73,7 @@ function Otp() {
       navigate('/home')
     } else if (response.data.success && isRecruiter == 'true') {
       console.log('routetruee');
-
+      localStorage.removeItem('otp');
       navigate('/recruiter/home')
     }
     else {
