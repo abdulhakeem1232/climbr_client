@@ -24,31 +24,58 @@ function Otp() {
     }
   };
   const navigate = useNavigate()
+  const startTimer = () => {
+    const intervalId = setInterval(() => {
+      setTimer((prevtime) => {
+        if (prevtime == 0) {
+
+          clearInterval(intervalId)
+          sessionStorage.setItem('otpTimer', '0');
+          return prevtime;
+        } else {
+          sessionStorage.setItem('otpTimer', String(prevtime - 1));
+          return prevtime - 1
+        }
+      })
+    }, 1000)
+    return intervalId;
+  }
   useEffect(() => {
     console.log('Cookies:', document.cookie);
     if (input1Ref.current) {
       input1Ref.current.focus()
     }
-    const storedTimer = localStorage.getItem('otpTimer');
-    if (storedTimer) {
+    const storedTimer = sessionStorage.getItem('otpTimer');
+    if (storedTimer && parseInt(storedTimer) > 0) {
       setTimer(parseInt(storedTimer));
+    } else if (storedTimer && parseInt(storedTimer) == 0) {
+      setTimer(0);
     } else {
       setTimer(45);
     }
-    const intervalId = setInterval(() => {
-      setTimer((prevtime) => {
-        if (prevtime == 0) {
-          clearInterval(intervalId)
-          localStorage.removeItem('otpTimer');
-          return prevtime;
-        } else {
-          localStorage.setItem('otpTimer', String(prevtime - 1));
-          return prevtime - 1
-        }
-      })
-    }, 1000)
+    const intervalId = startTimer();
     return () => clearInterval(intervalId);
   }, [])
+  const resetTimer = () => {
+    setTimer(45)
+    sessionStorage.setItem('otpTimer', '45')
+    const intervalId = startTimer();
+  }
+  const handleResend = async () => {
+    console.log('sss');
+    if (input1Ref.current && input2Ref.current && input3Ref.current && input4Ref.current) {
+      input1Ref.current.value = '';
+      input2Ref.current.value = '';
+      input3Ref.current.value = '';
+      input4Ref.current.value = '';
+    }
+    if (input1Ref.current) {
+      input1Ref.current.focus();
+    }
+    let response = await userAxios.post(endpoints.resendOtp)
+    console.log(response.data.success)
+    resetTimer();
+  }
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const otp = `${input1Ref.current?.value}${input2Ref.current?.value}${input3Ref.current?.value}${input4Ref.current?.value}`;
@@ -56,24 +83,27 @@ function Otp() {
     const isRecruiter = Cookies.get('isRecruiter');
     console.log('isRecruiter:', isRecruiter);
     let response: any
-    if (isRecruiter == 'false') {
-      console.log('falseee');
-
-      response = await userAxios.post(endpoints.otp, { otp })
-    } else {
+    if (isRecruiter == 'true') {
       console.log('trueee');
-
       response = await recruiterAxios.post(recruiterendpoints.otp, { otp })
-
+    } else {
+      console.log('falseee');
+      response = await userAxios.post(endpoints.otp, { otp })
     }
     console.log(response.data.success, isRecruiter, 'wehviks');
+    if (response.data.success && response.data.msg == 'ForgotOtp') {
+      console.log('forgot pass');
+
+      navigate('/reset')
+
+    }
     if (response.data.success && isRecruiter == 'false') {
       console.log('iiigg');
-      localStorage.removeItem('otp');
+      sessionStorage.removeItem('otpTimer');
       navigate('/home')
     } else if (response.data.success && isRecruiter == 'true') {
       console.log('routetruee');
-      localStorage.removeItem('otp');
+      sessionStorage.removeItem('otpTimer');
       navigate('/recruiter/home')
     }
     else {
@@ -135,10 +165,10 @@ function Otp() {
         </div>
         {errorMsg && <p className="error-message">{errorMsg}</p>}
         {timer > 1 && < h6 > Time Left:{timer}</h6>}
-        <Button variant="contained" color="primary" type="submit" >
+        {timer > 1 && < Button variant="contained" color="primary" type="submit" >
           Submit
-        </Button>
-        {timer < 1 && <Button variant="contained" color="secondary" type="submit" >
+        </Button>}
+        {timer < 1 && <Button variant="contained" color="secondary" onClick={handleResend} >
           Resend
         </Button>}
       </form>

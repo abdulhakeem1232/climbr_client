@@ -61,6 +61,7 @@ function Signup() {
 
 
       if (response.data.success) {
+        sessionStorage.removeItem('otpTimer');
         navigate('/otp')
       } else {
         if (response.data.msg === "email already exist") {

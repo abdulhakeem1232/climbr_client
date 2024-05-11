@@ -143,7 +143,7 @@ function Login() {
             </Button>
           </form>
           <Typography variant="body2" className='m-3' style={{ marginBottom: '10px' }}>
-            <Link to="/register" style={{ marginLeft: '180px' }}>Forgot password?</Link>
+            <Link to="/email" style={{ marginLeft: '180px' }}>Forgot password?</Link>
           </Typography>
 
 
