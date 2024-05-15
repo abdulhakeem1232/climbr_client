@@ -21,6 +21,8 @@ export const endpoints = {
   emailValidate: `${API_GATEWAY_BASE_URL}/emailValidate`,
   ResetPassword: `${API_GATEWAY_BASE_URL}/resetPassword`,
   resendOtp: `${API_GATEWAY_BASE_URL}/resendOtp`,
+  createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
+  getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
 
 
 

@@ -17,18 +17,18 @@ function Nav() {
             <img src={logo} alt="" className='h-32' />
             <div className='hidden sm:block'>
                 <ul className='flex'>
-                    <li className='mr-4'><Link to="/home"><img src={home} alt="" className="w-9" /></Link></li>
-                    <li className='mr-4'><img src={network} alt="" className="w-9" /></li>
-                    <li className='mr-4'><Link to="/post"><img src={post} alt="" className="w-9" /></Link></li>
-                    <li><img src={jobs} alt="" className="w-9" /></li>
+                    <li className='mr-5'><Link to="/home"><img src={home} alt="" className="w-7" /></Link></li>
+                    <li className='mr-5'><img src={network} alt="" className="w-7" /></li>
+                    <li className='mr-5'><Link to="/post"><img src={post} alt="" className="w-7" /></Link></li>
+                    <li><img src={jobs} alt="" className="w-7" /></li>
 
                 </ul>
 
             </div >
             <div className='flex justify-between'>
 
-                <h4 className='mr-4'><img src={chats} alt="" className="w-9" /></h4>
-                <h4><img src={profile} alt="" className="w-9" /></h4>
+                <h4 className='mr-4'><img src={chats} alt="" className="w-7" /></h4>
+                <h4><img src={profile} alt="" className="w-7" /></h4>
             </div>
         </div >
     )

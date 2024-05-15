@@ -1,41 +1,47 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import Nav from '../home/nav'
-import MiddleBar from './MiddleBar'
+import React, { useState } from 'react';
+import Nav from '../home/nav';
+import MiddleBar from './MiddleBar';
 import ImageIcon from '@mui/icons-material/Image';
-import Button from '@mui/material/Button'
-
-
-interface FormData {
-    image: FileList;
-    description: string;
-}
+import Button from '@mui/material/Button';
+import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 
 function CreatePost() {
-    const form = useForm<FormData>()
-    const { register, handleSubmit } = form
+    const [image, setImage] = useState<File | null>(null);
+    const [description, setDescription] = useState<string>('');
 
-    const onSubmit = async (data: FormData) => {
-        console.log('Form Data:', data);
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files ? event.target.files[0] : null;
+        setImage(file);
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData();
+        if (image) {
+            formData.append('image', image);
+            console.log('llldld');
+
+        }
+        formData.append('description', description);
+        console.log('Image:', image);
+        console.log('Description:', description);
+        console.log(formData, 'lll');
+        console.log(formData);
+        for (let value of formData.values()) {
+            console.log(value);
+        }
         try {
-            const formData = new FormData();
-            formData.append('image', data.image[0]);
-            formData.append('description', data.description);
-
-            const response = await fetch('/api/posts', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                console.log('Post created successfully!');
-            } else {
-                console.error('Failed to create post:', response.statusText);
-            }
+            let response = await userAxios.post(endpoints.createpost, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            console.log(response.data);
         } catch (error) {
-            console.error('Error creating post:', error);
+            console.error('Error:', error);
         }
     };
+
 
     return (
         <div>
@@ -43,26 +49,26 @@ function CreatePost() {
                 <Nav />
             </div>
             <h2 className='mb-4'>Create a New Post</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div>
                     <label htmlFor="image"><ImageIcon /></label>
                     <input
                         type="file"
                         id="image"
+                        name="image"
                         accept="image/*"
-                        {...register('image')}
-                        style={{ display: 'none' }}
-
+                        onChange={handleImageChange}
                     />
                 </div>
                 <div>
                     <label htmlFor="description">Description:</label>
                     <textarea
                         id="description"
-                        {...register('description')}
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
                     />
                 </div>
-                <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}  >
+                <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
                     Submit
                 </Button>
             </form>
