@@ -9,14 +9,13 @@ import ShimmerHome from './ShimmerHome'
 function Home() {
     const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true)
+    const [page, setPage] = useState(1)
     useEffect(() => {
         const fetchdata = async () => {
-            console.log('jom');
             try {
 
-                let response = await userAxios.get(endpoints.getPost)
-                setPosts(response.data.posts)
-                console.log('------', response.data);
+                let response = await userAxios.get(`${endpoints.getPost}?limit=2&page=${page}`)
+                setPosts(prevPosts => page === 1 ? [...response.data.posts] : [...prevPosts, ...response.data.posts]);
                 setLoading(false)
 
             } catch (error) {
@@ -24,6 +23,16 @@ function Home() {
             }
         }
         fetchdata();
+    }, [page])
+    const handlescroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop + 1 > document.documentElement.scrollHeight) {
+            setPage(prev => prev + 1)
+        }
+
+    }
+    useEffect(() => {
+        window.addEventListener("scroll", handlescroll)
+        return () => window.removeEventListener('scroll', handlescroll)
     }, [])
     const handleLike = (postId: string) => {
 

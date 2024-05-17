@@ -23,6 +23,7 @@ export const endpoints = {
   resendOtp: `${API_GATEWAY_BASE_URL}/resendOtp`,
   createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
   getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
+  logout: `${API_GATEWAY_BASE_URL}/logout`,
 
 
 

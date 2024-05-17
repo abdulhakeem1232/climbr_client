@@ -9,14 +9,14 @@ function HomePage() {
 
     return (
         <div className='flex flex-col h-screen ' >
-            <div>
+            <div className=''>
                 <Nav />
             </div>
-            <div className='flex flex-1' style={{ backgroundColor: '#f5f4d5' }}>
-                < div className='w-full md:w-1/4 hidden md:block lg:block' >
+            <div className='flex flex-1 ' style={{ backgroundColor: '#f5f4d5' }}>
+                < div className='w-full md:w-1/4 hidden md:block lg:block ' >
                     <Profile />
                 </div >
-                <div className='w-full md:w-1/2 flex justify-center items-center mx-4'>
+                <div className='w-full md:w-1/2  flex justify-center items-center mx-4'>
                     <Home />
 
                 </div>
