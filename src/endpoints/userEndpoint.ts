@@ -24,6 +24,9 @@ export const endpoints = {
   createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
   getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
   logout: `${API_GATEWAY_BASE_URL}/logout`,
+  likePost: `${API_GATEWAY_BASE_URL}/post/like`,
+  DislikePost: `${API_GATEWAY_BASE_URL}/post/dislike`,
+
 
 
 

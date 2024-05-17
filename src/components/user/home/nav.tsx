@@ -8,6 +8,8 @@ import chats from '../../../assets/chats.png'
 import profile from '../../../assets/profile.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../Redux/store/store'
 
 
 
@@ -18,11 +20,10 @@ function Nav() {
     const handleMouseEnter = () => {
         setShowOptions(true);
     };
-
     const handleMouseLeave = () => {
         setTimeout(() => {
             setShowOptions(false);
-        }, 1000);
+        }, 1500);
     };
     const handleLogout = async () => {
         await userAxios.get(endpoints.logout)
@@ -66,9 +67,9 @@ function Nav() {
                             <div className='absolute top-16 right-40 bg-white shadow-md rounded-md p-4'>
                                 <ul>
                                     <li>
+                                        <li>Profile</li>
+                                        <hr />
                                         <button onClick={handleLogout}>Logout</button></li>
-                                    <hr />
-                                    <li>Profile</li>
                                 </ul>
                             </div>
                         )}

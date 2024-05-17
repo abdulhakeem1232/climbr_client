@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import login from "../../../assets/login.jpg"
 import logo from "../../../assets/logo.png"
-import google from "../../../assets/google.png"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
@@ -12,6 +11,9 @@ import { recruiterendpoints, recruiterAxios } from '../../../endpoints/recruiter
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useDispatch } from 'react-redux';
+import { loginData } from '../../../Redux/slice/UserSlice';
+import { useSelector } from 'react-redux';
 
 type FormValues = {
   email: string;
@@ -23,6 +25,7 @@ function Login() {
   const form = useForm<FormValues>()
   const clientId = '965214593163-kk7v57ub0b6r1up0ee3ve5cl8raaiu6j.apps.googleusercontent.com'
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { register, handleSubmit, formState, setError } = form
   const [isRecruiter, setIsRecruiter] = useState(false);
   const { errors } = formState
@@ -39,13 +42,16 @@ function Login() {
         console.log('Usewwr login:', response.data, response);
       }
       if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
+        dispatch(loginData(response.data.user))
         console.log('user');
 
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
+        dispatch(loginData(response.data.user))
         navigate('/recruiter/home')
 
       } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {
+        dispatch(loginData(response.data.user))
         navigate('/admin/dashboard')
 
       }
