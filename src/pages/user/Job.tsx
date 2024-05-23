@@ -1,13 +1,10 @@
-import React from 'react';
-import Home from '../../components/user/home/Home';
+import React, { useState } from 'react'
+import Joblist from '../../components/user/home/Joblist'
 import Nav from '../../components/user/home/nav';
 import MiddleBar from '../../components/user/home/MiddleBar';
 import Profile from '../../components/user/home/Profile';
 import Suggestion from '../../components/user/home/Suggestion';
-import CreatePost from '../../components/user/home/CreatePost';
-
-
-function HomePage() {
+function Job() {
 
     return (
         <div className='flex flex-col h-screen ' >
@@ -20,9 +17,9 @@ function HomePage() {
                 < div className='w-full md:w-1/4 hidden md:block lg:block ml-12' >
                     <Profile />
                 </div >
-                <div className='w-full md:w-1/2  flex justify-center flex-col items-center mx-4'>
-                    <CreatePost />
-                    <Home />
+                <div className='w-full md:w-1/2   mx-4'>
+
+                    <Joblist />
 
                 </div>
                 <div className='w-full md:w-1/4 hidden md:block lg:block'>
@@ -31,7 +28,8 @@ function HomePage() {
             </div >
             <MiddleBar />
         </div >
-    );
+    )
 }
 
-export default HomePage;
+export default Job
+

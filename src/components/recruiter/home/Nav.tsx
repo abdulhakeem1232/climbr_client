@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
 import logo from '../../../assets/logo.png'
-import home from '../../../assets/home.png'
-import jobs from '../../../assets/jobs.png'
-import network from '../../../assets/network.png'
-import post from '../../../assets/post.png'
 import chats from '../../../assets/chats.png'
 import profile from '../../../assets/profile.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -40,23 +36,19 @@ function Nav() {
 
                 <div className='hidden sm:block'>
                     <ul className='flex'>
-                        <li className='mr-5'><Link to="/home">
+                        <li className='mr-5'><Link to="/recruiter/home">
                             {/* <img src={home} alt="" className="w-7" /> */}
                             Home
                         </Link></li >
-                        <li className='mr-5'>
+                        <li className='mr-5'><Link to='/recruiter/network'>
                             {/* <img src={network} alt="" className="w-7" /> */}
                             Network
+                        </Link>
                         </li>
-                        {/* <li className='mr-5'><Link to="/post"> */}
-                        {/* <img src={post} alt="" className="w-7" /> */}
-                        {/* New Post */}
-                        {/* </Link></li> */}
-                        <li><Link to="/job">
-                            {/* <img src={jobs} alt="" className="w-7" /> */}
-                            Jobs</Link>
-                        </li>
-
+                        <li className='mr-5'><Link to="/recruiter/newJob">
+                            {/* <img src={post} alt="" className="w-7" /> */}
+                            New Job
+                        </Link></li>
                     </ul >
 
                 </div >

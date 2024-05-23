@@ -69,7 +69,7 @@ function UserManagement() {
                                         {user.username}
                                     </TableCell>
                                     <TableCell align="left">{user.email}</TableCell>
-                                    <TableCell align="left">{user.mobile}</TableCell>
+                                    <TableCell align="left">{user.mobile || "Not Available"}</TableCell>
                                     <TableCell align="left">
                                         <Button
                                             variant="contained"

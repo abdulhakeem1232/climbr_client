@@ -26,6 +26,12 @@ export const endpoints = {
   logout: `${API_GATEWAY_BASE_URL}/logout`,
   likePost: `${API_GATEWAY_BASE_URL}/post/like`,
   DislikePost: `${API_GATEWAY_BASE_URL}/post/dislike`,
+  commentPost: `${API_GATEWAY_BASE_URL}/post/comment`,
+  getalljob: `${API_GATEWAY_BASE_URL}/job/getalljob`,
+  singlejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,
+  applyjob: `${API_GATEWAY_BASE_URL}/job/applyjob`,
+
+
 
 
 

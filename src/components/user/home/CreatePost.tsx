@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import Nav from '../home/nav';
 import MiddleBar from './MiddleBar';
-import ImageIcon from '@mui/icons-material/Image';
+import ImageIcon from '../../../assets/ImageIcon.png'
 import Button from '@mui/material/Button';
+import profile from '../../../assets/profile.png'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../Redux/store/store'
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 
 function CreatePost() {
     const [image, setImage] = useState<File | null>(null);
     const [description, setDescription] = useState<string>('');
+    const avatar = useSelector((store: RootState) => store.UserData.image)
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
@@ -44,33 +48,37 @@ function CreatePost() {
 
 
     return (
-        <div>
-            <div className='mb-4'>
-                <Nav />
-            </div>
-            <h2 className='mb-4'>Create a New Post</h2>
+        <div className='bg-white w-full rounded-lg mt-3 p-4 border-2 border-solid'>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <div>
-                    <label htmlFor="image"><ImageIcon /></label>
+                <div className='flex'>
+                    <img src={avatar || profile} alt="" className='w-9 h-9' />
+                    <input
+                        id="description"
+                        placeholder='Start a Post'
+                        className='w-full border-2 border-solid mb-3 mt-1 h-9 rounded-full ml-1 pl-3 '
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
+                    />
+
+                </div>
+                <div className='flex mx-2 justify-between'>
+                    <label htmlFor="image" className="cursor-pointer">
+                        <img src={ImageIcon} alt="" className='w-9 ' />
+                    </label>
                     <input
                         type="file"
                         id="image"
                         name="image"
                         accept="image/*"
+                        className="hidden"
                         onChange={handleImageChange}
                     />
+                    <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
+                        Post
+                    </Button>
                 </div>
-                <div>
-                    <label htmlFor="description">Description:</label>
-                    <textarea
-                        id="description"
-                        value={description}
-                        onChange={(event) => setDescription(event.target.value)}
-                    />
-                </div>
-                <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
-                    Submit
-                </Button>
+
+
             </form>
             <MiddleBar />
         </div >

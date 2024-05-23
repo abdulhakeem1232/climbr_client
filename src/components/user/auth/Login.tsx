@@ -47,6 +47,8 @@ function Login() {
 
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
+        console.log('validate recr');
+
         dispatch(loginData(response.data.user))
         navigate('/recruiter/home')
 
