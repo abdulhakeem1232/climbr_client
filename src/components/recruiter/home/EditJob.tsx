@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,18 +9,19 @@ import InputLabel from '@mui/material/InputLabel';
 import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const Newjob = () => {
+function EditJob() {
     const form = useForm()
     const [image, setImage] = useState<File | null>(null)
+    const { id } = useParams<{ id: string }>();
     const { register, handleSubmit, formState, setError, getValues } = form
     const { errors } = formState;
+    const navigate = useNavigate()
+    const [job, setJob] = useState(null)
     const skillsList = [
         'HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python', 'Java', 'SQL', 'TypeScript', 'Angular', 'Vue.js', 'Bootstrap'
     ];
-    const userId = useSelector((store: RootState) => store.UserData.UserId)
-    const navigate = useNavigate()
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         setImage(file);
@@ -33,34 +34,52 @@ const Newjob = () => {
         { value: 'onsite-full-time', label: 'On Site-Full-time' },
         { value: 'onsite-part-time', label: 'On Site-Part-time' },
     ];
-    const submit = async (formData: any) => {
-        console.log('Form Data:', formData);
-        console.log('image', image);
-        const formDataToSend = new FormData();
-        Object.keys(formData).forEach((key) => {
-            formDataToSend.append(key, formData[key]);
-        });
-        if (userId)
-            formDataToSend.append('userId', userId)
-        if (image) {
-            formDataToSend.append('companylogo', image);
-        }
-        console.log('fromadatatosend', formDataToSend);
+    const submit = async (data: any) => {
+        try {
+            data.id = id;
+            let response = await recruiterAxios.post(recruiterendpoints.updatejob, data)
 
-        let response = await recruiterAxios.post(recruiterendpoints.createjob, formDataToSend, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-        navigate('/recruiter/home')
-    };
+
+            if (response.data.success) {
+                navigate('/recruiter/home')
+            }
+
+        } catch (error) {
+            console.error('Error submitting data:', error);
+
+        }
+    }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let response = await recruiterAxios.get(`${recruiterendpoints.getSinglejob}/${id}`);
+                setJob(response.data);
+                console.log(response.data);
+                const skillsArray = response.data.skills.split(',');
+                form.setValue('jobtitle', response.data.jobrole);
+                form.setValue('MinExperienceLevel', response.data.minexperience);
+                form.setValue('Minimumsalary', response.data.minsalary);
+                form.setValue('joblocation', response.data.joblocation);
+                form.setValue('RequiredSkills', skillsArray);
+                form.setValue('CompanyName', response.data.companyname);
+                form.setValue('MaxExperienceLevel', response.data.maxexperience);
+                form.setValue('Maximumsalary', response.data.maxsalary);
+                form.setValue('EmploymentType', response.data.emptype);
+                form.setValue('Description', response.data.description);
+            } catch (error) {
+                console.error('Error fetching single job:', error);
+
+            }
+        }
+        fetchData()
+    }, [])
     return (
         <div className='container bg-white border-2 border-solid mx-10 py-7 lg:mx-36 rounded-xl border-gray-400 '>
-            <span className='text-4xl font-sans font-semibold'>New Job Post</span>
+            <span className='text-4xl font-sans font-semibold'>Edit Job Post</span>
             <form onSubmit={handleSubmit(submit)}>
                 <div className='form-container md:flex mt-7'>
                     < div className='form-column flex flex-col w-1/2 px-4 lg:px-16 ' >
-                        <TextField id="standard-basic" label="Job Title" className='mb-10 w-[350px] ' style={{ marginBottom: '0.7rem' }} variant="standard" {...register('jobtitle', {
+                        <TextField id="standard-basic" label="" className='mb-10 w-[350px] ' style={{ marginBottom: '0.7rem' }} variant="standard" {...register('jobtitle', {
                             required: "Job Title is Required", validate: {
                                 notOnlyNumbers: (value) => !(/^\d+$/.test(value)) || "Job Title cannot consist only of numbers",
                                 notOnlySpaces: (value) => !(/^\s+$/.test(value)) || "Job Title cannot consist only of spaces",
@@ -69,7 +88,7 @@ const Newjob = () => {
                         <p className="error-message">{errors.jobtitle?.message?.toString()}</p>
 
 
-                        <TextField id="standard-basic" label="Min-Experience Level" variant="standard" className=' my-10 w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className=' my-10 w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('MinExperienceLevel', {
                                 required: "Min-Experience Level is Required",
                                 pattern: {
@@ -79,7 +98,7 @@ const Newjob = () => {
                             })} />
                         <p className="error-message">{errors.MinExperienceLevel?.message?.toString()}</p>
 
-                        <TextField id="standard-basic" label="Minimum salary" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('Minimumsalary', {
                                 required: "Minimum Salary is Required",
                                 pattern: {
@@ -89,7 +108,7 @@ const Newjob = () => {
                             })}
                         />
                         <p className="error-message">{errors.Minimumsalary?.message?.toString()}</p>
-                        <TextField id="standard-basic" label="Job Location" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('joblocation', {
                                 required: "Job Location is Required",
                                 validate: {
@@ -127,26 +146,10 @@ const Newjob = () => {
                                 ))}
                             </Select>
                         </FormControl>
-                        <div className='flex'>
-                            <label htmlFor="companylogo" className="cursor-pointer flex items-center">
-                                <img src={ImageIcon} alt="Upload Logo" className="w-7 mr-2" />
-                                Company Logo
-                            </label>
-                            <input
-                                type="file"
-                                id="companylogo"
-                                name="companylogo"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleImageChange}
-                            />
-                        </div>
-                        <p className="error-message">{errors.companylogo?.message?.toString()}</p>
-
 
                     </div >
                     <div className='form-column flex flex-col w-1/2 px-4 lg:px-20'>
-                        <TextField id="standard-basic" label="Company Name" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('CompanyName', {
                                 required: "Company Name is Required", validate: {
                                     notOnlyNumbers: (value) => !(/^\d+$/.test(value)) || "Company Name cannot consist only of numbers",
@@ -154,7 +157,7 @@ const Newjob = () => {
                                 }
                             })} />
                         <p className="error-message">{errors.CompanyName?.message?.toString()}</p>
-                        <TextField id="standard-basic" label="Max-Experience Level" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('MaxExperienceLevel', {
                                 required: "MaxExperience Level is Required",
                                 pattern: {
@@ -172,7 +175,7 @@ const Newjob = () => {
                                 }
                             })} />
                         <p className="error-message">{errors.MaxExperienceLevel?.message?.toString()}</p>
-                        <TextField id="standard-basic" label="Maximum Salary" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('Maximumsalary', {
                                 required: "Maximum Salary  is Required",
 
@@ -193,7 +196,8 @@ const Newjob = () => {
                         <p className="error-message">{errors.Maximumsalary?.message?.toString()}</p>
 
                         <TextField
-                            id="standard-basic" style={{ marginBottom: '0.7rem' }}
+                            id="standard-basic"
+                            style={{ marginBottom: '0.7rem' }}
                             label="Employment Type"
                             variant="standard"
                             className='w-[350px]'
@@ -201,6 +205,10 @@ const Newjob = () => {
                             {...register('EmploymentType', {
                                 required: "Employment Type is Required"
                             })}
+                            value={form.watch('EmploymentType') || ''}
+                            onChange={(e) => {
+                                form.setValue('EmploymentType', e.target.value);
+                            }}
                         >
                             {employmentTypes.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
@@ -209,7 +217,7 @@ const Newjob = () => {
                             ))}
                         </TextField>
                         <p className="error-message">{errors.EmploymentType?.message?.toString()}</p>
-                        <TextField id="standard-basic" label="Description" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
+                        <TextField id="standard-basic" label="" variant="standard" className='w-[350px]' style={{ marginBottom: '0.7rem' }}
                             {...register('Description', {
                                 required: "Description is Required"
                             })} />
@@ -222,5 +230,5 @@ const Newjob = () => {
     )
 }
 
-export default Newjob
+export default EditJob
 

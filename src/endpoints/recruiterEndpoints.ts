@@ -20,6 +20,10 @@ export const recruiterendpoints = {
   approve: `${API_GATEWAY_BASE_URL}/approve`,
   createjob: `${API_GATEWAY_BASE_URL}/job/createjob`,
   getjob: `${API_GATEWAY_BASE_URL}/job/getjob`,
+  deletejob: `${API_GATEWAY_BASE_URL}/job/deletejob`,
+  getSinglejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,
+  updatejob: `${API_GATEWAY_BASE_URL}/job/updatejob`
+
 
 
 };
