@@ -8,23 +8,15 @@ function Job() {
 
     return (
         <div className='flex flex-col h-screen ' >
-            <div className=''>
+            <div className='fixed w-full bg-white'>
                 <Nav />
             </div>
-            {/* style={{ backgroundColor: '#f5f4d5' }} */}
+            {/* style={{ backgroundColor: 'rgba(255,250,247,247)' }} */}
+            <div className='flex w-full pl-4 py-24 lg:pl-24  bg-gray-50'  >
+                <Joblist />
 
-            <div className='flex flex-1 px-24 bg-gray-200' style={{ backgroundColor: '#f5f4d5' }} >
-                < div className='w-full md:w-1/4 hidden md:block lg:block ml-12' >
-                    <Profile />
-                </div >
-                <div className='w-full md:w-1/2   mx-4'>
 
-                    <Joblist />
 
-                </div>
-                <div className='w-full md:w-1/4 hidden md:block lg:block'>
-                    <Suggestion />
-                </div>
             </div >
             <MiddleBar />
         </div >

@@ -32,6 +32,7 @@ export const endpoints = {
   singlejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,
   applyjob: `${API_GATEWAY_BASE_URL}/job/applyjob`,
   getStatus: `${API_GATEWAY_BASE_URL}/getStatus`,
+  getsearchjobs: `${API_GATEWAY_BASE_URL}/job/searchjob`,
 
 
 

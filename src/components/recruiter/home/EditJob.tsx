@@ -27,12 +27,10 @@ function EditJob() {
         setImage(file);
     };
     const employmentTypes = [
-        { value: 'full-time', label: 'Full-time' },
-        { value: 'part-time', label: 'Part-time' },
-        { value: 'remote-full-time', label: 'Remote-Full-time' },
-        { value: 'remote-part-time', label: 'Remote-Part-time' },
-        { value: 'onsite-full-time', label: 'On Site-Full-time' },
-        { value: 'onsite-part-time', label: 'On Site-Part-time' },
+        { value: 'remoteFullTime', label: 'Remote-Full-time' },
+        { value: 'remotePartTime', label: 'Remote-Part-time' },
+        { value: 'onsiteFullTime', label: 'On Site-Full-time' },
+        { value: 'onsitePartTime', label: 'On Site-Part-time' },
     ];
     const submit = async (data: any) => {
         try {

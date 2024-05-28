@@ -62,7 +62,7 @@ function Home() {
     }
     return (
         <div className=''>
-            {jobpost.length == 0 ? (
+            {jobpost?.length == 0 || jobpost == undefined ? (
                 <div className='flex flex-col justify-center h-screen items-center '>
                     <p className='text-3xl leading-normal'>Welcome You Don't <br></br>Any job post.
                         Post hiring <br></br>Details to Hire quality candidate</p>
@@ -73,7 +73,7 @@ function Home() {
 
                     <h1 className='font-bold my-6 text-2xl'>Jobs Posted</h1>
 
-                    {jobpost.map((post, index) => (
+                    {jobpost?.map((post, index) => (
                         <div key={index} className='w-1/2 mx-auto my-4 bg-gray-200 shadow-md p-4 rounded-lg'>
                             <div className='flex justify-between items-center'>
                                 <span className='font-bold text-lg'>{post.jobrole}</span>
