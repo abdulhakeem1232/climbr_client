@@ -19,21 +19,38 @@ const Newjob = () => {
     const skillsList = [
         'HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python', 'Java', 'SQL', 'TypeScript', 'Angular', 'Vue.js', 'Bootstrap'
     ];
+
     const userId = useSelector((store: RootState) => store.UserData.UserId)
     const navigate = useNavigate()
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         setImage(file);
     };
+
     const employmentTypes = [
         { value: 'remoteFullTime', label: 'Remote-Full-time' },
         { value: 'remotePartTime', label: 'Remote-Part-time' },
         { value: 'onsiteFullTime', label: 'On Site-Full-time' },
         { value: 'onsitePartTime', label: 'On Site-Part-time' },
     ];
+
     const submit = async (formData: any) => {
         console.log('Form Data:', formData);
         console.log('image', image);
+        if (!image) {
+            setError('companylogo', {
+                type: 'manual',
+                message: 'Please select a company logo image',
+            });
+            return;
+        }
+        if (!image.type.startsWith('image')) {
+            setError('companylogo', {
+                type: 'manual',
+                message: 'Please select a valid image file',
+            });
+            return;
+        }
         const formDataToSend = new FormData();
         Object.keys(formData).forEach((key) => {
             formDataToSend.append(key, formData[key]);
@@ -52,8 +69,9 @@ const Newjob = () => {
         })
         navigate('/recruiter/home')
     };
+
     return (
-        <div className='container bg-white border-2 border-solid mx-10 py-7 lg:mx-36 rounded-xl border-gray-400 '>
+        <div className='container bg-white border-2 border-solid mx-10 py-7 lg:mx-36 rounded-xl shadow-lg'>
             <span className='text-4xl font-sans font-semibold'>New Job Post</span>
             <form onSubmit={handleSubmit(submit)}>
                 <div className='form-container md:flex mt-7'>
@@ -126,7 +144,7 @@ const Newjob = () => {
                             </Select>
                         </FormControl>
                         <div className='flex'>
-                            <label htmlFor="companylogo" className="cursor-pointer flex items-center">
+                            <label htmlFor="companylogo" className="cursor-pointer flex items-center mt-3">
                                 <img src={ImageIcon} alt="Upload Logo" className="w-7 mr-2" />
                                 Company Logo
                             </label>
@@ -139,7 +157,8 @@ const Newjob = () => {
                                 onChange={handleImageChange}
                             />
                         </div>
-                        <p className="error-message">{errors.companylogo?.message?.toString()}</p>
+
+                        <p className="error-message text-left">{errors.companylogo?.message?.toString()}</p>
 
 
                     </div >

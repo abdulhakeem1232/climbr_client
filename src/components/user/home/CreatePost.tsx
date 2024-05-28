@@ -11,16 +11,27 @@ import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 function CreatePost() {
     const [image, setImage] = useState<File | null>(null);
     const [description, setDescription] = useState<string>('');
+    const [imageError, setImageError] = useState<string>('');
+
     const avatar = useSelector((store: RootState) => store.UserData.image)
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         setImage(file);
+        setImageError('');
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData();
+        if (!image) {
+            setImageError('Please select an image');
+            return;
+        }
+        if (image && !image.type.startsWith('image')) {
+            setImageError('Please select a valid image file');
+            return;
+        }
         if (image) {
             formData.append('image', image);
             console.log('llldld');
@@ -64,6 +75,7 @@ function CreatePost() {
                 <div className='flex mx-2 justify-between'>
                     <label htmlFor="image" className="cursor-pointer">
                         <img src={ImageIcon} alt="" className='w-9 ' />
+                        {imageError && <p style={{ color: 'red' }}>{imageError}</p>}
                     </label>
                     <input
                         type="file"

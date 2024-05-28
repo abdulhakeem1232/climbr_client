@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints'
+import { adminAxios, adminendpoints } from '../../../endpoints/adminendpoints';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -23,7 +23,7 @@ function UserManagement() {
     const [Users, setUsers] = useState<User[]>([]);
     const handleToggleActive = async (user: User) => {
         try {
-            let response = await recruiterAxios.put(recruiterendpoints.updateStatus, user)
+            let response = await adminAxios.put(adminendpoints.updateRecruiter, user)
             console.log('response.data.userswekf', response.data.users);
             setUsers(response.data.users);
         } catch (error) {
@@ -32,7 +32,7 @@ function UserManagement() {
     };
     const handleStatus = async (user: User) => {
         try {
-            let response = await recruiterAxios.put(recruiterendpoints.approve, user)
+            let response = await adminAxios.put(adminendpoints.approveRecruiter, user)
             console.log('response.data.userswekf', response.data.users);
             setUsers(response.data.users);
         } catch (error) {
@@ -43,9 +43,9 @@ function UserManagement() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log('endponis', recruiterendpoints.getall);
+                console.log('endponis', adminendpoints.getallRecruiter);
 
-                let response = await recruiterAxios.get(recruiterendpoints.getall);
+                let response = await adminAxios.get(adminendpoints.getallRecruiter);
                 console.log('response.data.users', response.data.users);
                 setUsers(response.data.users);
             } catch (error) {

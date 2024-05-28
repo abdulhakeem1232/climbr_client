@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint'
+import { adminAxios, adminendpoints } from '../../../endpoints/adminendpoints';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,7 +20,7 @@ function UserManagement() {
     const [Users, setUsers] = useState<User[]>([]);
     const handleToggleActive = async (user: User) => {
         try {
-            let response = await userAxios.put(endpoints.updateStatus, user)
+            let response = await adminAxios.put(adminendpoints.updateUser, user)
             console.log('response.data.userswekf', response.data.users);
             setUsers(response.data.users);
         } catch (error) {
@@ -31,7 +31,7 @@ function UserManagement() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let response = await userAxios.get(endpoints.getall);
+                let response = await adminAxios.get(adminendpoints.getallUser);
                 console.log('response.data.users', response.data.users);
                 setUsers(response.data.users);
             } catch (error) {

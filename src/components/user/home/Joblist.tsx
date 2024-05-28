@@ -176,7 +176,7 @@ function Joblist() {
                                         <p className='font-bold'>Location: {job.joblocation}</p>
                                         <p className='font-bold'>Experience: {job.minexperience}-{job.maxexperience}</p>
                                     </Card.Text>
-                                    <button className='bg-blue-500 hover:bg-blue-700 text-sm mt-2 text-white font-bold py-2 px-2 rounded' onClick={() => handleButton(job._id)}>More Details</button>
+                                    <button className='bg-blue-500 hover:bg-blue-700 text-sm mt-2 text-white font-bold py-2 px-2 rounded-full' onClick={() => handleButton(job._id)}>More Details</button>
                                 </Card.Body>
                             </Card>
                         ))}

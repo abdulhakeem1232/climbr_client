@@ -4,7 +4,7 @@ import EditJob from '../../components/recruiter/home/EditJob';
 
 function EditJobPage() {
     return (
-        <div className='bg-slate-200 min-h-screen flex justify-center items-center'>
+        <div className='bg-slate-100 min-h-screen flex justify-center items-center'>
             <EditJob />
         </div>
     );
