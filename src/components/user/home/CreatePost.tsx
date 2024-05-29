@@ -12,6 +12,7 @@ function CreatePost() {
     const [image, setImage] = useState<File | null>(null);
     const [description, setDescription] = useState<string>('');
     const [imageError, setImageError] = useState<string>('');
+    const [imagePreview, setImagePreview] = useState<string>('');
 
     const avatar = useSelector((store: RootState) => store.UserData.image)
 
@@ -19,6 +20,15 @@ function CreatePost() {
         const file = event.target.files ? event.target.files[0] : null;
         setImage(file);
         setImageError('');
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setImagePreview('');
+        }
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,6 +55,7 @@ function CreatePost() {
         for (let value of formData.values()) {
             console.log(value);
         }
+        setDescription('');
         try {
             let response = await userAxios.post(endpoints.createpost, formData, {
                 headers: {
@@ -73,19 +84,26 @@ function CreatePost() {
 
                 </div>
                 <div className='flex mx-2 justify-between'>
-                    <label htmlFor="image" className="cursor-pointer">
-                        <img src={ImageIcon} alt="" className='w-9 ' />
-                        {imageError && <p style={{ color: 'red' }}>{imageError}</p>}
-                    </label>
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleImageChange}
-                    />
-                    <Button variant="contained" color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
+                    <div className='flex'>
+                        <label htmlFor="image" className="cursor-pointer">
+                            <img src={ImageIcon} alt="" className='w-9 ' />
+                            {imageError && <p style={{ color: 'red' }}>{imageError}</p>}
+                        </label>
+                        <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleImageChange}
+                        />
+                        {imagePreview && (
+                            <div>
+                                <img src={imagePreview} alt="Preview" className='ml-3 rounded-md' style={{ width: '40px', height: '40px' }} />
+                            </div>
+                        )}
+                    </div>
+                    <Button variant="contained" className='h-10' color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
                         Post
                     </Button>
                 </div>

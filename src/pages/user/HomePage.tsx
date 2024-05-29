@@ -2,7 +2,7 @@ import React from 'react';
 import Home from '../../components/user/home/Home';
 import Nav from '../../components/user/home/nav';
 import MiddleBar from '../../components/user/home/MiddleBar';
-import Profile from '../../components/user/home/Profile';
+import Profile from '../../components/user/home/SideProfile';
 import Suggestion from '../../components/user/home/Suggestion';
 import CreatePost from '../../components/user/home/CreatePost';
 

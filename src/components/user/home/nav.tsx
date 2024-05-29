@@ -64,12 +64,12 @@ function Nav() {
 
                     <h4 className='mr-4'><img src={chats} alt="" className="w-7" /></h4>
                     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                        <h4><img src={avatar || profile} alt="" className="w-8 cursor-pointer" /></h4>
+                        <h4><img src={avatar || profile} alt="" className="w-9 cursor-pointer" /></h4>
                         {showOptions && (
-                            <div className='absolute top-16 right-40 bg-white shadow-md rounded-md p-4'>
+                            <div className='absolute bg-white shadow-md rounded-md p-4'>
                                 <ul>
                                     <li>
-                                        <li>Profile</li>
+                                        <li><Link to='/profile'> Profile</Link></li>
                                         <hr />
                                         <button onClick={handleLogout}>Logout</button></li>
                                 </ul>

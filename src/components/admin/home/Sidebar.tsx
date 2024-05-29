@@ -21,7 +21,9 @@ function Sidebar() {
                 <li className='mb-2 rounded hover:shadow hover:bg-blue-500 py-2'>
                     <Link to='/admin/recruitermanagement' className=''>
                         <HiUsers className='inline-block w-6 h-6  mt-2 mr-1 align-sub'></HiUsers >Recruiters</Link></li>
-
+                <li className='mb-2 rounded hover:shadow hover:bg-blue-500 py-2'>
+                    <Link to='/admin/postmanagement' className=''>
+                        <HiUsers className='inline-block w-6 h-6  mt-2 mr-1 align-sub'></HiUsers >Posts</Link></li>
             </ul >
         </div >
     )

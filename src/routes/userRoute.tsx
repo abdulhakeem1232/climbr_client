@@ -11,6 +11,7 @@ import PublicRoute from "../utils/user/PublicRoute";
 import LandingPage from "../pages/user/LandingPage";
 import Job from "../pages/user/Job";
 import SingleJob from "../pages/user/SingleJob";
+import ProfilePage from "../pages/user/Profile";
 
 const UserRoutes = () => {
     return (
@@ -29,6 +30,8 @@ const UserRoutes = () => {
                 <Route path='/job' element={<Job />} />
                 <Route path='/job/:id' element={<SingleJob />} />
                 <Route path='/post' element={<Post />} />
+                <Route path='/profile' element={<ProfilePage />} />
+
             </Route >
 
 

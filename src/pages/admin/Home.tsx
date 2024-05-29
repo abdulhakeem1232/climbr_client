@@ -4,7 +4,7 @@ import Nav from '../../components/admin/home/Nav'
 import Sidebar from '../../components/admin/home/Sidebar'
 function Home() {
     return (
-        <div className='h-screen'>
+        <div className='min-h-screen'>
             <Dashboard />
         </div>
     )

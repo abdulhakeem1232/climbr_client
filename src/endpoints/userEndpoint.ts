@@ -26,6 +26,7 @@ export const endpoints = {
   deleteComment: `${API_GATEWAY_BASE_URL}/post/deleteComment`,
   DislikePost: `${API_GATEWAY_BASE_URL}/post/dislike`,
   commentPost: `${API_GATEWAY_BASE_URL}/post/comment`,
+  reportPost: `${API_GATEWAY_BASE_URL}/post/report`,
   getalljob: `${API_GATEWAY_BASE_URL}/job/getalljob`,
   singlejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,
   applyjob: `${API_GATEWAY_BASE_URL}/job/applyjob`,

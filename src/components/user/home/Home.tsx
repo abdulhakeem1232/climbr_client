@@ -6,6 +6,8 @@ import comment from "../../../assets/comment.png";
 import ShimmerHome from "./ShimmerHome";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/store/store";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface Like {
   userId: string;
   createdAt: Date;
@@ -13,13 +15,16 @@ interface Like {
 function Home() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [commentId,setCommentId]=useState('');
-  const [commentOptions,setCommentoptions]=useState(false)
+  const [commentId, setCommentId] = useState('');
+  const [commentOptions, setCommentoptions] = useState(false)
   const [commentError, setCommentError] = useState<string>("");
   const [page, setPage] = useState(1);
   const [CommentContent, setCommentContent] = useState("");
   const [commentPostId, setCommentPostId] = useState<string | null>(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showReport, setShowReport] = useState(false)
+  const [optionReport, setOptionReport] = useState(false)
+  const [reportId, setReportId] = useState('')
   const maxLength = 4;
   const userId = useSelector((store: RootState) => store.UserData.UserId);
   const avatar = useSelector((store: RootState) => store.UserData.image);
@@ -60,17 +65,17 @@ function Home() {
   const handleLike = async (postId: string) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
-        post._id == postId? {
-              ...post,
-              likes: Array.isArray(post.likes)
-                ? [...post.likes,
-                    {
-                      userId,
-                      createdAt: new Date(),
-                    },
-                  ]
-                : [{ userId, createdAt: new Date() }],
-            }: post
+        post._id == postId ? {
+          ...post,
+          likes: Array.isArray(post.likes)
+            ? [...post.likes,
+            {
+              userId,
+              createdAt: new Date(),
+            },
+            ]
+            : [{ userId, createdAt: new Date() }],
+        } : post
       )
     );
     let response = await userAxios.post(endpoints.likePost, { userId, postId });
@@ -82,9 +87,9 @@ function Home() {
       prevPosts.map((post) =>
         post._id == postId
           ? {
-              ...post,
-              likes: post.likes.filter((like: Like) => like.userId !== userId),
-            }
+            ...post,
+            likes: post.likes.filter((like: Like) => like.userId !== userId),
+          }
           : post
       )
     );
@@ -98,6 +103,10 @@ function Home() {
   const handleComment = (postId: string) => {
     setCommentPostId(postId);
   };
+  const handleReport = (postId: string) => {
+    setShowReport(true)
+    setReportId(postId)
+  }
   const postComment = async (postId: string) => {
     if (CommentContent.trim() === "") {
       setCommentError("Comment cannot be empty");
@@ -138,9 +147,9 @@ function Home() {
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
-  const showOptions = (postId:string,commentId:string) => {
-setCommentoptions(true)
-setCommentId(commentId)
+  const showOptions = (postId: string, commentId: string) => {
+    setCommentoptions(true)
+    setCommentId(commentId)
   }
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -148,20 +157,24 @@ setCommentId(commentId)
       if (!target.closest('.dropdown')) {
         setCommentoptions(false);
       }
+      if (!target.closest('.report-popup')) {
+        setShowReport(false);
+        setOptionReport(false);
+      }
     };
     window.addEventListener('click', handleClickOutside);
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
   }, []);
-  const handleDeleteComment = async (postId:string,commentId:string) => {
+  const handleDeleteComment = async (postId: string, commentId: string) => {
     try {
-      const response = await userAxios.delete(`${endpoints.deleteComment}`,{
-          data: {
-            postId: postId,
-            commentId: commentId
-          }
+      const response = await userAxios.delete(`${endpoints.deleteComment}`, {
+        data: {
+          postId: postId,
+          commentId: commentId
         }
+      }
       );
       console.log("Delete comment response:", response);
       setPosts((prevPosts) =>
@@ -178,11 +191,25 @@ setCommentId(commentId)
           return post;
         })
       );
-      setCommentoptions(false); 
+      setCommentoptions(false);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
   };
+  const sendReport = async (postId: string, reason: string) => {
+    setShowReport(false);
+    setOptionReport(false);
+    toast.success('Request sended Succeefully', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    let response = await userAxios.post(endpoints.reportPost, { postId: postId, userId: userId, reason: reason })
+
+  }
   return (
     <div className="border-2 rounded-lg border-solid border-zinc-100 p-3 bg-white mt-2 shadow-md w-full md:w-2/2 lg:w-2/2">
       {loading ? (
@@ -194,9 +221,26 @@ setCommentId(commentId)
             key={post._id}
             className="mb-5 border-[1px] border-gray-300 rounded-xl p-2"
           >
-            <div className="flex mb-2 ">
-              <img src={post.userData.avatar} className="w-10 " />
-              <h2> {post.userData.username}</h2>
+            <div className="flex mb-2 pr-2 justify-between">
+              <div className="flex">
+                <img src={post.userData.avatar} className="w-10 " />
+                <h2 className="ml-1 mt-1"> {post.userData.username}</h2></div>
+              <div className="report-popup">
+                {post.userData._id != userId && <span className="text-lg text-gray-500 cursor-pointer" onClick={() => handleReport(post._id)}>...</span>}
+                {showReport && reportId == post._id && <div className=" absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1 cursor-pointer" onClick={() => setOptionReport(true)}>Report</div>}
+                {optionReport && reportId == post._id && <div className="absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1" >
+                  <div>
+                    <ul>
+                      <li className='cursor-pointer' onClick={() => sendReport(post._id, 'Inappropriate Content')}>Inappropriate Content</li>
+                      <hr />
+                      <li className='cursor-pointer' onClick={() => sendReport(post._id, 'Spam or Scams')}>Spam or Scams</li>
+                      <hr />
+                      <li className='cursor-pointer' onClick={() => sendReport(post._id, 'Other')}>Other</li>
+                    </ul>
+                  </div>
+                </div>}
+
+              </div>
             </div>
             <div className="text-left my-2 flex ">
               <p className="ml-2">
@@ -295,12 +339,12 @@ setCommentId(commentId)
                         >
                           ...
                         </button>
-                        {commentOptions && commentId== comment._id && (
-                            <div className='relative top-0 right- mt-1 bg-white shadow-md rounded-md p-1 text-xs'>
-                                <ul>
-                                        <li className="cursor-pointer" onClick={()=>handleDeleteComment(post._id, comment._id)}>Delete</li>
-                                </ul>
-                            </div>
+                        {commentOptions && commentId == comment._id && (
+                          <div className='absolute  mt-1 bg-white shadow-md rounded-md p-1 text-xs'>
+                            <ul>
+                              <li className="cursor-pointer" onClick={() => handleDeleteComment(post._id, comment._id)}>Delete</li>
+                            </ul>
+                          </div>
                         )}
                       </div>
                     )}
@@ -310,8 +354,10 @@ setCommentId(commentId)
             )}
           </div>
         ))
-      )}
-    </div>
+      )
+      }
+      <ToastContainer />
+    </div >
   );
 }
 

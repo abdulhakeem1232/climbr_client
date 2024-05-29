@@ -16,4 +16,5 @@ export const adminendpoints = {
     getallRecruiter: `${API_GATEWAY_BASE_URL}/getallrecruiter`,
     updateRecruiter: `${API_GATEWAY_BASE_URL}/updateRecruiterStatus`,
     approveRecruiter: `${API_GATEWAY_BASE_URL}/approve`,
+    post: `${API_GATEWAY_BASE_URL}/reportedpost`,
 };

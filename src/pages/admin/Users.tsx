@@ -5,7 +5,7 @@ import UserManagement from '../../components/admin/home/UserManagement'
 
 function Users() {
     return (
-        <div className='h-screen'>
+        <div className='min-h-screen'>
             <UserManagement />
         </div>
     )
