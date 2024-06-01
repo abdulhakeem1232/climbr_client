@@ -115,7 +115,7 @@ function Signup() {
               {/* recruiter */}
               < form onSubmit={handleSubmit(Recruiteronsubmit)} style={{ display: 'flex', flexDirection: 'column' }} noValidate>
                 <TextField
-                  label="Username"
+                  label="FullName"
                   variant="outlined"
                   margin="normal"
                   size="small"
@@ -238,7 +238,7 @@ function Signup() {
             <>
               <form onSubmit={handleSubmit(onsubmit)} style={{ display: 'flex', flexDirection: 'column' }} noValidate>
                 <TextField
-                  label="Username"
+                  label="FullName"
                   variant="outlined"
                   margin="normal"
                   size="small"

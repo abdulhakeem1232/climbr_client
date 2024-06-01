@@ -4,12 +4,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import UserRoutes from './routes/userRoute'
 import RecruiterRoute from './routes/recruiterRoute';
 import AdminRoute from './routes/adminRoute';
-import Login from './components/user/auth/Login';
+
 
 
 function App() {
   return (
     <div className="App">
+
       <Router>
         <Routes>
           <Route path='/*' element={<UserRoutes />} />
@@ -19,7 +20,8 @@ function App() {
 
         </Routes>
       </Router>
-    </div>
+
+    </div >
   );
 }
 

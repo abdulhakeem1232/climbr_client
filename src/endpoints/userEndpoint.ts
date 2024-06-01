@@ -19,6 +19,9 @@ export const endpoints = {
   emailValidate: `${API_GATEWAY_BASE_URL}/emailValidate`,
   ResetPassword: `${API_GATEWAY_BASE_URL}/resetPassword`,
   resendOtp: `${API_GATEWAY_BASE_URL}/resendOtp`,
+  getStatus: `${API_GATEWAY_BASE_URL}/getStatus`,
+  userDetails: `${API_GATEWAY_BASE_URL}/getUserDetails`,
+
   createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
   getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
   logout: `${API_GATEWAY_BASE_URL}/logout`,
@@ -27,10 +30,13 @@ export const endpoints = {
   DislikePost: `${API_GATEWAY_BASE_URL}/post/dislike`,
   commentPost: `${API_GATEWAY_BASE_URL}/post/comment`,
   reportPost: `${API_GATEWAY_BASE_URL}/post/report`,
+  deletePost: `${API_GATEWAY_BASE_URL}/post/delete`,
+  editpost: `${API_GATEWAY_BASE_URL}/post/edit`,
+
+
   getalljob: `${API_GATEWAY_BASE_URL}/job/getalljob`,
   singlejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,
   applyjob: `${API_GATEWAY_BASE_URL}/job/applyjob`,
-  getStatus: `${API_GATEWAY_BASE_URL}/getStatus`,
   getsearchjobs: `${API_GATEWAY_BASE_URL}/job/searchjob`,
 
 

@@ -3,7 +3,7 @@ import { userAxios, endpoints } from "../../../endpoints/userEndpoint";
 import like from "../../../assets/like.png";
 import dislike from "../../../assets/dislike.png";
 import comment from "../../../assets/comment.png";
-import ShimmerHome from "./ShimmerHome";
+import ShimmerHome from "../skeleton/ShimmerHome";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/store/store";
 import { ToastContainer, toast } from 'react-toastify';

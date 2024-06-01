@@ -1,22 +1,20 @@
-import React, { useState } from 'react'
-import logo from '../../../assets/logo.png'
-import home from '../../../assets/home.png'
-import jobs from '../../../assets/jobs.png'
-import network from '../../../assets/network.png'
-import post from '../../../assets/post.png'
-import chats from '../../../assets/chats.png'
-import profile from '../../../assets/profile.png'
-import { Link, useNavigate } from 'react-router-dom'
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store/store'
-
-
-
+import React, { useState } from 'react';
+import logo from '../../../assets/logo.png';
+import home from '../../../assets/home.png';
+import jobs from '../../../assets/jobs.png';
+import network from '../../../assets/network.png';
+import post from '../../../assets/post.png';
+import chats from '../../../assets/chats.png';
+import profile from '../../../assets/profile.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../Redux/store/store';
 
 function Nav() {
-    const navigate = useNavigate()
-    const avatar = useSelector((store: RootState) => store.UserData.image)
+    const navigate = useNavigate();
+    const avatar = useSelector((store: RootState) => store.UserData.image);
+    const userId = useSelector((store: RootState) => store.UserData.UserId);
 
     const [showOptions, setShowOptions] = useState(false);
     const handleMouseEnter = () => {
@@ -28,62 +26,56 @@ function Nav() {
         }, 1500);
     };
     const handleLogout = async () => {
-        await userAxios.get(endpoints.logout)
-        navigate('/')
-    }
+        await userAxios.get(endpoints.logout);
+        navigate('/');
+    };
+
     return (
-        <div className=''>
-            <div className='shadow-md h-16 mt-2 flex items-center justify-around'>
+        <div className="bg-white shadow-md h-16 mt-2 flex items-center justify-between px-32  py-2">
+            <div className='flex items-center'>
+                <img src={logo} alt="Logo" className="h-32" />
+            </div>
+            <input type='text' className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 -ml-28' placeholder='Search' />
 
-                <img src={logo} alt="" className='h-32' />
-                {/* <input type='text' placeholder='search' className='bg-slate-400  rounded-md border-none h-10 outline-none' /> */}
+            <div className="hidden sm:block">
+                <ul className="flex">
+                    <li className="mr-8 font-semibold  ">
+                        <Link to="/home">Home</Link>
+                    </li>
+                    <li className="mr-8 font-semibold  ">Notification</li>
+                    <li className="mr-8 font-semibold  ">
+                        <Link to="/job">Jobs</Link>
+                    </li>
+                </ul>
+            </div>
 
-                <div className='hidden sm:block'>
-                    <ul className='flex'>
-                        <li className='mr-5'><Link to="/home">
-                            {/* <img src={home} alt="" className="w-7" /> */}
-                            Home
-                        </Link></li >
-                        <li className='mr-5'>
-                            {/* <img src={network} alt="" className="w-7" /> */}
-                            Network
-                        </li>
-                        {/* <li className='mr-5'><Link to="/post"> */}
-                        {/* <img src={post} alt="" className="w-7" /> */}
-                        {/* New Post */}
-                        {/* </Link></li> */}
-                        <li><Link to="/job">
-                            {/* <img src={jobs} alt="" className="w-7" /> */}
-                            Jobs</Link>
-                        </li>
-
-                    </ul >
-
-                </div >
-                <div className='flex justify-between'>
-
-                    <h4 className='mr-4'><img src={chats} alt="" className="w-7" /></h4>
-                    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                        <h4><img src={avatar || profile} alt="" className="w-9 cursor-pointer" /></h4>
-                        {showOptions && (
-                            <div className='absolute bg-white shadow-md rounded-md p-4'>
-                                <ul>
-                                    <li>
-                                        <li><Link to='/profile'> Profile</Link></li>
-                                        <hr />
-                                        <button onClick={handleLogout}>Logout</button></li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+            <div className="flex items-center">
+                <h4 className="mr-4">
+                    <img src={chats} alt="Chats" className="w-7" />
+                </h4>
+                <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="relative">
+                    <h4>
+                        <img src={avatar || profile} alt="Profile" className="w-9 cursor-pointer" />
+                    </h4>
+                    {showOptions && (
+                        <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md p-2">
+                            <ul>
+                                <li>
+                                    <Link to={`/profile/${userId}`}>Profile</Link>
+                                </li>
+                                <li>
+                                    <hr className="my-2" />
+                                </li>
+                                <li>
+                                    <button onClick={handleLogout} className="text-red-500">Logout</button>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
-
-            </div >
-
+            </div>
         </div >
-
-    )
+    );
 }
 
-export default Nav
-
+export default Nav;

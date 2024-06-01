@@ -27,7 +27,7 @@ function ShimmerHome() {
                 <div className='w-6 h-6 bg-gray-300 rounded-full mr-3'></div>
                 <div className='w-6 h-6 bg-gray-300 rounded-full'></div>
             </div>
-        </div>
+        </div >
     )
 }
 

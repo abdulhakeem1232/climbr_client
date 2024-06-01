@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint'
-import JobSkeleton from './JobSkeleton';
+import JobSkeleton from '../skeleton/JobSkeleton';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import { debounce } from 'lodash';
