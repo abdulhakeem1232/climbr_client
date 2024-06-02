@@ -17,9 +17,9 @@ import {
 } from '@chakra-ui/react'
 
 const steps = [
-    { title: 'Applied', description: 'Contact Info' },
-    { title: 'Reviewed', description: 'Date & Time' },
-    { title: 'Rejecetd', description: 'Select Rooms' },
+    { title: 'Applied' },
+    { title: 'Pending' },
+    { title: 'Rejected/shortlisted' },
 ]
 function Profile() {
     const { id } = useParams<{ id: string }>();
@@ -32,10 +32,21 @@ function Profile() {
     const [showModal, setshowModal] = useState(false)
     const [editedDescription, setEditedDescription] = useState('');
     const [editId, seteditId] = useState('')
-    const { activeStep } = useSteps({
-        index: 1,
-        count: steps.length,
-    })
+    function getActiveStepIndex(status: string) {
+        switch (status.toLowerCase()) {
+            case 'applied':
+                return 0;
+            case 'pending':
+                return 1;
+            case 'rejected':
+                return 2;
+            case 'shortlisted':
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -142,51 +153,76 @@ function Profile() {
                         <div className='mb-2'>
                             {showAllAppliedJobs
                                 ? userDetails.appliedJobs.map((job: any, index: number) => (
-                                    <div key={index}>
-                                        {job.jobData.jobrole} at {job.jobData.companyname} Status:{job.status}
+                                    <div key={index} className=''>
+                                        <div className='font-semibold '>
+                                            {job.jobData.jobrole} at {job.jobData.companyname}
+                                            <Stepper index={getActiveStepIndex(job.status)} >
+                                                {steps.map((step, stepIndex) => {
+                                                    // Determine if the current step is the active one
+                                                    const isActive = getActiveStepIndex(job.status) === stepIndex;
+                                                    // Determine if the current step is completed
+                                                    const isCompleted = isActive || (stepIndex <= getActiveStepIndex(job.status));
+
+                                                    return (
+                                                        <Step key={index} >
+                                                            <StepIndicator>
+                                                                <StepStatus
+                                                                    complete={<StepIcon />}
+                                                                    incomplete={<StepNumber />}
+                                                                    active={<StepNumber />}
+                                                                />
+                                                            </StepIndicator>
+                                                            <Box flexShrink='0'>
+                                                                <StepTitle>{step.title}</StepTitle>
+
+                                                                {isCompleted && <StepStatus complete="✔" />}
+
+                                                                {isActive && !isCompleted && <StepStatus active="*" />}
+                                                            </Box>
+                                                            <StepSeparator />
+                                                        </Step>
+                                                    );
+                                                })}
+                                            </Stepper>
+
+                                        </div>
                                     </div>
                                 ))
                                 : userDetails.appliedJobs.slice(0, 2).map((job: any, index: number) => (
                                     <div key={index} className=''>
                                         <div className='font-semibold '>
                                             {job.jobData.jobrole} at {job.jobData.companyname}
-                                            <Stepper index={activeStep}>
-                                                {steps.map((step, index) => (
-                                                    <Step key={index}>
+                                            <Stepper index={getActiveStepIndex(job.status)}>
+                                                {steps.map((step, stepIndex) => (
+                                                    <Step key={stepIndex}>
                                                         <StepIndicator>
                                                             <StepStatus
                                                                 complete={<StepIcon />}
                                                                 incomplete={<StepNumber />}
-                                                                active={<StepNumber />}
+                                                                active={job.status.toLowerCase() === step.title.toLowerCase()}
                                                             />
                                                         </StepIndicator>
-
                                                         <Box flexShrink='0'>
-                                                            <StepTitle>{step.title}</StepTitle>
-
+                                                            <StepTitle>{(job.status == 'Rejected' || job.status == 'Shortlisted') ? job.status : step.title}</StepTitle>
                                                         </Box>
-
                                                         <StepSeparator />
                                                     </Step>
                                                 ))}
                                             </Stepper>
                                         </div>
                                     </div>
-
-
-
                                 ))}
-                            {userDetails.appliedJobs.length > 2 && (
-                                <button onClick={() => setShowAllAppliedJobs(!showAllAppliedJobs)} className='mt-2 flex mx-auto'>
-                                    {showAllAppliedJobs ? (
-                                        <div className='text-gray-500 font-semibold'>Show Less Jobs ⬆</div>
-                                    ) : (
-                                        <div className='text-gray-500 font-semibold'>Show All Applied Jobs ⬇</div>
-                                    )}
-                                </button>
-                            )}
+
                         </div>
-                        <hr />
+                        {userDetails.appliedJobs.length > 2 && (
+                            <button onClick={() => setShowAllAppliedJobs(!showAllAppliedJobs)} className='mt-2 flex mx-auto'>
+                                {showAllAppliedJobs ? (
+                                    <div className='text-gray-500 font-semibold'>Show Less Jobs ⬆</div>
+                                ) : (
+                                    <div className='text-gray-500 font-semibold'>Show All Applied Jobs ⬇</div>
+                                )}
+                            </button>
+                        )}
 
                         <div className='my-2 font-semibold'>Posts:</div>
                         <div className='mb-2'>
