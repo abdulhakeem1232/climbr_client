@@ -12,6 +12,7 @@ import LandingPage from "../pages/user/LandingPage";
 import Job from "../pages/user/Job";
 import SingleJob from "../pages/user/SingleJob";
 import ProfilePage from "../pages/user/Profile";
+import Chatting from "../components/user/home/Chatting";
 
 const UserRoutes = () => {
     return (
@@ -31,6 +32,8 @@ const UserRoutes = () => {
                 <Route path='/job/:id' element={<SingleJob />} />
                 <Route path='/post' element={<Post />} />
                 <Route path='/profile/:id' element={<ProfilePage />} />
+                <Route path='/chat' element={<Chatting />} />
+
 
             </Route >
 

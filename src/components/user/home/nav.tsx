@@ -55,7 +55,7 @@ function Nav() {
                 </h4>
                 <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="relative">
                     <h4>
-                        <img src={avatar || profile} alt="Profile" className="w-9 cursor-pointer" />
+                        <img src={avatar || profile} alt="Profile" className="w-9 cursor-pointer rounded-full" />
                     </h4>
                     {showOptions && (
                         <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md p-2">

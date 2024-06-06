@@ -52,9 +52,6 @@ function CreatePost() {
         console.log('Description:', description);
         console.log(formData, 'lll');
         console.log(formData);
-        for (let value of formData.values()) {
-            console.log(value);
-        }
         setDescription('');
         try {
             let response = await userAxios.post(endpoints.createpost, formData, {
@@ -73,7 +70,7 @@ function CreatePost() {
         <div className='bg-white w-full rounded-lg mt-3 p-4 border-2 border-solid'>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className='flex'>
-                    <img src={avatar || profile} alt="" className='w-9 h-9' />
+                    <img src={avatar || profile} alt="" className='w-9 h-9 rounded-full' />
                     <input
                         id="description"
                         placeholder='Start a Post'

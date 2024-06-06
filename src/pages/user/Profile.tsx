@@ -7,12 +7,12 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 function ProfilePage() {
     return (
-        <div className='flex flex-col min-h-screen bg-gray-100 ' >
-            <div className='fixed w-full bg-white'>
+        <div className='flex flex-col  bg-gray-100 ' >
+            <div className='fixed w-full bg-white z-10'>
                 <Nav />
             </div>
             {/* style={{ backgroundColor: 'rgba(255,250,247,247)' }} */}
-            <div className='flex  ml-4 md:ml-16 lg:ml-60  mt-24 w-1/2 rounded-lg'  >
+            <div className='flex  ml-4 md:ml-16 lg:ml-60  mt-24 w-3/4 rounded-lg z-0'  >
                 <div>
                     <ChakraProvider>
                         <Profile />

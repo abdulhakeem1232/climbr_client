@@ -10,8 +10,6 @@ export const userAxios = axios.create({
   withCredentials: true,
 });
 
-
-
 export const endpoints = {
   register: `${API_GATEWAY_BASE_URL}/register`,
   otp: `${API_GATEWAY_BASE_URL}/verifyOtp`,
@@ -21,6 +19,12 @@ export const endpoints = {
   resendOtp: `${API_GATEWAY_BASE_URL}/resendOtp`,
   getStatus: `${API_GATEWAY_BASE_URL}/getStatus`,
   userDetails: `${API_GATEWAY_BASE_URL}/getUserDetails`,
+  updateCover: `${API_GATEWAY_BASE_URL}/updateCover`,
+  updateProfile: `${API_GATEWAY_BASE_URL}/updateProfile`,
+  updateData: `${API_GATEWAY_BASE_URL}/updateData`,
+  updateSkills: `${API_GATEWAY_BASE_URL}/updateSkills`,
+  updateEducation: `${API_GATEWAY_BASE_URL}/updateEducation`,
+  updateExperience: `${API_GATEWAY_BASE_URL}/updateExperience`,
 
   createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
   getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
@@ -32,7 +36,6 @@ export const endpoints = {
   reportPost: `${API_GATEWAY_BASE_URL}/post/report`,
   deletePost: `${API_GATEWAY_BASE_URL}/post/delete`,
   editpost: `${API_GATEWAY_BASE_URL}/post/edit`,
-
 
   getalljob: `${API_GATEWAY_BASE_URL}/job/getalljob`,
   singlejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,

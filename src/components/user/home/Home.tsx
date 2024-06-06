@@ -223,7 +223,7 @@ function Home() {
           >
             <div className="flex mb-2 pr-2 justify-between">
               <div className="flex">
-                <img src={post.userData.avatar} className="w-10 " />
+                <img src={post.userData.avatar} className="w-10 rounded-full" />
                 <h2 className="ml-1 mt-1"> {post.userData.username}</h2></div>
               <div className="report-popup">
                 {post.userData._id != userId && <span className="text-lg text-gray-500 cursor-pointer" onClick={() => handleReport(post._id)}>...</span>}
