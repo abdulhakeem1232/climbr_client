@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
 import ProfileSkeleton from '../skeleton/ProfileSkelton';
 import arrowDown from '../../../assets/arroeDown.png'
@@ -17,6 +17,7 @@ import EducationModal from './EducationalModal';
 import ExperienceModal from './ExperienceModal';
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/store/store";
+import ConfirmationModal from './ConfirmationModal';
 
 
 const steps = [
@@ -25,8 +26,11 @@ const steps = [
     { title: 'Rejected/shortlisted' },
 ]
 function Profile() {
+    const navigate = useNavigate()
     const userId = useSelector((store: RootState) => store.UserData.UserId);
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id?: string }>();
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [postIdToDelete, setPostIdToDelete] = useState<string | null>(null);
     const [sameUser, setSameUser] = useState<boolean>(false)
     const [userDetails, setUserDetails] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +46,7 @@ function Profile() {
     const [showModal, setshowModal] = useState(false)
     const [editedDescription, setEditedDescription] = useState('');
     const [editId, seteditId] = useState('')
-
+    const [currentUserData, setCurrentUserData] = useState([]);
     function getActiveStepIndex(status: string) {
         switch (status.toLowerCase()) {
             case 'applied':
@@ -62,6 +66,12 @@ function Profile() {
             let response = await userAxios.get(`${endpoints.userDetails}/${id}`)
             console.log(response.data);
             setUserDetails(response.data);
+            if (!sameUser) {
+                let currentUserResponse = await userAxios.get(`${endpoints.userFollwings}/${userId}`); { }
+                setCurrentUserData(currentUserResponse.data.followings);
+                console.log(currentUserData, '=================', currentUserResponse.data);
+
+            }
         } catch (error) {
             console.error('Error fetching user details:', error);
         } finally {
@@ -113,6 +123,42 @@ function Profile() {
         }
     }
     const handleDelete = async (postId: string) => {
+        setPostIdToDelete(postId);
+        setShowConfirmation(true);
+    }
+    const message = async () => {
+        try {
+            let response = await userAxios.get(`${endpoints.createchats}/${userId}/${id}`)
+            if (response.data.success) {
+                navigate(`/chats`)
+            }
+        } catch (err) {
+            console.log('Error while Message in profile:', err);
+
+        }
+    }
+    const follow = async () => {
+        {/* @ts-ignore */ }
+        if (currentUserData.includes(id)) {
+            setCurrentUserData(prevData => prevData.filter(userId => userId !== id));
+            const response = await userAxios.get(`${endpoints.unfollow} / ${userId} / ${id} `)
+            console.log('unfolow', response.data);
+
+        } else {
+            {/* @ts-ignore */ }
+            setCurrentUserData(prevData => [...prevData, id]);
+            const response = await userAxios.get(`${endpoints.follow} / ${userId} / ${id} `);
+            console.log(response.data, 'else follow');
+        }
+    }
+    const cancelDelete = () => {
+        setShowConfirmation(false);
+    };
+    const confirmDelete = async () => {
+        setShowConfirmation(false);
+        setshowModal(false);
+        let postId = postIdToDelete
+
         try {
             setUserDetails((prevState: { postData: any[]; }) => {
                 const updatedPosts = prevState.postData.filter((post: any) => post._id !== postId);
@@ -124,14 +170,15 @@ function Profile() {
             console.log('Error during delete', err);
 
         }
-    }
+    };
+
 
     return (
-        <div className='w-3/5 text-left mb-10'>
+        <div className='w-full text-left mb-10'>
             {
                 userDetails == null ? <ProfileSkeleton /> :
 
-                    < div className='w-full ml-2' >
+                    < div className='w-3/5 ml-2' >
                         <div className='bg-white rounded-lg shadow-md border-2 '>
                             <div className='relative '>
                                 {sameUser ? (
@@ -168,10 +215,11 @@ function Profile() {
                                     <div className='my-2'>
                                         {!sameUser && (
                                             <>
-                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full">
-                                                    Connect +
+                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full" onClick={follow}>
+                                                    {/* @ts-ignore */}
+                                                    {id && currentUserData.includes(id) ? "Unfollow" : "Follow"}
                                                 </button>
-                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full ml-3">
+                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full ml-3" onClick={message}>
                                                     Message
                                                 </button>
                                             </>
@@ -293,6 +341,7 @@ function Profile() {
                                                                 </ul>
                                                             </div>
                                                         )}
+
                                                     </div>
                                                 </div>
                                             ))
@@ -341,7 +390,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className='mt-2 p-4 pl-6 bg-white rounded-lg shadow-md relative'>
-                            <div>
+                            <div className='font-bold text-gray-600'>
                                 Education
                             </div>
                             {sameUser && (
@@ -364,14 +413,14 @@ function Profile() {
                                 </div>
                             ) : (
                                 <div className="mt-4">
-                                    No education details updated.
+                                    No education added yet.
                                 </div>
                             )}
                         </div>
 
                         <div className='mt-2 p-4 pl-6 bg-white rounded-lg shadow-md relative'>
-                            <div>
-                                <strong className='text-gray-500'> Skills</strong>
+                            <div className='font-bold text-gray-600'>
+                                Skills
                             </div>
                             {sameUser && (
                                 <div className='absolute right-1 top-2 cursor-pointer flex'>
@@ -395,7 +444,7 @@ function Profile() {
                         </div>
 
                         <div className='mt-2 p-4 pl-6 bg-white rounded-lg shadow-md relative'>
-                            <div>
+                            <div className='font-bold text-gray-600'>
                                 Experience
                             </div>
                             {sameUser && (
@@ -421,7 +470,12 @@ function Profile() {
                                 </div>
                             )}
                         </div>
-
+                        <ConfirmationModal
+                            show={showConfirmation}
+                            onClose={cancelDelete}
+                            onConfirm={confirmDelete}
+                            message="Are you sure you want to delete this Post?"
+                        />
 
                     </div >
 

@@ -12,7 +12,7 @@ function ProfilePage() {
                 <Nav />
             </div>
             {/* style={{ backgroundColor: 'rgba(255,250,247,247)' }} */}
-            <div className='flex  ml-4 md:ml-16 lg:ml-60  mt-24 w-3/4 rounded-lg z-0'  >
+            <div className='flex-1  ml-4 md:ml-16 lg:ml-60  mt-24 w-3/4 rounded-lg z-0'  >
                 <div>
                     <ChakraProvider>
                         <Profile />

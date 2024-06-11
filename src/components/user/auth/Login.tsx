@@ -104,7 +104,7 @@ function Login() {
         <div className='image-container w-[50%] flex-1 '>
           <img src={login} alt="signup" className="w-[650px] h-[650px] object-contain" />
         </div>
-        <div className='w-[50%] flex-1 p-[2px]  flex flex-col justify-center items-center'>
+        <div className='w-[50%] flex-1 p-[2px]  flex flex-col justify-center items-center '>
           < img src={logo} alt="" className="h-36  mx-auto" />
           <Typography variant='h4'>Welcome Back</Typography>
 

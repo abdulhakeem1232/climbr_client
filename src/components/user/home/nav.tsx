@@ -8,13 +8,15 @@ import chats from '../../../assets/chats.png';
 import profile from '../../../assets/profile.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../../Redux/slice/UserSlice';
 import { RootState } from '../../../Redux/store/store';
 
 function Nav() {
     const navigate = useNavigate();
     const avatar = useSelector((store: RootState) => store.UserData.image);
     const userId = useSelector((store: RootState) => store.UserData.UserId);
+    const dispatch = useDispatch()
 
     const [showOptions, setShowOptions] = useState(false);
     const handleMouseEnter = () => {
@@ -27,6 +29,7 @@ function Nav() {
     };
     const handleLogout = async () => {
         await userAxios.get(endpoints.logout);
+        dispatch(logout())
         navigate('/');
     };
 
@@ -35,7 +38,7 @@ function Nav() {
             <div className='flex items-center'>
                 <img src={logo} alt="Logo" className="h-32" />
             </div>
-            <input type='text' className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 -ml-28' placeholder='Search' />
+            <input type='text' className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 hidden lg:block -ml-28' placeholder='Search' />
 
             <div className="hidden sm:block">
                 <ul className="flex">
@@ -51,7 +54,9 @@ function Nav() {
 
             <div className="flex items-center">
                 <h4 className="mr-4">
-                    <img src={chats} alt="Chats" className="w-7" />
+                    <Link to="/chats">
+                        <img src={chats} alt="Chats" className="w-7" />
+                    </Link>
                 </h4>
                 <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="relative">
                     <h4>

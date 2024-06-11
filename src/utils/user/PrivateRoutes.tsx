@@ -5,8 +5,6 @@ import { userAxios, endpoints } from "../../endpoints/userEndpoint";
 
 const PrivateRoute = () => {
 
-
-
     // const [isAuthenticated, setIsAuthenticated] = useState(false);
     // useEffect(() => {
     //     const checkUserStatus = async () => {
@@ -30,8 +28,6 @@ const PrivateRoute = () => {
     //                 setIsAuthenticated(false);
     //                 Cookies.remove('token');
     //                 Cookies.remove('role');
-
-
     //             }
     //         } else {
     //             setIsAuthenticated(false);

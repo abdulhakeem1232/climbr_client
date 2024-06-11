@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { userAxios, endpoints } from "../../../endpoints/userEndpoint";
 import like from "../../../assets/like.png";
 import dislike from "../../../assets/dislike.png";
@@ -208,8 +209,24 @@ function Home() {
       draggable: true,
     });
     let response = await userAxios.post(endpoints.reportPost, { postId: postId, userId: userId, reason: reason })
-
+    console.log(response.data);
   }
+  function timeSince(date: string) {
+    const now = new Date();
+    const secondsPast = (now.getTime() - new Date(date).getTime()) / 1000;
+
+    if (secondsPast < 60) {
+      return `${Math.round(secondsPast)}s`;
+    }
+    if (secondsPast < 3600) {
+      return `${Math.round(secondsPast / 60)}m`;
+    }
+    if (secondsPast < 86400) {
+      return `${Math.round(secondsPast / 3600)}h`;
+    }
+    return `${Math.round(secondsPast / 86400)}d`;
+  }
+
   return (
     <div className="border-2 rounded-lg border-solid border-zinc-100 p-3 bg-white mt-2 shadow-md w-full md:w-2/2 lg:w-2/2">
       {loading ? (
@@ -222,9 +239,15 @@ function Home() {
             className="mb-5 border-[1px] border-gray-300 rounded-xl p-2"
           >
             <div className="flex mb-2 pr-2 justify-between">
-              <div className="flex">
-                <img src={post.userData.avatar} className="w-10 rounded-full" />
-                <h2 className="ml-1 mt-1"> {post.userData.username}</h2></div>
+              <Link to={`/profile/${post.userData._id}`}>
+                <div className="flex">
+                  <img src={post.userData.avatar} className="w-10 rounded-full h-10" />
+                  <div className="ml-1 mt-1 text-left">
+                    <h2>{post.userData.username}</h2>
+                    <span className="text-gray-500 text-sm">{timeSince(post.createdAt)}</span>
+                  </div>
+                </div>
+              </Link>
               <div className="report-popup">
                 {post.userData._id != userId && <span className="text-lg text-gray-500 cursor-pointer" onClick={() => handleReport(post._id)}>...</span>}
                 {showReport && reportId == post._id && <div className=" absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1 cursor-pointer" onClick={() => setOptionReport(true)}>Report</div>}
@@ -322,32 +345,36 @@ function Home() {
                 {post.comments?.map((comment: any, index: number) => (
                   <div key={index} className="flex mb-2 justify-between pr-3">
                     <div className="flex">
-                      <img
-                        src={comment.userData.avatar}
-                        alt=""
-                        className="w-7 h-7"
-                      />
-                      <p className="font-semibold mx-2">
-                        {comment.userData.username}
-                      </p>
-                      <p>{comment.content}</p>
+                      <Link to={`/profile/${comment.userData._id}`}>
+                        < img
+                          src={comment.userData.avatar}
+                          alt=""
+                          className="w-7 h-7"
+                        />
+                        <p className="font-semibold mx-2">
+                          {comment.userData.username}
+                        </p>
+                        <p>{comment.content}</p>
+                      </Link>
                     </div>
-                    {comment.userId === userId && (
-                      <div className="dropdown  text-xl text-gray-800">
-                        <button
-                          onClick={() => showOptions(post._id, comment._id)}
-                        >
-                          ...
-                        </button>
-                        {commentOptions && commentId == comment._id && (
-                          <div className='absolute  mt-1 bg-white shadow-md rounded-md p-1 text-xs'>
-                            <ul>
-                              <li className="cursor-pointer" onClick={() => handleDeleteComment(post._id, comment._id)}>Delete</li>
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    {
+                      comment.userId === userId && (
+                        <div className="dropdown  text-xl text-gray-800">
+                          <button
+                            onClick={() => showOptions(post._id, comment._id)}
+                          >
+                            ...
+                          </button>
+                          {commentOptions && commentId == comment._id && (
+                            <div className='absolute  mt-1 bg-white shadow-md rounded-md p-1 text-xs'>
+                              <ul>
+                                <li className="cursor-pointer" onClick={() => handleDeleteComment(post._id, comment._id)}>Delete</li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    }
                   </div>
                 ))}
               </div>

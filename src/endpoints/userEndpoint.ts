@@ -25,6 +25,9 @@ export const endpoints = {
   updateSkills: `${API_GATEWAY_BASE_URL}/updateSkills`,
   updateEducation: `${API_GATEWAY_BASE_URL}/updateEducation`,
   updateExperience: `${API_GATEWAY_BASE_URL}/updateExperience`,
+  userFollwings: `${API_GATEWAY_BASE_URL}/getFollowings`,
+  follow: `${API_GATEWAY_BASE_URL}/follow`,
+  unfollow: `${API_GATEWAY_BASE_URL}/unfollow`,
 
   createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
   getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
@@ -42,8 +45,9 @@ export const endpoints = {
   applyjob: `${API_GATEWAY_BASE_URL}/job/applyjob`,
   getsearchjobs: `${API_GATEWAY_BASE_URL}/job/searchjob`,
 
-
-
+  createchats: `${API_GATEWAY_BASE_URL}/message/createchats`,
+  getChatlist: `${API_GATEWAY_BASE_URL}/message/getchatlist`,
+  getMessages: `${API_GATEWAY_BASE_URL}/message/getMessages`,
 
 
 

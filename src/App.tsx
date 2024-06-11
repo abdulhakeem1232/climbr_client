@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import UserRoutes from './routes/userRoute'
 import RecruiterRoute from './routes/recruiterRoute';
 import AdminRoute from './routes/adminRoute';
-import io from 'socket.io-client';
+
 
 
 

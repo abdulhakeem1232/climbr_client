@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { Suspense, useState, useEffect } from "react";
 import LoginPage from "../pages/user/Login";
 import OtpPage from "../pages/user/Otp";
 import SignupPage from "../pages/user/Signup";
@@ -12,33 +13,61 @@ import LandingPage from "../pages/user/LandingPage";
 import Job from "../pages/user/Job";
 import SingleJob from "../pages/user/SingleJob";
 import ProfilePage from "../pages/user/Profile";
-import Chatting from "../components/user/home/Chatting";
+import Message from "../pages/user/Message";
+import VideoCall from "../pages/user/VideoCall";
+import Profile from "../components/user/home/SideProfile";
+import LoadingWave from "../components/user/home/Spinner";
 
 const UserRoutes = () => {
-    return (
-        < Routes >
-            < Route path='/landing' element={< LandingPage />} />
-            <Route element={<PublicRoute />}>
-                < Route path='/register' element={< SignupPage />} />
-                < Route path='/otp' element={< OtpPage />} />
-                < Route path='/' element={< LoginPage />} />
-                < Route path='/email' element={< EmailPage />} />
-                < Route path='/reset' element={< ResetPasswordPage />} />
-            </Route >
+    const [loading, setLoading] = useState(true);
 
-            < Route element={< PrivateRoute />}>
-                <Route path='/home' element={<HomePage />} />
+    useEffect(() => {
+        const timeout = setTimeout(() => setLoading(false), 2000);
+
+        return () => clearTimeout(timeout);
+    }, []);
+
+    return (
+        <Routes>
+            <Route path='/landing' element={<LandingPage />} />
+            <Route path='/videoCall/:roomId' element={<VideoCall />} />
+            <Route path='/side' element={<Profile />} />
+
+            <Route path='/loading' element={<LoadingWave />} />
+
+            <Route element={<PublicRoute />}>
+                <Route path='/register' element={<SignupPage />} />
+                <Route path='/otp' element={<OtpPage />} />
+                <Route path='/' element={<LoginPage />} />
+                <Route path='/email' element={<EmailPage />} />
+                <Route path='/reset' element={<ResetPasswordPage />} />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
+                <Route path='/home' element={
+                    loading ? (
+                        <LoadingWave />
+                    ) : (
+                        <Suspense fallback={<LoadingWave />}>
+                            <HomePage />
+                        </Suspense>
+                    )
+                } />
                 <Route path='/job' element={<Job />} />
                 <Route path='/job/:id' element={<SingleJob />} />
                 <Route path='/post' element={<Post />} />
-                <Route path='/profile/:id' element={<ProfilePage />} />
-                <Route path='/chat' element={<Chatting />} />
-
-
-            </Route >
-
-
-        </Routes >
+                <Route path='/profile/:id' element={
+                    loading ? (
+                        <LoadingWave />
+                    ) : (
+                        <Suspense fallback={<LoadingWave />}>
+                            <ProfilePage />
+                        </Suspense>
+                    )
+                } />
+                <Route path='/chats' element={<Message />} />
+            </Route>
+        </Routes>
     )
 }
 export default UserRoutes
