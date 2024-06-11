@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import logo from '../../../assets/logo.png';
 import home from '../../../assets/home.png';
 import jobs from '../../../assets/jobs.png';
@@ -11,12 +11,15 @@ import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/slice/UserSlice';
 import { RootState } from '../../../Redux/store/store';
+import { debounce } from 'lodash';
 
 function Nav() {
     const navigate = useNavigate();
     const avatar = useSelector((store: RootState) => store.UserData.image);
     const userId = useSelector((store: RootState) => store.UserData.UserId);
-    const dispatch = useDispatch()
+    const [search, setSearch] = useState('');
+    const [searchedUser, setSearchedUser] = useState<any[]>([]);
+    const dispatch = useDispatch();
 
     const [showOptions, setShowOptions] = useState(false);
     const handleMouseEnter = () => {
@@ -29,24 +32,68 @@ function Nav() {
     };
     const handleLogout = async () => {
         await userAxios.get(endpoints.logout);
-        dispatch(logout())
+        dispatch(logout());
         navigate('/');
     };
 
+    const fetchSearchedUsers = async (text: string) => {
+        try {
+            const response = await userAxios.get(`${endpoints.searchUser}?text=${text}`);
+            console.log(response.data, '----------');
+            setSearchedUser(response.data.users);
+        } catch (error) {
+            console.error('Error fetching searched users:', error);
+        }
+        console.log(text, 'deboincing');
+    };
+
+    const debouncedFetchSearchedUsers = useCallback(debounce((text) => {
+        fetchSearchedUsers(text);
+    }, 500), []);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        setSearch(value);
+        debouncedFetchSearchedUsers(value);
+    };
+
     return (
-        <div className="bg-white shadow-md h-16 mt-2 flex items-center justify-between px-32  py-2">
+        <div className="bg-white shadow-md h-16 mt-2 flex items-center justify-between px-28  py-2">
             <div className='flex items-center'>
                 <img src={logo} alt="Logo" className="h-32" />
             </div>
-            <input type='text' className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 hidden lg:block -ml-28' placeholder='Search' />
+            <input
+                type='text'
+                className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 hidden lg:block -ml-28'
+                placeholder='Search'
+                value={search}
+                onChange={handleSearchChange}
+            />
+            {searchedUser?.length > 0 && (
+                <div className="absolute bg-white shadow-md rounded-md top-20 z-10 mt-2 w-72">
+                    {searchedUser.map((user) => (
+                        <div
+                            key={user._id}
+                            className="p-2 flex items-center cursor-pointer hover:bg-gray-200"
+                            onClick={() => navigate(`/profile/${user._id}`)}
+                        >
+                            <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-full" />
+                            <div className="ml-2">
+                                <h4 className="font-semibold">{user.username}</h4>
+                                <p className="text-sm">{user.header}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <div className="hidden sm:block">
                 <ul className="flex">
-                    <li className="mr-8 font-semibold  ">
+                    <li className="mr-8 font-semibold">
                         <Link to="/home">Home</Link>
                     </li>
-                    <li className="mr-8 font-semibold  ">Notification</li>
-                    <li className="mr-8 font-semibold  ">
+                    <li className="mr-8 font-semibold">Notification</li>
+                    <li className="mr-8 font-semibold">
                         <Link to="/job">Jobs</Link>
                     </li>
                 </ul>
@@ -79,7 +126,7 @@ function Nav() {
                     )}
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

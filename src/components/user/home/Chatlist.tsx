@@ -4,7 +4,7 @@ import { RootState } from '../../../Redux/store/store';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 
 interface ChatlistProps {
-    onSelectChat: (chatId: string, avatar: string, username: string) => void;
+    onSelectChat: (chatId: string, avatar: string, username: string, id: string) => void;
 }
 
 function Chatlist({ onSelectChat }: ChatlistProps) {
@@ -31,7 +31,7 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
                 {chats?.map((chat: any) => (
                     <div key={chat._id} className='mb-1 '>
                         <div
-                            onClick={() => onSelectChat(chat._id, chat.user.avatar, chat.user.username)}
+                            onClick={() => onSelectChat(chat._id, chat.user.avatar, chat.user.username, chat.user._id)}
                             className='chat-item cursor-pointer flex items-center p-2 hover:bg-gray-200 rounded-lg'
                         >
                             <img

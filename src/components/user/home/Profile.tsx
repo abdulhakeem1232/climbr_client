@@ -141,13 +141,13 @@ function Profile() {
         {/* @ts-ignore */ }
         if (currentUserData.includes(id)) {
             setCurrentUserData(prevData => prevData.filter(userId => userId !== id));
-            const response = await userAxios.get(`${endpoints.unfollow} / ${userId} / ${id} `)
+            const response = await userAxios.get(`${endpoints.unfollow}/${userId}/${id}`)
             console.log('unfolow', response.data);
 
         } else {
             {/* @ts-ignore */ }
             setCurrentUserData(prevData => [...prevData, id]);
-            const response = await userAxios.get(`${endpoints.follow} / ${userId} / ${id} `);
+            const response = await userAxios.get(`${endpoints.follow}/${userId}/${id}`);
             console.log(response.data, 'else follow');
         }
     }

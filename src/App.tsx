@@ -5,9 +5,6 @@ import UserRoutes from './routes/userRoute'
 import RecruiterRoute from './routes/recruiterRoute';
 import AdminRoute from './routes/adminRoute';
 
-
-
-
 function App() {
 
   return (

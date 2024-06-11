@@ -7,13 +7,14 @@ interface ChatDetails {
     chatId: string;
     avatar: string;
     username: string;
+    id: string;
 }
 
 function Message() {
     const [selectedChat, setSelectedChat] = useState<ChatDetails | null>(null);
 
-    const handleSelectChat = (chatId: string, avatar: string, username: string) => {
-        setSelectedChat({ chatId, avatar, username });
+    const handleSelectChat = (chatId: string, avatar: string, username: string, id: string) => {
+        setSelectedChat({ chatId, avatar, username, id });
     };
 
     return (
@@ -23,7 +24,7 @@ function Message() {
             </div>
             < div className='flex  justify-start px-1 md:px-28 lg:px-60 mt-2 bg-gray-50' >
                 <Chatlist onSelectChat={handleSelectChat} />
-                {selectedChat && <Chatting chatId={selectedChat.chatId} avatar={selectedChat.avatar} username={selectedChat.username} />}
+                {selectedChat && <Chatting chatId={selectedChat.chatId} avatar={selectedChat.avatar} username={selectedChat.username} id={selectedChat.id} />}
             </div >
         </div>
     );

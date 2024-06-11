@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import Picker from '@emoji-mart/react';
-// import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
 import socket from '../../../utils/socket/Socket';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 import { useSelector } from 'react-redux';
@@ -18,12 +18,15 @@ interface ChattingProps {
     chatId: string;
     avatar: string;
     username: string;
+    id: string;
 }
 
-function Chatting({ chatId, avatar, username }: ChattingProps) {
+function Chatting({ chatId, avatar, username, id }: ChattingProps) {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [isOnline, setIsOnline] = useState(false);
+
     const userId = useSelector((store: RootState) => store.UserData.UserId);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -105,11 +108,11 @@ function Chatting({ chatId, avatar, username }: ChattingProps) {
                 <button type='button' onClick={() => setShowEmojiPicker(!showEmojiPicker)} className='p-2 bg-gray-200 text-gray-800 rounded'>
                     😊
                 </button>
-                {/* {showEmojiPicker && (
+                {showEmojiPicker && (
                     <div className='absolute bottom-16 right-2'>
                         <Picker data={data} onEmojiSelect={handleEmojiSelect} />
                     </div>
-                )} */}
+                )}
                 <input
                     type='file'
                     accept='image/*'
