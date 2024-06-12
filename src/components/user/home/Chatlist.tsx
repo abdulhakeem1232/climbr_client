@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/store/store';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import socket from '../../../utils/socket/Socket';
 
 interface ChatlistProps {
     onSelectChat: (chatId: string, avatar: string, username: string, id: string) => void;
@@ -10,6 +11,7 @@ interface ChatlistProps {
 function Chatlist({ onSelectChat }: ChatlistProps) {
     const userId = useSelector((store: RootState) => store.UserData.UserId);
     const [chats, setChats] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState(new Set<string>());
 
     useEffect(() => {
         const getChats = async () => {
@@ -22,6 +24,14 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
             }
         };
         getChats();
+        socket.on('onlineUsers', (users: string[]) => {
+            setOnlineUsers(new Set(users));
+        });
+        socket.emit('getOnlineUsers');
+        return () => {
+            socket.off('onlineUsers');
+        };
+
     }, [userId]);
 
     return (
@@ -40,6 +50,9 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
                                 className='chat-item-avatar w-10 h-10 rounded-full mr-4'
                             />
                             <span className='chat-item-username'>{chat.user.username}</span>
+                            <span className={`ml-auto ${onlineUsers.has(chat.user._id) ? 'text-green-500' : 'text-gray-500'}`}>
+                                {onlineUsers.has(chat.user._id) ? 'Online' : 'Offline'}
+                            </span>
                         </div>
                         <hr className="" />
                     </div>

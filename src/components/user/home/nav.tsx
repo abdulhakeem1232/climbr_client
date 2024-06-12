@@ -1,17 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import logo from '../../../assets/logo.png';
-import home from '../../../assets/home.png';
-import jobs from '../../../assets/jobs.png';
-import network from '../../../assets/network.png';
-import post from '../../../assets/post.png';
 import chats from '../../../assets/chats.png';
 import profile from '../../../assets/profile.png';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/slice/UserSlice';
 import { RootState } from '../../../Redux/store/store';
 import { debounce } from 'lodash';
+import socket from '../../../utils/socket/Socket';
 
 function Nav() {
     const navigate = useNavigate();
@@ -32,6 +30,7 @@ function Nav() {
     };
     const handleLogout = async () => {
         await userAxios.get(endpoints.logout);
+        socket.emit('leave', userId);
         dispatch(logout());
         navigate('/');
     };

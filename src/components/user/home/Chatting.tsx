@@ -67,7 +67,6 @@ function Chatting({ chatId, avatar, username, id }: ChattingProps) {
     };
 
     const handleFileChange = (files: FileList | null) => {
-        // Handle file change logic here
     };
 
     const handleEmojiSelect = (emoji: any) => {

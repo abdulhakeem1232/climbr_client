@@ -5,15 +5,19 @@ import like from "../../../assets/like.png";
 import dislike from "../../../assets/dislike.png";
 import comment from "../../../assets/comment.png";
 import ShimmerHome from "../skeleton/ShimmerHome";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Redux/store/store";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../../Redux/slice/UserSlice';
+import { RootState } from '../../../Redux/store/store';
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 interface Like {
   userId: string;
   createdAt: Date;
 }
 function Home() {
+  const navigate = useNavigate()
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [commentId, setCommentId] = useState('');
@@ -30,7 +34,7 @@ function Home() {
   const userId = useSelector((store: RootState) => store.UserData.UserId);
   const avatar = useSelector((store: RootState) => store.UserData.image);
   const username = useSelector((store: RootState) => store.UserData.Username);
-
+  const dispatch = useDispatch()
   useEffect(() => {
     const fetchdata = async () => {
       try {
@@ -46,6 +50,13 @@ function Home() {
         );
         setLoading(false);
       } catch (error) {
+        //@ts-ignore
+        if (error.response && error.response.status === 401) {
+          dispatch(logout())
+          Cookies.remove('token');
+          Cookies.remove('role');
+          navigate('/')
+        }
         console.error("Error fetching posts:", error);
       }
     };

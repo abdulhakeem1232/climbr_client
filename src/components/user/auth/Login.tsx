@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch } from 'react-redux';
 import { loginData } from '../../../Redux/slice/UserSlice';
 import { useSelector } from 'react-redux';
+import socket from '../../../utils/socket/Socket';
 
 type FormValues = {
   email: string;
@@ -44,12 +45,13 @@ function Login() {
       if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
         dispatch(loginData(response.data.user))
         console.log('user');
-
+        socket.emit('join', response.data.user._id);
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
         console.log('validate recr');
 
         dispatch(loginData(response.data.user))
+        socket.emit('join', response.data.user._id);
         navigate('/recruiter/home')
 
       } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {

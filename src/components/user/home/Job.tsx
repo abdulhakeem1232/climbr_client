@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
+import { logout } from '../../../Redux/slice/UserSlice';
+import Cookies from 'js-cookie';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -35,11 +37,25 @@ function Job() {
     let skills = job?.skills?.includes(',') ? job?.skills.split(',') : job?.skill
     const userId = useSelector((store: RootState) => store.UserData.UserId)
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     useEffect(() => {
         const fetchData = async () => {
-            let response = await userAxios.get(`${endpoints.singlejob}/${id}`)
-            setJob(response.data)
-            console.log(response.data);
+            try {
+                let response = await userAxios.get(`${endpoints.singlejob}/${id}`)
+                setJob(response.data)
+                console.log(response.data);
+            } catch (err) {
+                //@ts-ignore
+                if (error.response && error.response.status === 401) {
+                    dispatch(logout())
+                    Cookies.remove('token');
+                    Cookies.remove('role');
+                    navigate('/')
+                }
+                console.log(err);
+
+            }
         }
         fetchData();
     }, [])

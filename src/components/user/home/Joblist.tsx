@@ -6,9 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 // @ts-ignore
 import Card from 'react-bootstrap/Card';
+import {  useDispatch } from 'react-redux';
+import { logout } from '../../../Redux/slice/UserSlice';
+import Cookies from 'js-cookie';
 
 function Joblist() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [searchTerm, setSearchTerm] = useState('');
     const [jobs, setJobs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true)
@@ -30,6 +34,13 @@ function Joblist() {
                 setJobs(response.data.jobs)
                 setFilteredJobs(response.data.jobs)
             } catch (err) {
+                //@ts-ignore
+                if (error.response && error.response.status === 401) {
+                    dispatch(logout())
+                    Cookies.remove('token');
+                    Cookies.remove('role');
+                    navigate('/')
+                }
                 console.log('Erro while Fteching Jobs:', err);
 
             } finally {

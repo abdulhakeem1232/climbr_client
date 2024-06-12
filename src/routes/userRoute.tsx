@@ -22,7 +22,7 @@ const UserRoutes = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timeout = setTimeout(() => setLoading(false), 2000);
+        const timeout = setTimeout(() => setLoading(false), 1500);
 
         return () => clearTimeout(timeout);
     }, []);
@@ -38,7 +38,7 @@ const UserRoutes = () => {
             <Route element={<PublicRoute />}>
                 <Route path='/register' element={<SignupPage />} />
                 <Route path='/otp' element={<OtpPage />} />
-                <Route path='/' element={<LoginPage />} />
+                <Route path='/' element={loading ? (<LoadingWave />) : (<Suspense fallback={<LoadingWave />}>< LoginPage /></Suspense>)} />
                 <Route path='/email' element={<EmailPage />} />
                 <Route path='/reset' element={<ResetPasswordPage />} />
             </Route>

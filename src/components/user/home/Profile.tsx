@@ -15,9 +15,11 @@ import ProfileDataModal from './ProfileDataModal';
 import SkillsModal from './SkillsModal';
 import EducationModal from './EducationalModal';
 import ExperienceModal from './ExperienceModal';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../Redux/store/store";
 import ConfirmationModal from './ConfirmationModal';
+import { logout } from '../../../Redux/slice/UserSlice';
+import Cookies from 'js-cookie';
 
 
 const steps = [
@@ -27,6 +29,7 @@ const steps = [
 ]
 function Profile() {
     const navigate = useNavigate()
+    const dispatch = useDispatch
     const userId = useSelector((store: RootState) => store.UserData.UserId);
     const { id } = useParams<{ id?: string }>();
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -46,7 +49,7 @@ function Profile() {
     const [showModal, setshowModal] = useState(false)
     const [editedDescription, setEditedDescription] = useState('');
     const [editId, seteditId] = useState('')
-    const [currentUserData, setCurrentUserData] = useState([]);
+    const [currentUserData, setCurrentUserData] = useState<any>([]);
     function getActiveStepIndex(status: string) {
         switch (status.toLowerCase()) {
             case 'applied':
@@ -68,11 +71,17 @@ function Profile() {
             setUserDetails(response.data);
             if (!sameUser) {
                 let currentUserResponse = await userAxios.get(`${endpoints.userFollwings}/${userId}`); { }
-                setCurrentUserData(currentUserResponse.data.followings);
+                setCurrentUserData(currentUserResponse.data);
                 console.log(currentUserData, '=================', currentUserResponse.data);
 
             }
         } catch (error) {
+            //@ts-ignore
+            if (error.response && error.response.status === 401) {
+                Cookies.remove('token');
+                Cookies.remove('role');
+                navigate('/')
+            }
             console.error('Error fetching user details:', error);
         } finally {
             setIsLoading(false);
@@ -140,7 +149,7 @@ function Profile() {
     const follow = async () => {
         {/* @ts-ignore */ }
         if (currentUserData.includes(id)) {
-            setCurrentUserData(prevData => prevData.filter(userId => userId !== id));
+            setCurrentUserData((prevData: any[]) => prevData.filter((userId: string | undefined) => userId !== id));
             const response = await userAxios.get(`${endpoints.unfollow}/${userId}/${id}`)
             console.log('unfolow', response.data);
 
@@ -226,6 +235,9 @@ function Profile() {
                                         )}
                                     </div>
                                 </div>
+                                <div>Followings {currentUserData?.followings?.length || 0}</div>
+                                <div>Followers {currentUserData?.followers?.length || 0}</div>
+
                                 {sameUser && (
                                     <img src={edit} alt="" className='absolute w-6 cursor-pointer right-1 bottom-1' onClick={() => setProfileModal(true)} />
                                 )}
