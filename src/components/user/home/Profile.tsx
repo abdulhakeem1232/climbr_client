@@ -20,6 +20,7 @@ import { RootState } from "../../../Redux/store/store";
 import ConfirmationModal from './ConfirmationModal';
 import { logout } from '../../../Redux/slice/UserSlice';
 import Cookies from 'js-cookie';
+import LoadingWave from './Spinner';
 
 
 const steps = [
@@ -185,7 +186,7 @@ function Profile() {
     return (
         <div className='w-full text-left mb-10'>
             {
-                userDetails == null ? <ProfileSkeleton /> :
+                userDetails == null ? <LoadingWave /> :
 
                     < div className='w-3/5 ml-2' >
                         <div className='bg-white rounded-lg shadow-md border-2 '>

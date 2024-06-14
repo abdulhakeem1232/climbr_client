@@ -49,6 +49,8 @@ export const endpoints = {
   createchats: `${API_GATEWAY_BASE_URL}/message/createchats`,
   getChatlist: `${API_GATEWAY_BASE_URL}/message/getchatlist`,
   getMessages: `${API_GATEWAY_BASE_URL}/message/getMessages`,
+  sendFiles: `${API_GATEWAY_BASE_URL}/message/sendFiles`,
+
 
 
 

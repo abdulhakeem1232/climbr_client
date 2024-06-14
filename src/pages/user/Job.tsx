@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Joblist from '../../components/user/home/Joblist'
 import Nav from '../../components/user/home/nav';
 import MiddleBar from '../../components/user/home/MiddleBar';
-import Profile from '../../components/user/home/SideProfile';
-import Suggestion from '../../components/user/home/Suggestion';
 function Job() {
 
     return (

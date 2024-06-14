@@ -42,10 +42,7 @@ const PrivateRoute = () => {
 
 
 
-    useEffect(() => {
-        console.log('useEffect');
 
-    }, [])
     const token = Cookies.get('token');
     console.log('popopo');
 
