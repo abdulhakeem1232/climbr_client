@@ -1,32 +1,29 @@
-import React, { Suspense } from 'react';
-import Home from '../../components/user/home/Home';
+import React, { useState, Suspense } from 'react';
 import Nav from '../../components/user/home/nav';
 import MiddleBar from '../../components/user/home/MiddleBar';
 import Profile from '../../components/user/home/SideProfile';
 import Suggestion from '../../components/user/home/Suggestion';
 import CreatePost from '../../components/user/home/CreatePost';
-import SideprofileShimmer from '../../components/user/skeleton/Sideprofile';
 import ShimmerHome from '../../components/user/skeleton/ShimmerHome';
-const LazyProfile = React.lazy(() => import('../../components/user/home/SideProfile'));
+import DotSpinner from '../../components/user/home/FormSpinner'
+
 const LazyHome = React.lazy(() => import('../../components/user/home/Home'));
 
 function HomePage() {
-
+    const [isLoading, setIsLoading] = useState(false);
     return (
         <div className='flex flex-col h-screen ' >
+            {isLoading && <DotSpinner />}
             <div className=''>
                 <Nav />
             </div>
 
             <div className='flex flex-1 px-24 bg-gray-100'>
                 <div className='w-full md:w-1/4 hidden md:block lg:block ml-12'>
-                    {/* <Suspense fallback={<SideprofileShimmer />}>
-                        <LazyProfile />
-                    </Suspense> */}
                     <Profile />
                 </div>
                 <div className='w-full md:w-1/2 flex justify-center flex-col items-center mx-4'>
-                    <CreatePost />
+                    <CreatePost setIsLoading={setIsLoading} />
                     <Suspense fallback={<ShimmerHome />}>
                         <LazyHome />
                     </Suspense>

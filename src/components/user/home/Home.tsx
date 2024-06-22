@@ -12,6 +12,7 @@ import { logout } from '../../../Redux/slice/UserSlice';
 import { RootState } from '../../../Redux/store/store';
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import ConfirmationModal from "./ConfirmationModal";
 interface Like {
   userId: string;
   createdAt: Date;
@@ -124,11 +125,13 @@ function Home() {
       setCommentError("Comment cannot be empty");
       return;
     }
-    await userAxios.post(endpoints.commentPost, {
+    let result = await userAxios.post(endpoints.commentPost, {
       postId,
       userId,
       comment: CommentContent,
     });
+    console.log('came comment op', result);
+
     setCommentContent("");
     setCommentError("");
     setPosts((prevState) =>
@@ -145,6 +148,7 @@ function Home() {
             },
             content: CommentContent,
             userId: userId,
+            _id: result.data?.comments[result.data?.comments.length - 1]._id
           });
 
           return {
@@ -355,18 +359,19 @@ function Home() {
               <div className="text-left my-2">
                 {post.comments?.map((comment: any, index: number) => (
                   <div key={index} className="flex mb-2 justify-between pr-3">
-                    <div className="flex">
-                      <Link to={`/profile/${comment.userData._id}`}>
+                    <div className="">
+                      <Link to={`/profile/${comment.userData._id}`} className="flex">
                         < img
                           src={comment.userData.avatar}
                           alt=""
-                          className="w-7 h-7"
+                          className="w-7 h-7 rounded-full"
                         />
                         <p className="font-semibold mx-2">
                           {comment.userData.username}
                         </p>
-                        <p>{comment.content}</p>
                       </Link>
+                      <p>{comment.content}</p>
+                      <p>{comment._id}</p>
                     </div>
                     {
                       comment.userId === userId && (

@@ -10,6 +10,7 @@ import Add from '../../../assets/add.png'
 import { format, isToday, isYesterday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
 interface Message {
+    chatId: string;
     name: string;
     message?: string;
     sender: string;
@@ -53,10 +54,12 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
             fetchMessages();
 
             socket.on('message', (message: Message) => {
-                console.log("New Message Received", message);
-                setMessages(prevMessages => [...prevMessages, message]);
-                if (message.sender !== userId) {
-                    toast.success(`New message in Chats`);
+                console.log("New Message Received", message, chatId, '-----', message.chatId);
+                if (message.chatId == chatId) {
+                    setMessages(prevMessages => [...prevMessages, message]);
+                    if (message.sender !== userId) {
+                        toast.success(`New message in Chats`);
+                    }
                 }
             });
 

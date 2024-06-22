@@ -28,7 +28,7 @@ function Profile() {
         return <div><SideprofileShimmer /></div>;
     }
     return (
-        <div className='ml-10 mt-2 hidden min-h-screen sm:block border border-solid rounded-lg shadow-md bg-white'>
+        <div className='lg:ml-10 mt-2 hidden min-h-screen sm:block border border-solid rounded-lg shadow-md bg-white'>
             <div className='relative p-1'>
                 {userDetails && (
                     <img src={userDetails.banner} alt="User Banner" className='rounded-md w-full h-auto' />

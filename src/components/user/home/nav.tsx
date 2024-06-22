@@ -60,14 +60,15 @@ function Nav() {
         <div className="bg-white shadow-md h-16 mt-2 flex items-center justify-between px-28  py-2">
             <div className='flex items-center'>
                 <img src={logo} alt="Logo" className="h-32" />
+
+                <input
+                    type='text'
+                    className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 hidden lg:block '
+                    placeholder='Search'
+                    value={search}
+                    onChange={handleSearchChange}
+                />
             </div>
-            <input
-                type='text'
-                className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 hidden lg:block -ml-28'
-                placeholder='Search'
-                value={search}
-                onChange={handleSearchChange}
-            />
             {searchedUser?.length > 0 && (
                 <div className="absolute bg-white shadow-md rounded-md top-20 z-10 mt-2 w-72">
                     {searchedUser.map((user) => (

@@ -98,13 +98,11 @@ function Otp() {
 
     }
     if (response.data.success && isRecruiter == 'false') {
-      console.log('iiigg');
       sessionStorage.removeItem('otpTimer');
       navigate('/home')
     } else if (response.data.success && isRecruiter == 'true') {
-      console.log('routetruee');
       sessionStorage.removeItem('otpTimer');
-      navigate('/recruiter/home')
+      navigate('/')
     }
     else {
       setErrorMsg('Invalid OTP')

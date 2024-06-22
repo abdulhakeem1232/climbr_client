@@ -8,13 +8,17 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 
-function CreatePost() {
+interface CreatePostProps {
+    setIsLoading: (isLoading: boolean) => void;
+}
+
+function CreatePost({ setIsLoading }: CreatePostProps) {
     const [image, setImage] = useState<File | null>(null);
     const [description, setDescription] = useState<string>('');
     const [imageError, setImageError] = useState<string>('');
     const [imagePreview, setImagePreview] = useState<string>('');
 
-    const avatar = useSelector((store: RootState) => store.UserData.image)
+    const avatar = useSelector((store: RootState) => store.UserData.image);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
@@ -44,27 +48,24 @@ function CreatePost() {
         }
         if (image) {
             formData.append('image', image);
-            console.log('llldld');
-
         }
         formData.append('description', description);
-        console.log('Image:', image);
-        console.log('Description:', description);
-        console.log(formData, 'lll');
-        console.log(formData);
-        setDescription('');
+        setIsLoading(true);
         try {
             let response = await userAxios.post(endpoints.createpost, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            })
+            });
             console.log(response.data);
         } catch (error) {
             console.error('Error:', error);
         }
+        setIsLoading(false);
+        setDescription('');
+        setImagePreview('')
+        setImage(null);
     };
-
 
     return (
         <div className='bg-white w-full rounded-lg mt-3 p-4 border-2 border-solid'>
@@ -74,16 +75,15 @@ function CreatePost() {
                     <input
                         id="description"
                         placeholder='Start a Post'
-                        className='w-full border-2 border-solid mb-3 mt-1 h-9 rounded-full ml-1 pl-3 '
+                        className='w-full border-2 border-solid mb-3 mt-1 h-9 rounded-full ml-1 pl-3'
                         value={description}
                         onChange={(event) => setDescription(event.target.value)}
                     />
-
                 </div>
                 <div className='flex mx-2 justify-between'>
                     <div className='flex'>
                         <label htmlFor="image" className="cursor-pointer">
-                            <img src={ImageIcon} alt="" className='w-9 ' />
+                            <img src={ImageIcon} alt="" className='w-9' />
                             {imageError && <p style={{ color: 'red' }}>{imageError}</p>}
                         </label>
                         <input
@@ -104,11 +104,9 @@ function CreatePost() {
                         Post
                     </Button>
                 </div>
-
-
             </form>
             <MiddleBar />
-        </div >
+        </div>
     );
 }
 

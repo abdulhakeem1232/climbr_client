@@ -3,6 +3,7 @@ import imageIcon from '../../../assets/ImageIcon.png'
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
 import { RootState } from "../../../Redux/store/store";
 import { useSelector } from "react-redux";
+import Loader from './FormSpinner';
 
 interface BannerModalProps {
     isOpen: boolean;
@@ -16,6 +17,7 @@ const BannerModal: React.FC<BannerModalProps> = ({ isOpen, onClose, currentImage
     const userId = useSelector((store: RootState) => store.UserData.UserId);
     const [newImage, setNewImage] = useState<File | null>(null);
     const [imageError, setImageError] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -38,6 +40,7 @@ const BannerModal: React.FC<BannerModalProps> = ({ isOpen, onClose, currentImage
             formData.append('image', newImage);
         }
         try {
+            setIsLoading(true);
             let response = await userAxios.put(`${endpoints.updateCover}/${userId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -48,6 +51,8 @@ const BannerModal: React.FC<BannerModalProps> = ({ isOpen, onClose, currentImage
             onClose();
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -75,6 +80,7 @@ const BannerModal: React.FC<BannerModalProps> = ({ isOpen, onClose, currentImage
                         Save
                     </button>
                 </div>
+                {isLoading && <Loader />}
             </div >
         </div >
     );

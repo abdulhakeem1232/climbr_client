@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import imageIcon from '../../../assets/ImageIcon.png'
+import Loader from '../home/FormSpinner'
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
 import { RootState } from "../../../Redux/store/store";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, currentIma
     const userId = useSelector((store: RootState) => store.UserData.UserId);
     const [newImage, setNewImage] = useState<File | null>(null);
     const [imageError, setImageError] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log('090990');
@@ -39,7 +40,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, currentIma
 
         const formData = new FormData();
         formData.append('image', newImage);
-
+        setIsLoading(true);
         try {
             const response = await userAxios.put(`${endpoints.updateProfile}/${userId}`, formData, {
                 headers: {
@@ -51,6 +52,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, currentIma
             onClose();
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -75,6 +78,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, currentIma
                         Save
                     </button>
                 </div>
+                {isLoading && <Loader />}
             </div >
         </div >
     );

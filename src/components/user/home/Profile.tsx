@@ -72,8 +72,8 @@ function Profile() {
             setUserDetails(response.data);
             if (!sameUser) {
                 let currentUserResponse = await userAxios.get(`${endpoints.userFollwings}/${userId}`); { }
-                setCurrentUserData(currentUserResponse.data);
-                console.log(currentUserData, '=================', currentUserResponse.data);
+                setCurrentUserData(currentUserResponse.data.followings);
+                console.log(currentUserData, '============', currentUserResponse.data.followings);
 
             }
         } catch (error) {
@@ -149,7 +149,7 @@ function Profile() {
     }
     const follow = async () => {
         {/* @ts-ignore */ }
-        if (currentUserData.includes(id)) {
+        if (currentUserData?.includes(id)) {
             setCurrentUserData((prevData: any[]) => prevData.filter((userId: string | undefined) => userId !== id));
             const response = await userAxios.get(`${endpoints.unfollow}/${userId}/${id}`)
             console.log('unfolow', response.data);
@@ -227,7 +227,7 @@ function Profile() {
                                             <>
                                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full" onClick={follow}>
                                                     {/* @ts-ignore */}
-                                                    {id && currentUserData.includes(id) ? "Unfollow" : "Follow"}
+                                                    {id && currentUserData?.includes(id) ? "Unfollow" : "Follow"}
                                                 </button>
                                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full ml-3" onClick={message}>
                                                     Message

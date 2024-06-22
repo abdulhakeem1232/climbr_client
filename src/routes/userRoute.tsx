@@ -15,12 +15,10 @@ import SingleJob from "../pages/user/SingleJob";
 import ProfilePage from "../pages/user/Profile";
 import Message from "../pages/user/Message";
 import VideoCall from "../pages/user/VideoCall";
-import Profile from "../components/user/home/SideProfile";
 import LoadingWave from "../components/user/home/Spinner";
 
 const UserRoutes = () => {
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         const timeout = setTimeout(() => setLoading(false), 1500);
 
@@ -29,10 +27,9 @@ const UserRoutes = () => {
 
     return (
         <Routes>
+
             <Route path='/landing' element={<LandingPage />} />
             <Route path='/videoCall/:roomId' element={<VideoCall />} />
-            <Route path='/side' element={<Profile />} />
-
             <Route path='/loading' element={<LoadingWave />} />
 
             <Route element={<PublicRoute />}>
@@ -67,7 +64,7 @@ const UserRoutes = () => {
                 } />
                 <Route path='/chats' element={<Message />} />
             </Route>
-        </Routes>
+        </Routes >
     )
 }
 export default UserRoutes
