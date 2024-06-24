@@ -13,29 +13,38 @@ import { RootState } from '../../../Redux/store/store';
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import ConfirmationModal from "./ConfirmationModal";
+import Modal from "./UserListModal";
+
 interface Like {
   userId: string;
   createdAt: Date;
 }
+
 function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [commentId, setCommentId] = useState('');
-  const [commentOptions, setCommentoptions] = useState(false)
+  const [commentOptions, setCommentoptions] = useState(false);
   const [commentError, setCommentError] = useState<string>("");
   const [page, setPage] = useState(1);
   const [CommentContent, setCommentContent] = useState("");
   const [commentPostId, setCommentPostId] = useState<string | null>(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [showReport, setShowReport] = useState(false)
-  const [optionReport, setOptionReport] = useState(false)
-  const [reportId, setReportId] = useState('')
+  const [showReport, setShowReport] = useState(false);
+  const [optionReport, setOptionReport] = useState(false);
+  const [reportId, setReportId] = useState('');
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [deleteCommentInfo, setDeleteCommentInfo] = useState({ postId: '', commentId: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalUserIds, setModalUserIds] = useState<string[]>([]);
+  const [modalTitle, setModalTitle] = useState('');
   const maxLength = 4;
   const userId = useSelector((store: RootState) => store.UserData.UserId);
   const avatar = useSelector((store: RootState) => store.UserData.image);
   const username = useSelector((store: RootState) => store.UserData.Username);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchdata = async () => {
       try {
@@ -53,16 +62,17 @@ function Home() {
       } catch (error) {
         //@ts-ignore
         if (error.response && error.response.status === 401) {
-          dispatch(logout())
+          dispatch(logout());
           Cookies.remove('token');
           Cookies.remove('role');
-          navigate('/')
+          navigate('/');
         }
         console.error("Error fetching posts:", error);
       }
     };
     fetchdata();
   }, [page]);
+
   const handlescroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop + 1 >
@@ -71,34 +81,38 @@ function Home() {
       setPage((prev) => prev + 1);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handlescroll);
     return () => window.removeEventListener("scroll", handlescroll);
   }, []);
+
   const handleLike = async (postId: string) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
-        post._id == postId ? {
-          ...post,
-          likes: Array.isArray(post.likes)
-            ? [...post.likes,
-            {
-              userId,
-              createdAt: new Date(),
-            },
-            ]
-            : [{ userId, createdAt: new Date() }],
-        } : post
+        post._id === postId
+          ? {
+            ...post,
+            likes: Array.isArray(post.likes)
+              ? [
+                ...post.likes,
+                {
+                  userId,
+                  createdAt: new Date(),
+                },
+              ]
+              : [{ userId, createdAt: new Date() }],
+          }
+          : post
       )
     );
     let response = await userAxios.post(endpoints.likePost, { userId, postId });
     console.log("like response", response);
   };
-
   const handleDislike = async (postId: string) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
-        post._id == postId
+        post._id === postId
           ? {
             ...post,
             likes: post.likes.filter((like: Like) => like.userId !== userId),
@@ -116,10 +130,12 @@ function Home() {
   const handleComment = (postId: string) => {
     setCommentPostId(postId);
   };
+
   const handleReport = (postId: string) => {
-    setShowReport(true)
-    setReportId(postId)
-  }
+    setShowReport(true);
+    setReportId(postId);
+  };
+
   const postComment = async (postId: string) => {
     if (CommentContent.trim() === "") {
       setCommentError("Comment cannot be empty");
@@ -148,7 +164,7 @@ function Home() {
             },
             content: CommentContent,
             userId: userId,
-            _id: result.data?.comments[result.data?.comments.length - 1]._id
+            _id: result.data?.comments[result.data?.comments.length - 1]._id,
           });
 
           return {
@@ -160,13 +176,22 @@ function Home() {
       })
     );
   };
+
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
-  const showOptions = (postId: string, commentId: string) => {
-    setCommentoptions(true)
-    setCommentId(commentId)
+  const handleliekduser = (postId: string) => {
+    const postDetails = posts.filter(post => post._id == postId)
+    const likedIds = postDetails[0].likes.map((like: Like) => like.userId)
+    setModalUserIds(likedIds)
+    setModalTitle('Liked Users');
+    setIsModalOpen(true);
   }
+  const showOptions = (postId: string, commentId: string) => {
+    setCommentoptions(true);
+    setCommentId(commentId);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -183,19 +208,25 @@ function Home() {
       window.removeEventListener('click', handleClickOutside);
     };
   }, []);
-  const handleDeleteComment = async (postId: string, commentId: string) => {
+
+  const handleDeleteComment = (postId: string, commentId: string) => {
+    setDeleteCommentInfo({ postId, commentId });
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDeleteComment = async () => {
+    const { postId, commentId } = deleteCommentInfo;
     try {
       const response = await userAxios.delete(`${endpoints.deleteComment}`, {
         data: {
           postId: postId,
-          commentId: commentId
-        }
-      }
-      );
+          commentId: commentId,
+        },
+      });
       console.log("Delete comment response:", response);
       setPosts((prevPosts) =>
         prevPosts.map((post) => {
-          if (post._id == postId) {
+          if (post._id === postId) {
             const updatedComments = post.comments.filter(
               (comment: any) => comment._id !== commentId
             );
@@ -208,14 +239,16 @@ function Home() {
         })
       );
       setCommentoptions(false);
+      setShowDeleteConfirmation(false);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
   };
+
   const sendReport = async (postId: string, reason: string) => {
     setShowReport(false);
     setOptionReport(false);
-    toast.success('Request sended Succeefully', {
+    toast.success('Request sent successfully', {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
@@ -223,9 +256,10 @@ function Home() {
       pauseOnHover: true,
       draggable: true,
     });
-    let response = await userAxios.post(endpoints.reportPost, { postId: postId, userId: userId, reason: reason })
+    let response = await userAxios.post(endpoints.reportPost, { postId: postId, userId: userId, reason: reason });
     console.log(response.data);
-  }
+  };
+
   function timeSince(date: string) {
     const now = new Date();
     const secondsPast = (now.getTime() - new Date(date).getTime()) / 1000;
@@ -264,9 +298,9 @@ function Home() {
                 </div>
               </Link>
               <div className="report-popup">
-                {post.userData._id != userId && <span className="text-lg text-gray-500 cursor-pointer" onClick={() => handleReport(post._id)}>...</span>}
-                {showReport && reportId == post._id && <div className=" absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1 cursor-pointer" onClick={() => setOptionReport(true)}>Report</div>}
-                {optionReport && reportId == post._id && <div className="absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1" >
+                {post.userData._id !== userId && <span className="text-lg text-gray-500 cursor-pointer" onClick={() => handleReport(post._id)}>...</span>}
+                {showReport && reportId === post._id && <div className="absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1 cursor-pointer" onClick={() => setOptionReport(true)}>Report</div>}
+                {optionReport && reportId === post._id && <div className="absolute bg-white text-gray-600 p-1 rounded-md shadow-md mt-1">
                   <div>
                     <ul>
                       <li className='cursor-pointer' onClick={() => sendReport(post._id, 'Inappropriate Content')}>Inappropriate Content</li>
@@ -277,12 +311,10 @@ function Home() {
                     </ul>
                   </div>
                 </div>}
-
               </div>
             </div>
-            <div className="text-left my-2 flex ">
+            <div className="text-left my-2 flex">
               <p className="ml-2">
-                {" "}
                 {post.description.length > maxLength && !showFullDescription ? (
                   <>
                     {post.description.substring(0, maxLength)}...
@@ -326,7 +358,7 @@ function Home() {
                 <img src={comment} alt="Comment" className="w-6" />
               </button>
             </div>
-            <p className="text-left font-semibold ml-1">
+            <p className="text-left font-semibold ml-1 cursor-pointer" onClick={() => handleliekduser(post._id)}>
               {post.likes?.length || 0} Badges
             </p>
             {commentPostId === post._id && (
@@ -337,7 +369,7 @@ function Home() {
                     placeholder=" comment"
                     value={CommentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
-                    className="w-64 ml-2 h-8 outline-0 "
+                    className="w-64 ml-2 h-8 outline-0"
                     style={{ textAlign: "left" }}
                   />
                   <button
@@ -354,14 +386,13 @@ function Home() {
                 )}
               </div>
             )}
-
             {commentPostId === post._id && (
               <div className="text-left my-2">
                 {post.comments?.map((comment: any, index: number) => (
                   <div key={index} className="flex mb-2 justify-between pr-3">
-                    <div className="">
+                    <div>
                       <Link to={`/profile/${comment.userData._id}`} className="flex">
-                        < img
+                        <img
                           src={comment.userData.avatar}
                           alt=""
                           className="w-7 h-7 rounded-full"
@@ -371,26 +402,23 @@ function Home() {
                         </p>
                       </Link>
                       <p>{comment.content}</p>
-                      <p>{comment._id}</p>
                     </div>
-                    {
-                      comment.userId === userId && (
-                        <div className="dropdown  text-xl text-gray-800">
-                          <button
-                            onClick={() => showOptions(post._id, comment._id)}
-                          >
-                            ...
-                          </button>
-                          {commentOptions && commentId == comment._id && (
-                            <div className='absolute  mt-1 bg-white shadow-md rounded-md p-1 text-xs'>
-                              <ul>
-                                <li className="cursor-pointer" onClick={() => handleDeleteComment(post._id, comment._id)}>Delete</li>
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    }
+                    {comment.userId === userId && (
+                      <div className="dropdown text-xl text-gray-800">
+                        <button
+                          onClick={() => showOptions(post._id, comment._id)}
+                        >
+                          ...
+                        </button>
+                        {commentOptions && commentId === comment._id && (
+                          <div className="absolute mt-1 bg-white shadow-md rounded-md p-1 text-xs">
+                            <ul>
+                              <li className="cursor-pointer" onClick={() => handleDeleteComment(post._id, comment._id)}>Delete</li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -400,6 +428,17 @@ function Home() {
       )
       }
       <ToastContainer />
+      <ConfirmationModal
+        show={showDeleteConfirmation}
+        onClose={() => setShowDeleteConfirmation(false)}
+        onConfirm={confirmDeleteComment}
+        message={"Are You sure You need to delete Comment"} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        userIds={modalUserIds}
+        title={modalTitle}
+      />
     </div >
   );
 }

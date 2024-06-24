@@ -11,28 +11,51 @@ interface ChatlistProps {
 
 function Chatlist({ onSelectChat }: ChatlistProps) {
     const userId = useSelector((store: RootState) => store.UserData.UserId);
-    const [chats, setChats] = useState([]);
+    const [chats, setChats] = useState<any[]>([]);
     const [onlineUsers, setOnlineUsers] = useState(new Set<string>());
 
     useEffect(() => {
         const getChats = async () => {
             try {
                 let response = await userAxios.get(`${endpoints.getChatlist}/${userId}`);
-                console.log(response.data);
-                setChats(response.data);
+                const sortedChats = response.data.sort((a: any, b: any) => {
+                    const updatedAtA = new Date(a.updatedAt).getTime();
+                    const updatedAtB = new Date(b.updatedAt).getTime();
+                    return updatedAtB - updatedAtA;
+                });
+                setChats(sortedChats);
             } catch (err) {
                 console.log(err, 'during chatlist');
             }
         };
+
         getChats();
+
         socket.on('onlineUsers', (users: string[]) => {
             setOnlineUsers(new Set(users));
         });
+
+        socket.on('sortChatlist', (chatId: any) => {
+            setChats((prevChats: any) => {
+                const updatedChats = prevChats.map((chat: any) => {
+                    if (chat._id == chatId) {
+                        return {
+                            ...chat,
+                            updatedAt: new Date(),
+                        };
+                    }
+                    return chat;
+                }).sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+                return updatedChats;
+            });
+        });
+
         socket.emit('getOnlineUsers');
+
         return () => {
             socket.off('onlineUsers');
+            socket.off('sortChatlist');
         };
-
     }, [userId]);
 
     return (

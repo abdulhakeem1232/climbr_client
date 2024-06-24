@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
-import ProfileSkeleton from '../skeleton/ProfileSkelton';
 import arrowDown from '../../../assets/arroeDown.png'
 import arrowUp from '../../../assets/arrowUp.png'
 import {
@@ -18,10 +17,9 @@ import ExperienceModal from './ExperienceModal';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../Redux/store/store";
 import ConfirmationModal from './ConfirmationModal';
-import { logout } from '../../../Redux/slice/UserSlice';
+import Modal from './UserListModal';
 import Cookies from 'js-cookie';
 import LoadingWave from './Spinner';
-
 
 const steps = [
     { title: 'Applied' },
@@ -30,7 +28,6 @@ const steps = [
 ]
 function Profile() {
     const navigate = useNavigate()
-    const dispatch = useDispatch
     const userId = useSelector((store: RootState) => store.UserData.UserId);
     const { id } = useParams<{ id?: string }>();
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -50,6 +47,9 @@ function Profile() {
     const [showModal, setshowModal] = useState(false)
     const [editedDescription, setEditedDescription] = useState('');
     const [editId, seteditId] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalUserIds, setModalUserIds] = useState<string[]>([]);
+    const [modalTitle, setModalTitle] = useState('');
     const [currentUserData, setCurrentUserData] = useState<any>([]);
     function getActiveStepIndex(status: string) {
         switch (status.toLowerCase()) {
@@ -68,13 +68,12 @@ function Profile() {
     const fetchData = async () => {
         try {
             let response = await userAxios.get(`${endpoints.userDetails}/${id}`)
-            console.log(response.data);
             setUserDetails(response.data);
+            console.log(response.data);
+
             if (!sameUser) {
                 let currentUserResponse = await userAxios.get(`${endpoints.userFollwings}/${userId}`); { }
                 setCurrentUserData(currentUserResponse.data.followings);
-                console.log(currentUserData, '============', currentUserResponse.data.followings);
-
             }
         } catch (error) {
             //@ts-ignore
@@ -91,6 +90,8 @@ function Profile() {
     useEffect(() => {
         if (userId === id) {
             setSameUser(true);
+        } else {
+            setSameUser(false);
         }
         fetchData();
     }, [id]);
@@ -105,7 +106,6 @@ function Profile() {
             if (!target.closest('.options')) {
                 setshowModal(false);
             }
-
         };
         window.addEventListener('click', handleClickOutside);
         return () => {
@@ -126,12 +126,20 @@ function Profile() {
                 )
             }));
             let response = await userAxios.put(`${endpoints.editpost}/${postId}`, { description })
-            console.log(response.data);
         } catch (err) {
             console.log('Error during edit', err);
-
         }
     }
+    const handleFollowersClick = () => {
+        setModalUserIds(userDetails?.followers || []);
+        setModalTitle('Followers');
+        setIsModalOpen(true);
+    };
+    const handleFollowingsClick = () => {
+        setModalUserIds(userDetails?.following || []);
+        setModalTitle('Followings');
+        setIsModalOpen(true);
+    };
     const handleDelete = async (postId: string) => {
         setPostIdToDelete(postId);
         setShowConfirmation(true);
@@ -151,14 +159,19 @@ function Profile() {
         {/* @ts-ignore */ }
         if (currentUserData?.includes(id)) {
             setCurrentUserData((prevData: any[]) => prevData.filter((userId: string | undefined) => userId !== id));
+            setUserDetails((prevState: any) => ({
+                ...prevState,
+                followers: prevState.followers.filter((userId: string) => userId !== userId),
+            }));
             const response = await userAxios.get(`${endpoints.unfollow}/${userId}/${id}`)
-            console.log('unfolow', response.data);
-
         } else {
             {/* @ts-ignore */ }
             setCurrentUserData(prevData => [...prevData, id]);
+            setUserDetails((prevState: any) => ({
+                ...prevState,
+                followers: prevState.followers ? [...prevState.followers, userId] : [userId],
+            }));
             const response = await userAxios.get(`${endpoints.follow}/${userId}/${id}`);
-            console.log(response.data, 'else follow');
         }
     }
     const cancelDelete = () => {
@@ -168,26 +181,20 @@ function Profile() {
         setShowConfirmation(false);
         setshowModal(false);
         let postId = postIdToDelete
-
         try {
             setUserDetails((prevState: { postData: any[]; }) => {
                 const updatedPosts = prevState.postData.filter((post: any) => post._id !== postId);
                 return { ...prevState, postData: updatedPosts };
             });
             let response = await userAxios.post(endpoints.deletePost, { postId })
-            console.log(response.data);
         } catch (err) {
             console.log('Error during delete', err);
-
         }
     };
-
-
     return (
         <div className='w-full text-left mb-10'>
             {
                 userDetails == null ? <LoadingWave /> :
-
                     < div className='w-3/5 ml-2' >
                         <div className='bg-white rounded-lg shadow-md border-2 '>
                             <div className='relative '>
@@ -209,9 +216,7 @@ function Profile() {
                             <SkillsModal isOpen={skillsModal} onClose={() => setSkillsModal(false)} fetchProfileData={fetchData} />
                             <EducationModal isOpen={educationModal} onClose={() => setEducationModal(false)} fetchProfileData={fetchData} />
                             <ExperienceModal isOpen={experienceModal} onClose={() => setExeperienceModal(false)} fetchProfileData={fetchData} />
-
                             <div className='px-6 relative pb-3'>
-
                                 <div className='my-auto'>
                                     <div className='font-semibold mt-14'>
                                         {userDetails.username}
@@ -236,9 +241,14 @@ function Profile() {
                                         )}
                                     </div>
                                 </div>
-                                <div>Followings {currentUserData?.followings?.length || 0}</div>
-                                <div>Followers {currentUserData?.followers?.length || 0}</div>
-
+                                <div onClick={handleFollowingsClick} className='cursor-pointer'>Followings {userDetails?.following?.length || 0}</div>
+                                <div onClick={handleFollowersClick} className='cursor-pointer'>Followers {userDetails?.followers?.length || 0}</div>
+                                <Modal
+                                    isOpen={isModalOpen}
+                                    onClose={() => setIsModalOpen(false)}
+                                    userIds={modalUserIds}
+                                    title={modalTitle}
+                                />
                                 {sameUser && (
                                     <img src={edit} alt="" className='absolute w-6 cursor-pointer right-1 bottom-1' onClick={() => setProfileModal(true)} />
                                 )}
@@ -255,11 +265,8 @@ function Profile() {
                                                     {job.jobData.jobrole} at {job.jobData.companyname}
                                                     <Stepper index={getActiveStepIndex(job.status)} >
                                                         {steps.map((step, stepIndex) => {
-
                                                             const isActive = getActiveStepIndex(job.status) === stepIndex;
-
                                                             const isCompleted = isActive || (stepIndex <= getActiveStepIndex(job.status));
-
                                                             return (
                                                                 <Step key={index} >
                                                                     <StepIndicator>
@@ -309,7 +316,6 @@ function Profile() {
                                                 </div>
                                             </div>
                                         ))}
-
                                 </div>
                                 {userDetails.appliedJobs?.length > 2 && (
                                     <button onClick={() => setShowAllAppliedJobs(!showAllAppliedJobs)} className='mt-2 flex mx-auto'>
@@ -483,20 +489,11 @@ function Profile() {
                                 </div>
                             )}
                         </div>
-                        <ConfirmationModal
-                            show={showConfirmation}
-                            onClose={cancelDelete}
-                            onConfirm={confirmDelete}
-                            message="Are you sure you want to delete this Post?"
+                        <ConfirmationModal show={showConfirmation} onClose={cancelDelete} onConfirm={confirmDelete} message="Are you sure you want to delete this Post?"
                         />
-
                     </div >
-
-
             }
         </div >
-
-
     )
 }
 

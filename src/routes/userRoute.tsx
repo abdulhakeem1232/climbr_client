@@ -16,6 +16,7 @@ import ProfilePage from "../pages/user/Profile";
 import Message from "../pages/user/Message";
 import VideoCall from "../pages/user/VideoCall";
 import LoadingWave from "../components/user/home/Spinner";
+import Sampl from "../components/user/home/Sampl";
 
 const UserRoutes = () => {
     const [loading, setLoading] = useState(true);
@@ -31,6 +32,8 @@ const UserRoutes = () => {
             <Route path='/landing' element={<LandingPage />} />
             <Route path='/videoCall/:roomId' element={<VideoCall />} />
             <Route path='/loading' element={<LoadingWave />} />
+            <Route path='/sample' element={<Sampl />} />
+
 
             <Route element={<PublicRoute />}>
                 <Route path='/register' element={<SignupPage />} />

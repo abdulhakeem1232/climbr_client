@@ -6,9 +6,10 @@ import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/store/store';
 import videocall from '../../../assets/videocall.png';
-import Add from '../../../assets/add.png'
+import Add from '../../../assets/add.png';
 import { format, isToday, isYesterday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
+
 interface Message {
     chatId: string;
     name: string;
@@ -38,7 +39,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
     const [showFileOptions, setShowFileOptions] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedFileType, setSelectedFileType] = useState<string | null>(null);
-    const userId = useSelector((store: RootState) => store.UserData.UserId);
+    const userId: string | null = useSelector((store: RootState) => store.UserData.UserId);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -54,7 +55,6 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
             fetchMessages();
 
             socket.on('message', (message: Message) => {
-                console.log("New Message Received", message, chatId, '-----', message.chatId);
                 if (message.chatId == chatId) {
                     setMessages(prevMessages => [...prevMessages, message]);
                     if (message.sender !== userId) {
@@ -84,7 +84,6 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
             formData.append('file', selectedFile);
             formData.append('sender', userId || '');
             formData.append('chatId', chatId);
-            console.log('000', formData);
             try {
                 const response = await userAxios.post(endpoints.sendFiles, formData, {
                     headers: {
@@ -94,16 +93,12 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
 
                 filePath = response.data.filePath;
                 fileType = response.data.fileType;
-                console.log('resposnepost', response.data);
-
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
         }
-        if (selectedFile || message.trim() != "") {
+        if (selectedFile || message.trim() !== "") {
             socket.emit('sendMessage', { chatId, userId, message, filePath, fileType });
-            console.log('sended');
-
             setMessage('');
             setSelectedFile(null);
             setSelectedFileType(null);
@@ -121,6 +116,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
         setMessage(prevMessage => prevMessage + emoji.native);
         setShowEmojiPicker(false);
     };
+
     const groupedMessages: GroupedMessages = messages.reduce((acc: GroupedMessages, message) => {
         const messageDate = format(new Date(message.createdAt), 'yyyy-MM-dd');
         if (!acc[messageDate]) {
@@ -140,6 +136,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
             return format(parsedDate, 'MMMM d, yyyy');
         }
     };
+
     const handleFileOptionClick = (fileType: string) => {
         const fileInput = document.getElementById('file-input') as HTMLInputElement;
         fileInput.accept = fileType === 'image' ? 'image/*' : fileType === 'video' ? 'video/*' : '*/*';
@@ -147,6 +144,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
         fileInput.click();
         setShowFileOptions(false);
     };
+
     return (
         <div className='flex flex-col min-h-screen max-h-screen p-4 shadow-lg rounded-lg w-full bg-white'>
             <div className='flex items-center mb-4 bg-gray-100 p-2 rounded-lg'>
@@ -155,7 +153,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
                     alt={`${username}'s avatar`}
                     className='w-10 h-10 rounded-full mr-4'
                 />
-                <div>
+                <div className='text-left'>
                     <h2 className='text-xl font-bold'>{username}</h2>
                     <span className='text-sm text-gray-500'>{lastlogged}</span>
                 </div>
@@ -175,9 +173,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
                                 {message.fileType?.startsWith('image/') && <img src={`${message.filePath}`} alt='sent image' className='max-w-xs max-h-40 mb-2' />}
                                 {message.fileType?.startsWith('video/') && <video src={`${message.filePath}`} controls className='max-w-xs max-h-40 mb-2'></video>}
                                 {message.fileType && !message.fileType.startsWith('image/') && !message.fileType.startsWith('video/') && (
-                                    <a href={`
-                                    
-                                    ${message.filePath}`} download className='text-blue-500 underline'>
+                                    <a href={`${message.filePath}`} download className='text-blue-500 underline'>
                                         Download file
                                     </a>
                                 )}
