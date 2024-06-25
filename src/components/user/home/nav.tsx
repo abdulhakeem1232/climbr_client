@@ -1,8 +1,7 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import logo from '../../../assets/logo.png';
 import chats from '../../../assets/chats.png';
 import profile from '../../../assets/profile.png';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
 import { useSelector, useDispatch } from 'react-redux';
@@ -55,6 +54,11 @@ function Nav() {
         setSearch(value);
         debouncedFetchSearchedUsers(value);
     };
+    const handleUserClick = (userId: string) => {
+        setSearch('');
+        setSearchedUser([]);
+        navigate(`/profile/${userId}`);
+    };
 
     return (
         <div className="bg-white shadow-md h-16 mt-2 flex items-center justify-between px-28  py-2">
@@ -75,7 +79,7 @@ function Nav() {
                         <div
                             key={user._id}
                             className="p-2 flex items-center cursor-pointer hover:bg-gray-200"
-                            onClick={() => navigate(`/profile/${user._id}`)}
+                            onClick={() => handleUserClick(user._id)}
                         >
                             <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-full" />
                             <div className="ml-2">

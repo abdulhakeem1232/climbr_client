@@ -153,6 +153,7 @@ function Home() {
                                         <li>{user.name}</li>
                                         <li>{user.email}</li>
                                         <li>{user.mobile}</li>
+                                        <li>{user.status == "Applied" && <button> Reject</button> && <button>Shortlist</button>}</li>
                                         <span onClick={() => handlePdfDownload(user.cv)} style={{ cursor: 'pointer' }}>
                                             Download CV
                                         </span>
@@ -186,14 +187,15 @@ function Home() {
                         </button>
                     </div>
                 </div>
-            )}
+            )
+            }
             <ConfirmationModal
                 show={showConfirmation}
                 onClose={closeConfirmationModal}
                 onConfirm={handleDelete}
                 message="Are you sure you want to delete this job post?"
             />
-        </div>
+        </div >
     );
 }
 

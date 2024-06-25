@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { adminAxios, adminendpoints } from '../../../endpoints/adminendpoints'
 import Delete from '../../../assets/delete.png'
 import Navigate from '../../../assets/naigateDown.png'
+import ConfirmationModal from '../../user/home/ConfirmationModal'
 
 function Post() {
     const [posts, setPosts] = useState<any[]>([])
     const [report, setReport] = useState('')
+    const [postId, setPostId] = useState('')
+    const [showModal, setShowModal] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
             let response = await adminAxios.get(adminendpoints.post)
@@ -14,11 +17,23 @@ function Post() {
         }
         fetchData();
     }, [])
-    const handleDelete = (postId: string) => {
+    const handleDelete = async () => {
+        try {
+            let response = await adminAxios.delete(`${adminendpoints.deletePost}/${postId}`)
+            console.log(response.data);
+            setShowModal(false)
+            setPosts(prevState => prevState.filter(post => post._id !== postId))
+        } catch (error) {
+            console.log("Error While Deleting Reported Post :", error);
+        }
 
     }
     const handleclick = (postId: string) => {
         setReport(prevId => (prevId === postId ? '' : postId))
+    }
+    const handleConfirmation = (postId: string) => {
+        setShowModal(true);
+        setPostId(postId);
     }
     return (
         <div>
@@ -29,7 +44,7 @@ function Post() {
                             <span className='font-semibold text-lg'> No of Reports:{post.reported.length}</span>
                             <div className="flex justify-end mt-2">
 
-                                <img src={Delete} alt="" className='w-6 h-6 ml-2 cursor-pointer' onClick={() => handleDelete(post._id)} />
+                                <img src={Delete} alt="" className='w-6 h-6 ml-2 cursor-pointer' onClick={() => handleConfirmation(post._id)} />
                             </div>
                             <span className='font-bold text-lg flex'>
                                 ({post.reported?.length || 0})
@@ -58,6 +73,11 @@ function Post() {
                     </div>
                 ))}
             </div>}
+            <ConfirmationModal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                onConfirm={handleDelete}
+                message={"Are You sure You need to Delete Post"} />
         </div>
     )
 }

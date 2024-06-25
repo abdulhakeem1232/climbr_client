@@ -53,7 +53,6 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
                 }
             };
             fetchMessages();
-
             socket.on('message', (message: Message) => {
                 if (message.chatId == chatId) {
                     setMessages(prevMessages => [...prevMessages, message]);

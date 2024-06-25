@@ -29,6 +29,8 @@ export const endpoints = {
   follow: `${API_GATEWAY_BASE_URL}/follow`,
   unfollow: `${API_GATEWAY_BASE_URL}/unfollow`,
   searchUser: `${API_GATEWAY_BASE_URL}/SearchUser`,
+  getSuggestion: `${API_GATEWAY_BASE_URL}/suggestion`,
+
 
   createpost: `${API_GATEWAY_BASE_URL}/post/createpost`,
   getPost: `${API_GATEWAY_BASE_URL}/post/getall`,
