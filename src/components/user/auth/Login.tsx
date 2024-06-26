@@ -44,16 +44,12 @@ function Login() {
       }
       if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
         dispatch(loginData(response.data.user))
-        console.log('user');
         socket.emit('join', response.data.user._id);
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
-        console.log('validate recr');
-
         dispatch(loginData(response.data.user))
         socket.emit('join', response.data.user._id);
         navigate('/recruiter/home')
-
       } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {
         dispatch(loginData(response.data.user))
         navigate('/admin/dashboard')
@@ -74,13 +70,10 @@ function Login() {
     credentialResponse: CredentialResponse
   ) => {
     const { credential } = credentialResponse;
-    console.log('leajdc', credential);
     try {
       const response = await userAxios.post("/google-login", {
         credential,
       });
-      console.log('wehfblwe', response);
-
       if (response) {
         navigate("/home");
       } else {

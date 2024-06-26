@@ -152,11 +152,11 @@ function Home() {
                                     <ul className='flex justify-between w-full items-center text-left font-semibold mt-2 bg-gray-50 p-3 shadow-lg rounded-md'>
                                         <li>{user.name}</li>
                                         <li>{user.email}</li>
-                                        <li>{user.mobile}</li>
-                                        <li>{user.status == "Applied" && <button> Reject</button> && <button>Shortlist</button>}</li>
                                         <span onClick={() => handlePdfDownload(user.cv)} style={{ cursor: 'pointer' }}>
                                             Download CV
                                         </span>
+                                        <li>{user.status == "Applied" && <> <button className='bg-red-500 mr-2 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md'> Reject</button>
+                                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded-md'>Shortlist</button></>}</li>
                                     </ul>
                                 </div>
                             ))}

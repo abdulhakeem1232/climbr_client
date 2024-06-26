@@ -9,7 +9,7 @@ import videocall from '../../../assets/videocall.png';
 import Add from '../../../assets/add.png';
 import { format, isToday, isYesterday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-
+import { useWebRTC } from '../../../Context/WebRTCContext';
 interface Message {
     chatId: string;
     name: string;
@@ -41,7 +41,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
     const [selectedFileType, setSelectedFileType] = useState<string | null>(null);
     const userId: string | null = useSelector((store: RootState) => store.UserData.UserId);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
+    const { startCall } = useWebRTC()
     useEffect(() => {
         if (chatId) {
             const fetchMessages = async () => {
@@ -156,7 +156,7 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
                     <h2 className='text-xl font-bold'>{username}</h2>
                     <span className='text-sm text-gray-500'>{lastlogged}</span>
                 </div>
-                <img src={videocall} alt="" className='w-8 ml-auto mr-2 cursor-pointer' />
+                <img src={videocall} alt="" className='w-8 ml-auto mr-2 cursor-pointer' onClick={() => startCall(id)} />
             </div>
             <ul className='flex-1 p-4 list-none m-0 overflow-y-scroll no-scrollbar'>
                 {Object.keys(groupedMessages).map(date => (
