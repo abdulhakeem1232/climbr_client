@@ -20,6 +20,7 @@ const VideoCallModal: React.FC<VideoCallModalProps> = ({ localStream, remoteStre
             remoteVideoRef.current.srcObject = remoteStream;
         }
     }, [localStream, remoteStream]);
+
     const toggleCamera = () => {
         if (localStream) {
             localStream.getVideoTracks().forEach(track => {
