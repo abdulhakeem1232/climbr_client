@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../../../Redux/store/store';
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import SuggestionSkeleton from '../skeleton/SuggestionSkeleton';
+import { userAxios } from '../../../utils/Config';
 
 const Suggestion: React.FC = React.memo(() => {
     const [suggestedUsers, setSuggestedUsers] = useState<any[]>([])

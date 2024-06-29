@@ -9,9 +9,10 @@ import Button from '@mui/material/Button'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useForm } from 'react-hook-form';
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
-import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
 import { styled } from '@mui/material/styles';
+import { userAxios, recruiterAxios } from '../../../utils/Config';
 
 type FormValues = {
   username: string;

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
+import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/store/store';
 import Navigate from '../../../assets/naigateDown.png';
 import Edit from '../../../assets/edit.png';
 import Delete from '../../../assets/delete.png';
 import ConfirmationModal from '../../user/home/ConfirmationModal';
+import { recruiterAxios } from '../../../utils/Config';
 
 function Home() {
     const [jobpost, setJobPost] = useState<any[]>([]);

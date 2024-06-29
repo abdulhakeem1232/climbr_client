@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { userAxios, endpoints } from "../../../endpoints/userEndpoint";
+import { endpoints } from "../../../endpoints/userEndpoint";
+import { userAxios } from '../../../utils/Config';
 import like from "../../../assets/like.png";
 import dislike from "../../../assets/dislike.png";
 import comment from "../../../assets/comment.png";

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint'
+import { endpoints } from '../../../endpoints/userEndpoint'
 import JobSkeleton from '../skeleton/JobSkeleton';
 import { useNavigate } from 'react-router-dom';
+import { userAxios } from '../../../utils/Config';
 // @ts-ignore
 import { debounce } from 'lodash';
 // @ts-ignore
 import Card from 'react-bootstrap/Card';
-import {  useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/slice/UserSlice';
 import Cookies from 'js-cookie';
 

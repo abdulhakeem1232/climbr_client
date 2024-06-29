@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { logout } from '../../../Redux/slice/UserSlice';
 import Cookies from 'js-cookie';
+import { userAxios } from '../../../utils/Config';
 
 const style = {
     position: 'absolute' as 'absolute',

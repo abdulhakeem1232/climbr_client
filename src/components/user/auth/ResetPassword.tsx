@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import logo from "../../../assets/logo.png"
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form'
+import { userAxios } from '../../../utils/Config';
+
 
 
 type FormValues = {

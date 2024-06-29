@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/store/store';
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import socket from '../../../utils/socket/Socket';
 import { formatDistanceToNow } from 'date-fns';
+import { userAxios } from '../../../utils/Config';
 
 interface ChatlistProps {
     onSelectChat: (chatId: string, avatar: string, username: string, id: string, lastlogged: string) => void;

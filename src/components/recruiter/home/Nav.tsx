@@ -3,9 +3,10 @@ import logo from '../../../assets/logo.png'
 import chats from '../../../assets/chats.png'
 import profile from '../../../assets/profile.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint'
+import { endpoints } from '../../../endpoints/userEndpoint'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
+import { userAxios } from '../../../utils/Config'
 
 
 

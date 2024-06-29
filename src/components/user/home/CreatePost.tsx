@@ -6,7 +6,8 @@ import Button from '@mui/material/Button';
 import profile from '../../../assets/profile.png'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { userAxios } from '../../../utils/Config';
 
 interface CreatePostProps {
     setIsLoading: (isLoading: boolean) => void;

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import imageIcon from '../../../assets/ImageIcon.png'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import { RootState } from "../../../Redux/store/store";
 import { useSelector } from "react-redux";
 import Loader from './FormSpinner';
+import { userAxios } from '../../../utils/Config';
 
 interface BannerModalProps {
     isOpen: boolean;

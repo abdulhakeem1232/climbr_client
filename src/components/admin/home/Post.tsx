@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { adminAxios, adminendpoints } from '../../../endpoints/adminendpoints'
+import { adminendpoints } from '../../../endpoints/adminendpoints'
 import Delete from '../../../assets/delete.png'
 import Navigate from '../../../assets/naigateDown.png'
 import ConfirmationModal from '../../user/home/ConfirmationModal'
+import { adminAxios } from '../../../utils/Config'
 
 function Post() {
     const [posts, setPosts] = useState<any[]>([])

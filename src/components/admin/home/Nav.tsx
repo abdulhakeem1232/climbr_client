@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Logo from '../../../assets/logo.png'
 import { CgProfile } from "react-icons/cg";
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
+import { userAxios } from '../../../utils/Config';
 
 function Nav() {
     const [showOptions, setShowOptions] = useState(false);

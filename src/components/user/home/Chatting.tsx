@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 import socket from '../../../utils/socket/Socket';
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/store/store';
 import videocall from '../../../assets/videocall.png';
@@ -10,6 +10,7 @@ import Add from '../../../assets/add.png';
 import { format, isToday, isYesterday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
 import { useWebRTC } from '../../../Context/WebRTCContext';
+import { userAxios } from '../../../utils/Config';
 interface Message {
     chatId: string;
     name: string;

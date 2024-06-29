@@ -6,10 +6,11 @@ import ImageIcon from '../../../assets/ImageIcon.png'
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
+import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { useNavigate, useParams } from 'react-router-dom';
+import { recruiterAxios } from '../../../utils/Config';
 
 function EditJob() {
     const form = useForm()

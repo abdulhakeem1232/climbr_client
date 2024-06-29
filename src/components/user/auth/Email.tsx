@@ -4,8 +4,9 @@ import Typography from '@mui/material/Typography';
 import logo from "../../../assets/logo.png"
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
+import { userAxios } from '../../../utils/Config';
 
 type FormValues = {
     email: string;

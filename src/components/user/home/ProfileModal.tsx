@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Loader from '../home/FormSpinner'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { userAxios } from '../../../utils/Config';
 import { RootState } from "../../../Redux/store/store";
 import { useSelector } from "react-redux";
 

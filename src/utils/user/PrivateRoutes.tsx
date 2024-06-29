@@ -1,7 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { useState, useEffect } from 'react';
-import { userAxios, endpoints } from "../../endpoints/userEndpoint";
+import { endpoints } from "../../endpoints/userEndpoint";
+import { userAxios } from "../Config";
 
 const PrivateRoute = () => {
 

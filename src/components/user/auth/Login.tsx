@@ -6,14 +6,15 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
-import { endpoints, userAxios, } from '../../../endpoints/userEndpoint';
-import { recruiterendpoints, recruiterAxios } from '../../../endpoints/recruiterEndpoints'
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints'
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch } from 'react-redux';
 import { loginData } from '../../../Redux/slice/UserSlice';
 import { useSelector } from 'react-redux';
+import { userAxios, recruiterAxios } from '../../../utils/Config';
 import socket from '../../../utils/socket/Socket';
 
 type FormValues = {

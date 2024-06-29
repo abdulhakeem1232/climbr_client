@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import logo from "../../../assets/logo.png"
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
-import { recruiterAxios, recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
+import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
 import Cookies from 'js-cookie';
+import { userAxios, recruiterAxios } from '../../../utils/Config';
 
 
 function Otp() {

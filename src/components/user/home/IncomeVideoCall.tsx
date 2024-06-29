@@ -26,11 +26,13 @@ const IncomingCallNotification: React.FC<IncomingCallNotificationProps> = ({ cal
 
 const GlobalIncomingCallHandler: React.FC = () => {
     const { acceptCall, endCall } = useWebRTC();
-    const [incomingCall, setIncomingCall] = useState<{ from: string, offer: RTCSessionDescriptionInit } | null>(null);
+    const [incomingCall, setIncomingCall] = useState<{
+        fromId: string; from: string, offer: RTCSessionDescriptionInit
+    } | null>(null);
     const userId = useSelector((store: RootState) => store.UserData.UserId) || '';
 
     useEffect(() => {
-        socket.on('incomingCall', (data: { from: string, offer: RTCSessionDescriptionInit }) => {
+        socket.on('incomingCall', (data: { from: string, offer: RTCSessionDescriptionInit, fromId: string }) => {
             console.log('incoming call', data);
             setIncomingCall(data);
         });
@@ -42,7 +44,7 @@ const GlobalIncomingCallHandler: React.FC = () => {
 
     const handleAccept = () => {
         if (incomingCall) {
-            acceptCall(userId, incomingCall.from, incomingCall.offer);
+            acceptCall(userId, incomingCall.fromId, incomingCall.offer);
             setIncomingCall(null);
         }
     };

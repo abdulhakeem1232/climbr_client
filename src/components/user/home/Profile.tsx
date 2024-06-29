@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { userAxios } from '../../../utils/Config';
+import { endpoints } from '../../../endpoints/userEndpoint';
 import arrowDown from '../../../assets/arroeDown.png'
 import arrowUp from '../../../assets/arrowUp.png'
 import {

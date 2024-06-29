@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { userAxios } from '../../../utils/Config';
 
 interface ModalProps {
     isOpen: boolean;

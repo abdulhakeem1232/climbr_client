@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SideprofileShimmer from '../skeleton/Sideprofile';
 import { RootState } from '../../../Redux/store/store';
-import { userAxios, endpoints } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { userAxios } from '../../../utils/Config';
 
 function Profile() {
     const userId = useSelector((store: RootState) => store.UserData.UserId);

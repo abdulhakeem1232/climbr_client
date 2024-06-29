@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/store/store';
-import { endpoints, userAxios } from '../../../endpoints/userEndpoint';
+import { endpoints } from '../../../endpoints/userEndpoint';
+import { userAxios } from '../../../utils/Config';
 
 interface BannerModalProps {
     isOpen: boolean;

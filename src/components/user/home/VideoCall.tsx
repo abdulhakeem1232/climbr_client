@@ -16,10 +16,13 @@ const VideoCallModal: React.FC<VideoCallModalProps> = ({ localStream, remoteStre
         if (localVideoRef.current && localStream) {
             localVideoRef.current.srcObject = localStream;
         }
+    }, [localStream]);
+
+    useEffect(() => {
         if (remoteVideoRef.current && remoteStream) {
             remoteVideoRef.current.srcObject = remoteStream;
         }
-    }, [localStream, remoteStream]);
+    }, [remoteStream]);
 
     const toggleCamera = () => {
         if (localStream) {
@@ -42,7 +45,7 @@ const VideoCallModal: React.FC<VideoCallModalProps> = ({ localStream, remoteStre
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="relative w-full h-full flex items-center justify-center bg-black">
-                <video ref={remoteVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
+                <video ref={remoteVideoRef} autoPlay playsInline className="object-cover h-full w-full " />
                 <video
                     ref={localVideoRef}
                     autoPlay
