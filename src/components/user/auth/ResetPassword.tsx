@@ -8,12 +8,9 @@ import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form'
 import { userAxios } from '../../../utils/Config';
 
-
-
 type FormValues = {
     password: string;
     confirmpassword: string;
-
 }
 
 function ResetPassword() {

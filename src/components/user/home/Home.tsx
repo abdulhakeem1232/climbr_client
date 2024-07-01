@@ -165,7 +165,7 @@ function Home() {
             },
             content: CommentContent,
             userId: userId,
-            _id: result.data?.comments[result.data?.comments.length - 1]._id,
+            _id: result.data?.comments[result.data?.comments?.length - 1]._id,
           });
 
           return {
@@ -316,7 +316,7 @@ function Home() {
             </div>
             <div className="text-left my-2 flex">
               <p className="ml-2">
-                {post.description.length > maxLength && !showFullDescription ? (
+                {post.description?.length > maxLength && !showFullDescription ? (
                   <>
                     {post.description.substring(0, maxLength)}...
                     <span
@@ -330,7 +330,7 @@ function Home() {
                 ) : (
                   <>
                     {post.description}
-                    {post.description.length > maxLength &&
+                    {post.description?.length > maxLength &&
                       showFullDescription && (
                         <span
                           className="text-slate-500 cursor-pointer"

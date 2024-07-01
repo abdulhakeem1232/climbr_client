@@ -10,4 +10,9 @@ export const adminendpoints = {
     approveRecruiter: `${API_GATEWAY_BASE_URL}/approve`,
     post: `${API_GATEWAY_BASE_URL}/reportedpost`,
     deletePost: `${API_GATEWAY_BASE_URL}/post`,
+    userReport: `${API_GATEWAY_BASE_URL}/userReport`,
+    recruiterReport: `${API_GATEWAY_BASE_URL}/recruiterReport`,
+    postReport: `${API_GATEWAY_BASE_URL}/postReport`,
+    jobReport: `${API_GATEWAY_BASE_URL}/jobReport`,
+
 };

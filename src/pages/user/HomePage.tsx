@@ -28,9 +28,9 @@ function HomePage() {
                         <LazyHome />
                     </Suspense>
                 </div>
-                <div className='w-full md:w-1/4 hidden md:block lg:block'>
+                {/* <div className='w-full md:w-1/4 hidden md:block lg:block'>
                     <Suggestion />
-                </div>
+                </div> */}
             </div >
             <MiddleBar />
         </div >

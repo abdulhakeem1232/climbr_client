@@ -34,7 +34,7 @@ const Suggestion: React.FC = React.memo(() => {
                     ))}
                 </div>
             ) :
-                suggestedUsers.length > 0 ? (
+                suggestedUsers?.length > 0 ? (
                     suggestedUsers.map((user) => (
                         <div key={user._id} className="p-1 flex items-center">
                             <img src={user.avatar} alt={user.username} className="w-6 h-6 rounded-full" />

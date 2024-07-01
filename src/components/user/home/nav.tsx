@@ -97,7 +97,7 @@ function Nav() {
                     <li className="mr-8 font-semibold">
                         <Link to="/home">Home</Link>
                     </li>
-                    <li className="mr-8 font-semibold">Notification</li>
+                    {/* <li className="mr-8 font-semibold">Notification</li> */}
                     <li className="mr-8 font-semibold">
                         <Link to="/job">Jobs</Link>
                     </li>
