@@ -11,7 +11,6 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useForm } from 'react-hook-form';
 import { endpoints } from '../../../endpoints/userEndpoint';
 import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
-import { styled } from '@mui/material/styles';
 import { userAxios, recruiterAxios } from '../../../utils/Config';
 
 type FormValues = {
@@ -59,7 +58,6 @@ function Signup() {
 
       const response = await recruiterAxios.post(recruiterendpoints.register, data)
       console.log('User ot sended successfully:', response.data, response);
-
 
       if (response.data.success) {
         sessionStorage.removeItem('otpTimer');

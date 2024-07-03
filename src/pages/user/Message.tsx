@@ -27,6 +27,9 @@ function Message() {
             <Toaster position="top-center" richColors />
             < div className='flex  justify-start px-1 md:px-28 lg:px-60 mt-2 bg-gray-50' >
                 <Chatlist onSelectChat={handleSelectChat} />
+                {selectedChat == null && <div className="flex items-center justify-center w-full min:h-screen bg-white rounded-lg shadow">
+                    <p className="text-gray-500">Select a chat to start messaging</p>
+                </div>}
                 {selectedChat && <Chatting chatId={selectedChat.chatId} avatar={selectedChat.avatar} username={selectedChat.username} id={selectedChat.id} lastlogged={selectedChat.lastlogged} />}
             </div >
         </div>

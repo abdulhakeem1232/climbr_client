@@ -97,19 +97,17 @@ function Nav() {
                     <li className="mr-8 font-semibold">
                         <Link to="/home">Home</Link>
                     </li>
-                    {/* <li className="mr-8 font-semibold">Notification</li> */}
+
                     <li className="mr-8 font-semibold">
                         <Link to="/job">Jobs</Link>
+                    </li>
+                    <li className="mr-8 font-semibold">
+                        <Link to="/chats">Chats</Link>
                     </li>
                 </ul>
             </div>
 
             <div className="flex items-center">
-                <h4 className="mr-4">
-                    <Link to="/chats">
-                        <img src={chats} alt="Chats" className="w-7" />
-                    </Link>
-                </h4>
                 <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="relative">
                     <h4>
                         <img src={avatar || profile} alt="Profile" className="w-9 cursor-pointer rounded-full" />

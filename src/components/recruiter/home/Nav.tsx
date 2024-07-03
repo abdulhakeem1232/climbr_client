@@ -41,9 +41,9 @@ function Nav() {
                             {/* <img src={home} alt="" className="w-7" /> */}
                             Home
                         </Link></li >
-                        <li className='mr-5'><Link to='/recruiter/network'>
+                        <li className='mr-5'><Link to='/recruiter/postedJobs'>
                             {/* <img src={network} alt="" className="w-7" /> */}
-                            Network
+                            Posetd Jobs
                         </Link>
                         </li>
                         <li className='mr-5'><Link to="/recruiter/newJob">

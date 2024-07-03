@@ -1,11 +1,11 @@
 import React from 'react'
-import Dashboard from '../../components/recruiter/home/Dashboard'
+import Jobs from '../../components/recruiter/home/PostedJobs'
 import Nav from '../../components/recruiter/home/Nav'
 function HomePage() {
     return (
         <div>
             <Nav />
-            <Dashboard />
+            <Jobs />
         </div>
     )
 }

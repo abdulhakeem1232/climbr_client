@@ -10,7 +10,11 @@ export const recruiterendpoints = {
   getjob: `${API_GATEWAY_BASE_URL}/job/getjob`,
   deletejob: `${API_GATEWAY_BASE_URL}/job/deletejob`,
   getSinglejob: `${API_GATEWAY_BASE_URL}/job/singlejob`,
-  updatejob: `${API_GATEWAY_BASE_URL}/job/updatejob`
+  updatejob: `${API_GATEWAY_BASE_URL}/job/updatejob`,
+  applicantChart: `${API_GATEWAY_BASE_URL}/job/applicantChart`,
+  getApplicant: `${API_GATEWAY_BASE_URL}/job/getApplicant`,
+
+
 
 
 

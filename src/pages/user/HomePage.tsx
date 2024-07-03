@@ -4,7 +4,7 @@ import MiddleBar from '../../components/user/home/MiddleBar';
 import Profile from '../../components/user/home/SideProfile';
 import Suggestion from '../../components/user/home/Suggestion';
 import CreatePost from '../../components/user/home/CreatePost';
-import ShimmerHome from '../../components/user/skeleton/ShimmerHome';
+import ShimmerHome from '../../components/skeleton/ShimmerHome';
 import DotSpinner from '../../components/user/home/FormSpinner'
 
 const LazyHome = React.lazy(() => import('../../components/user/home/Home'));
@@ -28,9 +28,9 @@ function HomePage() {
                         <LazyHome />
                     </Suspense>
                 </div>
-                {/* <div className='w-full md:w-1/4 hidden md:block lg:block'>
+                <div className='w-full md:w-1/4 hidden md:block lg:block'>
                     <Suggestion />
-                </div> */}
+                </div>
             </div >
             <MiddleBar />
         </div >

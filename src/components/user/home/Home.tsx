@@ -5,7 +5,7 @@ import { userAxios } from '../../../utils/Config';
 import like from "../../../assets/like.png";
 import dislike from "../../../assets/dislike.png";
 import comment from "../../../assets/comment.png";
-import ShimmerHome from "../skeleton/ShimmerHome";
+import ShimmerHome from "../../skeleton/ShimmerHome";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import SideprofileShimmer from '../skeleton/Sideprofile';
+import SideprofileShimmer from '../../skeleton/Sideprofile';
 import { RootState } from '../../../Redux/store/store';
 import { endpoints } from '../../../endpoints/userEndpoint';
 import { userAxios } from '../../../utils/Config';
@@ -29,7 +29,7 @@ function Profile() {
         return <div><SideprofileShimmer /></div>;
     }
     return (
-        <div className='lg:ml-10 mt-2 hidden min-h-screen sm:block border border-solid rounded-lg shadow-md bg-white'>
+        <div className='lg:ml-10 mt-2 hidden sm:block border border-solid rounded-lg shadow-md bg-white pb-5'>
             <div className='relative p-1'>
                 {userDetails && (
                     <img src={userDetails.banner} alt="User Banner" className='rounded-md w-full h-auto' />
