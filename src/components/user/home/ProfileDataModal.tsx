@@ -16,13 +16,6 @@ const ProfileDataModal: React.FC<BannerModalProps> = ({ isOpen, onClose, fetchPr
     const form = useForm()
     const { register, handleSubmit, formState, setError, getValues } = form
     const { errors } = formState;
-    // useEffect(() => {
-    //     if (!isOpen) {
-    //         setError('header', { type: 'manual', message: '' });
-    //         setError('email', { type: 'manual', message: '' });
-    //         setError('mobile', { type: 'manual', message: '' });
-    //     }
-    // }, [isOpen, setError]);
 
     const onSubmit = async (formData: any) => {
         try {

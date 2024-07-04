@@ -1,5 +1,3 @@
-import axios, { AxiosInstance } from 'axios'
-
 const API_GATEWAY_BASE_URL = 'http://localhost:8080/recruiter';
 
 export const recruiterendpoints = {
@@ -13,6 +11,8 @@ export const recruiterendpoints = {
   updatejob: `${API_GATEWAY_BASE_URL}/job/updatejob`,
   applicantChart: `${API_GATEWAY_BASE_URL}/job/applicantChart`,
   getApplicant: `${API_GATEWAY_BASE_URL}/job/getApplicant`,
+  changeApplicantStatus: `${API_GATEWAY_BASE_URL}/job/applicantStatus`,
+
 
 
 

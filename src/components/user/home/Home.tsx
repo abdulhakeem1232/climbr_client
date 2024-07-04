@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import ConfirmationModal from "./ConfirmationModal";
 import Modal from "./UserListModal";
+import { formatDistance } from 'date-fns';
 
 interface Like {
   userId: string;
@@ -401,8 +402,13 @@ function Home() {
                         <p className="font-semibold mx-2">
                           {comment.userData.username}
                         </p>
+                        <p className="text-gray-500 text-xs my-auto">
+                          {`${formatDistance(new Date(comment.createdAt), new Date())}`}
+
+                        </p>
                       </Link>
                       <p>{comment.content}</p>
+
                     </div>
                     {comment.userId === userId && (
                       <div className="dropdown text-xl text-gray-800">

@@ -1,5 +1,3 @@
-import axios, { AxiosInstance } from 'axios'
-
 const API_GATEWAY_BASE_URL = 'http://localhost:8080/admin';
 
 export const adminendpoints = {
