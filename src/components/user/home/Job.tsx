@@ -96,7 +96,7 @@ function Job() {
     return (
         <>
             {job && (
-                < div className='w-full rounded-lg shadow-md mt-3 bg-white text-left pl-3 pt-3 ' >
+                < div className='w-full rounded-lg shadow-md mt-3 bg-white text-left pl-3 py-3 ' >
                     <div className='flex flex-col '>
                         <span className='font-bold mb-2'>Job Role:  <span className='font-semibold mb-2'>{job.jobrole}</span></span>
                         <span className='font-bold mb-2'>Company Name:<span className='font-semibold mb-2'> {job.companyname}</span></span>

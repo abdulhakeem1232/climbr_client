@@ -46,6 +46,7 @@ function Login() {
       if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
         dispatch(loginData(response.data.user))
         socket.emit('join', response.data.user._id);
+        console.log('emitted socket join');
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
         dispatch(loginData(response.data.user))

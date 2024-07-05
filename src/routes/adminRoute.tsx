@@ -6,6 +6,7 @@ import Recruiter from '../pages/admin/Recruiter';
 import Post from '../pages/admin/PostManagement';
 import PrivateRoute from '../utils/admin/PrivateRoute';
 import SharedLayout from '../pages/admin/SharedLayout';
+import NotFound from '../components/user/home/NotFound';
 function AdminRoute() {
     return (
         <div>
@@ -18,6 +19,7 @@ function AdminRoute() {
                         <Route path='/postmanagement' element={<Post />} />
                     </Route>
                 </Route>
+                <Route path='*' element={<NotFound />} />
             </Routes >
         </div >
     )

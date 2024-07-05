@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import ConfirmationModal from "./ConfirmationModal";
 import Modal from "./UserListModal";
-import { formatDistance } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 interface Like {
   userId: string;
@@ -371,7 +371,7 @@ function Home() {
                     placeholder=" comment"
                     value={CommentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
-                    className="w-64 ml-2 h-8 outline-0"
+                    className="w-3/4 h-8 focus:outline-none focus:border-none outline-white"
                     style={{ textAlign: "left" }}
                   />
                   <button
@@ -403,7 +403,7 @@ function Home() {
                           {comment.userData.username}
                         </p>
                         <p className="text-gray-500 text-xs my-auto">
-                          {`${formatDistance(new Date(comment.createdAt), new Date())}`}
+                          {`${formatDistanceToNowStrict(new Date(comment.createdAt), { addSuffix: true })}`}
 
                         </p>
                       </Link>

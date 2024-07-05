@@ -56,15 +56,6 @@ function Joblist() {
             ...prevFilters,
             [name]: checked,
         }));
-        // if (checked) {
-        //     const updatedFilters: any = { ...filters, [name]: checked };
-        //     for (const key in updatedFilters) {
-        //         if (key !== name && updatedFilters[key] === true) {
-        //             updatedFilters[key] = false;
-        //         }
-        //     }
-        //     setFilters(updatedFilters);
-        // }
         console.log('loh', filters);
     };
 
@@ -175,8 +166,6 @@ function Joblist() {
 
                     </div>
                     <div className="card-container flex flex-wrap  ml-5 pl-16 lg:pl-64">
-
-
 
                         {filteredJobs?.map((job, index) => (
                             <Card key={index} style={{ width: '16rem' }} className='rounded-xl bg-white mr-6  mb-6 p-3 justify-between shadow-xl  hover:transform hover:scale-105 transition-transform duration-300'>

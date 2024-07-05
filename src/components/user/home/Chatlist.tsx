@@ -19,6 +19,8 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
         const getChats = async () => {
             try {
                 let response = await userAxios.get(`${endpoints.getChatlist}/${userId}`);
+                console.log('-------------', response.data);
+
                 const sortedChats = response.data.sort((a: any, b: any) => {
                     const updatedAtA = new Date(a.updatedAt).getTime();
                     const updatedAtB = new Date(b.updatedAt).getTime();
@@ -36,14 +38,22 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
             setOnlineUsers(new Set(users));
         });
 
-        socket.on('sortChatlist', (chatId: any) => {
+        socket.on('sortChatlist', (message) => {
+            const { chatId, message: newMessage, fileType } = message;
+            console.log(message, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+            console.log(fileType == "" ? "newMessage" : "fileType");
+
             setChats((prevChats: any) => {
                 const updatedChats = prevChats.map((chat: any) => {
                     if (chat._id == chatId) {
                         return {
                             ...chat,
                             updatedAt: new Date(),
-                        };
+                            lastMessage: {
+                                ...chat.lastMessage,
+                                message: fileType === "" ? newMessage : fileType
+                            }
+                        }
                     }
                     return chat;
                 }).sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
@@ -68,10 +78,10 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
                     const lastlogged = isOnline ? 'online' : formatDistanceToNow(new Date(chat.user.lastLogged), { addSuffix: true });
 
                     return (
-                        <div key={chat._id} className='mb-1 '>
+                        <div key={chat._id} className='mb-1  hover:bg-gray-200'>
                             <div
                                 onClick={() => onSelectChat(chat._id, chat.user.avatar, chat.user.username, chat.user._id, lastlogged)}
-                                className='chat-item cursor-pointer flex items-center p-2 hover:bg-gray-200 rounded-lg'
+                                className='chat-item cursor-pointer flex items-center p-2 rounded-lg'
                             >
                                 <img
                                     src={chat.user.avatar}
@@ -83,6 +93,7 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
                                     {isOnline ? 'Online' : 'Offline'}
                                 </span>
                             </div>
+                            <p className='text-left ml-16 -mt-5'>{chat.lastMessage && (chat.lastMessage.fileType ? chat.lastMessage.fileType : chat.lastMessage.message)}</p>
                             <hr className="" />
                         </div>
                     );

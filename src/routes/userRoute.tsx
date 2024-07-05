@@ -17,7 +17,7 @@ import Message from "../pages/user/Message";
 import VideoCall from "../pages/user/VideoCall";
 import LoadingWave from "../components/user/home/Spinner";
 import Sampl from "../components/user/home/Sampl";
-
+import NotFound from "../components/user/home/NotFound";
 const UserRoutes = () => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -67,6 +67,7 @@ const UserRoutes = () => {
                 } />
                 <Route path='/chats' element={<Message />} />
             </Route>
+            <Route path='/*' element={<NotFound />} />
         </Routes >
     )
 }

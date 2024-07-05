@@ -6,6 +6,7 @@ import EditJobPage from "../pages/recruiter/EditJobPage";
 //@ts-ignore
 import HomePage from '../pages/recruiter/Home'
 import Applicants from "../pages/recruiter/Applicants";
+import NotFound from "../components/user/home/NotFound";
 
 
 const RecruiterRoute = () => {
@@ -18,6 +19,7 @@ const RecruiterRoute = () => {
                 <Route path="/editjob/:id" element={<EditJobPage />} />
                 <Route path="/applicants/:jobId" element={<Applicants />} />
             </Route >
+            <Route path='*' element={<NotFound />} />
         </Routes >
     )
 }
