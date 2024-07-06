@@ -94,7 +94,7 @@ function Signup() {
           <img src={signup} alt="signup" className="w-full h-full object-contain" />
         </div>
         <div className='w-[50%] flex-1 p-[2px]  flex flex-col justify-center items-center'>
-          <img src={logo} alt="" className="h-36  mx-auto" />
+          <img src={logo} alt="" className="w-44  mx-auto" />
           <Typography variant='h4'>Create a New Account</Typography>
           <ToggleButtonGroup
             color="primary"

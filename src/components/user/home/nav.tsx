@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/logoclimbr.png';
 import chats from '../../../assets/chats.png';
 import profile from '../../../assets/profile.png';
 import { Link, useNavigate } from 'react-router-dom';
@@ -62,13 +62,13 @@ function Nav() {
     };
 
     return (
-        <div className="bg-white shadow-md h-16 mt-2 flex items-center justify-between px-28  py-2">
+        <div className="bg-gray-100 shadow-2xl h-16 flex items-center justify-between pr-28 md:pr-40 pl-20  py-2">
             <div className='flex items-center'>
-                <img src={logo} alt="Logo" className="h-32" />
+                <img src={logo} alt="Logo" className="w-44" />
 
                 <input
                     type='text'
-                    className='bg-blue-50 rounded-lg h-10 w-72 focus:outline-none pl-3 hidden lg:block '
+                    className='bg-white rounded-lg h-10 w-52 focus:outline-none pl-3 hidden lg:block '
                     placeholder='Search'
                     value={search}
                     onChange={handleSearchChange}
@@ -92,7 +92,7 @@ function Nav() {
                 </div>
             )}
 
-            <div className="hidden sm:block">
+            <div className="hidden sm:block ">
                 <ul className="flex">
                     <li className="mr-8 font-semibold">
                         <Link to="/home">Home</Link>
@@ -102,7 +102,7 @@ function Nav() {
                         <Link to="/job">Jobs</Link>
                     </li>
                     <li className="mr-8 font-semibold">
-                        <Link to="/chats">Chats</Link>
+                        <Link to="/chats">Messages</Link>
                     </li>
                 </ul>
             </div>

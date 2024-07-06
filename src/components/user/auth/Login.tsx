@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import login from "../../../assets/login.jpg"
-import logo from "../../../assets/logo.png"
+import logo from "../../../assets/logoclimbr.png"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
@@ -101,8 +101,8 @@ function Login() {
         <div className='image-container w-[50%] flex-1 '>
           <img src={login} alt="signup" className="w-[650px] h-[650px] object-contain" />
         </div>
-        <div className='w-[50%] flex-1 p-[2px]  flex flex-col justify-center items-center '>
-          < img src={logo} alt="" className="h-36  mx-auto" />
+        <div className='w-[50%] flex-1 p-[2px] flex flex-col justify-center items-center '>
+          < img src={logo} alt="" className="mx-auto w-52 " />
           <Typography variant='h4'>Welcome Back</Typography>
 
           <form onSubmit={handleSubmit(onsubmit)} style={{ display: 'flex', flexDirection: 'column' }} noValidate>
