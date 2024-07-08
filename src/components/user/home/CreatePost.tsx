@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { endpoints } from '../../../endpoints/userEndpoint';
 import { userAxios } from '../../../utils/Config';
+import { toast } from 'sonner';
 
 interface CreatePostProps {
     setIsLoading: (isLoading: boolean) => void;
@@ -17,6 +18,7 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
     const [image, setImage] = useState<File | null>(null);
     const [description, setDescription] = useState<string>('');
     const [imageError, setImageError] = useState<string>('');
+    const [descriptionError, setDescriptionError] = useState<string>('');
     const [imagePreview, setImagePreview] = useState<string>('');
 
     const avatar = useSelector((store: RootState) => store.UserData.image);
@@ -39,6 +41,12 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData();
+        if (!description) {
+            setDescriptionError('Please enter a description');
+            return;
+        } else {
+            setDescriptionError('');
+        }
         if (!image) {
             setImageError('Please select an image');
             return;
@@ -59,27 +67,41 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
                 },
             });
             console.log(response.data);
-        } catch (error) {
+        } catch (error: any) {
+            if (error.response) {
+                if (error.response.status == 413) {
+                    toast('The uploaded file is too large. Please upload a smaller file.');
+                } else if (error.response.status == 500) {
+                    toast('An internal server error occurred. Please try again later.');
+                } else {
+                    toast('An error occurred while submitting the post. Please try again later.');
+                }
+            } else {
+                toast('An unexpected error occurred. Please check your connection and try again.');
+            }
             console.error('Error:', error);
         }
         setIsLoading(false);
         setDescription('');
-        setImagePreview('')
+        setImagePreview('');
         setImage(null);
     };
 
     return (
-        <div className='bg-white w-full rounded-lg mt-3 p-4 border-2 border-solid'>
+        <div className='bg-white w-full rounded-lg mt-3 px-4 pt-4 border-2 border-solid'>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className='flex'>
                     <img src={avatar || profile} alt="" className='w-9 h-9 rounded-full' />
-                    <input
-                        id="description"
-                        placeholder='Start a Post'
-                        className='w-full border-2 border-solid mb-3 mt-1 h-9 rounded-full ml-1 pl-3'
-                        value={description}
-                        onChange={(event) => setDescription(event.target.value)}
-                    />
+                    <div className='w-full'>
+                        <input
+                            id="description"
+                            placeholder='Start a Post'
+                            className='w-full border-2 border-solid mb-3 mt-1 h-9 rounded-full ml-1 pl-3'
+                            value={description}
+                            onChange={(event) => setDescription(event.target.value)}
+                        />
+                        {descriptionError && <p style={{ color: 'red', marginLeft: '10px' }}>{descriptionError}</p>}
+                    </div>
                 </div>
                 <div className='flex mx-2 justify-between'>
                     <div className='flex'>
@@ -101,9 +123,11 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
                             </div>
                         )}
                     </div>
-                    <Button variant="contained" className='h-10' color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
-                        Post
-                    </Button>
+                    <div>
+                        <Button variant="contained" className='h-10' color="primary" type="submit" style={{ marginBottom: '10px', marginTop: '10px' }}>
+                            Post
+                        </Button>
+                    </div>
                 </div>
             </form>
             <MiddleBar />

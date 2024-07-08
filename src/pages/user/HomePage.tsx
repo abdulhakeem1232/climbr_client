@@ -5,7 +5,9 @@ import Profile from '../../components/user/home/SideProfile';
 import Suggestion from '../../components/user/home/Suggestion';
 import CreatePost from '../../components/user/home/CreatePost';
 import ShimmerHome from '../../components/skeleton/ShimmerHome';
-import DotSpinner from '../../components/user/home/FormSpinner'
+import DotSpinner from '../../components/user/home/FormSpinner';
+import { Toaster } from 'sonner';
+
 
 const LazyHome = React.lazy(() => import('../../components/user/home/Home'));
 
@@ -18,11 +20,12 @@ function HomePage() {
                 <Nav />
             </div>
 
-            <div className='flex flex-1 px-24 bg-white'>
+            <div className='flex flex-1 px-20 bg-white'>
                 <div className='w-full md:w-1/4 hidden md:block lg:block ml-12'>
                     <Profile />
                 </div>
                 <div className='w-full md:w-1/2 flex justify-center flex-col items-center mx-4'>
+                    <Toaster position="top-center" richColors />
                     <CreatePost setIsLoading={setIsLoading} />
                     <Suspense fallback={<ShimmerHome />}>
                         <LazyHome />
