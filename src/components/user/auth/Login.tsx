@@ -103,7 +103,7 @@ function Login() {
         </div>
         <div className='w-[50%] flex-1 p-[2px] flex flex-col justify-center items-center '>
           < img src={logo} alt="" className="mx-auto w-52 " />
-          <Typography variant='h4'>Welcome Back</Typography>
+          <Typography variant='h4'>Welcome Back mone</Typography>
 
           <form onSubmit={handleSubmit(onsubmit)} style={{ display: 'flex', flexDirection: 'column' }} noValidate>
             <p className="error-message">{errors.email?.message}</p>
