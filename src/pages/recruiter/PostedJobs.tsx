@@ -5,7 +5,10 @@ function HomePage() {
     return (
         <div>
             <Nav />
-            <Jobs />
+            <div className='bg-gray-100 min-h-screen'>
+
+                <Jobs />
+            </div>
         </div>
     )
 }

@@ -77,6 +77,8 @@ function Login() {
         credential,
       });
       if (response) {
+        console.log(response, '----------------------');
+        dispatch(loginData(response.data.user))
         navigate("/home");
       } else {
         console.error("Failed to store user data in the database.");
@@ -103,7 +105,7 @@ function Login() {
         </div>
         <div className='w-[50%] flex-1 p-[2px] flex flex-col justify-center items-center '>
           < img src={logo} alt="" className="mx-auto w-52 " />
-          <Typography variant='h4'>Welcome Back User</Typography>
+          <Typography variant='h4'>Welcome Back</Typography>
 
           <form onSubmit={handleSubmit(onsubmit)} style={{ display: 'flex', flexDirection: 'column' }} noValidate>
             <p className="error-message">{errors.email?.message}</p>

@@ -62,13 +62,13 @@ function Nav() {
     };
 
     return (
-        <div className="bg-gray-100 shadow-2xl h-16 flex items-center justify-between pr-28 md:pr-40 pl-20  py-2">
+        <div className=" shadow-md h-16 flex items-center justify-between pr-28 md:pr-40 pl-20  py-2">
             <div className='flex items-center'>
                 <img src={logo} alt="Logo" className="w-44" />
 
                 <input
                     type='text'
-                    className='bg-white rounded-lg h-10 w-52 focus:outline-none pl-3 hidden lg:block '
+                    className='bg-gray-200 rounded-lg h-10 w-52 focus:outline-none pl-3 hidden lg:block '
                     placeholder='Search'
                     value={search}
                     onChange={handleSearchChange}

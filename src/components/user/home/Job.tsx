@@ -29,6 +29,7 @@ function Job() {
     const form = useForm()
     const { register, handleSubmit, formState, setError, getValues } = form
     const { errors } = formState;
+    const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
     const { id } = useParams<{ id: string }>();
     const [job, setJob] = useState<any>(null);
     const [cv, setcv] = useState<File | null>(null)
@@ -46,6 +47,10 @@ function Job() {
                 let response = await userAxios.get(`${endpoints.singlejob}/${id}`)
                 setJob(response.data)
                 console.log(response.data);
+                const userApplication = response.data?.applicants?.find((applicant: any) => applicant.userId == userId);
+                if (userApplication) {
+                    setApplicationStatus(userApplication.status);
+                }
             } catch (err) {
                 //@ts-ignore
                 if (error.response && error.response.status === 401) {
@@ -87,7 +92,7 @@ function Job() {
             },
         })
         console.log(response);
-
+        setApplicationStatus("Applied");
     }
     const handlecvChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
@@ -109,13 +114,13 @@ function Job() {
                         ))}</span>
                         <span className='font-bold mb-2'>Description: <span className='font-semibold mb-2'>{job.description}</span></span>
                     </div>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" onClick={handleOpen}>
-                        Apply
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" onClick={handleOpen} disabled={!!applicationStatus}>
+                        {applicationStatus ? `Status: ${applicationStatus}` : "Apply"}
                     </button>
 
                 </div >
             )}
-            <div>
+            <div className=' h-fit'>
 
                 <Modal
                     open={open}

@@ -110,6 +110,8 @@ function Joblist() {
                     <JobSkeleton />
                     <JobSkeleton />
                     <JobSkeleton />
+                    <JobSkeleton />
+
                 </>
             ) : filteredJobs?.length === 0 ? (
                 <div>
@@ -168,7 +170,7 @@ function Joblist() {
                     <div className="card-container flex flex-wrap  ml-5 pl-16 lg:pl-64">
 
                         {filteredJobs?.map((job, index) => (
-                            <Card key={index} style={{ width: '16rem' }} className='rounded-xl bg-white mr-6  mb-6 p-3 justify-between shadow-xl  hover:transform hover:scale-105 transition-transform duration-300'>
+                            <Card key={index} style={{ width: '16rem' }} className='rounded-xl bg-white mr-6 h-fit mb-6 p-3 justify-between shadow-xl  hover:transform hover:scale-105 transition-transform duration-300'>
                                 <Card.Img variant="top" src={job.image} className='w-16 h-12 mb-2 rounded-md' />
                                 <Card.Body className='text-left'>
                                     <Card.Title>{job.jobrole}</Card.Title>

@@ -23,10 +23,30 @@ import Cookies from 'js-cookie';
 import LoadingWave from './Spinner';
 
 const steps = [
-    { title: 'Applied' },
-    { title: 'Pending' },
-    { title: 'Rejected/shortlisted' },
-]
+    { title: 'Applied', value: 'applied' },
+    { title: 'Pending', value: 'pending' },
+    { title: 'Final', value: 'final' }
+];
+
+const getActiveStepIndex = (status: string) => {
+    switch (status.toLowerCase()) {
+        case 'applied':
+            return 0;
+        case 'shortlisted':
+        case 'rejected':
+            return 2;
+        default:
+            return 1;
+    }
+};
+
+const getStepTitle = (stepIndex: number, jobStatus: string) => {
+    if (stepIndex === 2) {
+        return jobStatus === 'Shortlisted' ? 'Shortlisted' : 'Rejected';
+    }
+    return steps[stepIndex].title;
+};
+
 function Profile() {
     const navigate = useNavigate()
     const userId = useSelector((store: RootState) => store.UserData.UserId);
@@ -264,12 +284,13 @@ function Profile() {
                                             <div key={index} className=''>
                                                 <div className='font-semibold '>
                                                     {job.jobData.jobrole} at {job.jobData.companyname}
-                                                    <Stepper index={getActiveStepIndex(job.status)} >
+                                                    <Stepper index={getActiveStepIndex(job.status)}>
                                                         {steps.map((step, stepIndex) => {
-                                                            const isActive = getActiveStepIndex(job.status) === stepIndex;
-                                                            const isCompleted = isActive || (stepIndex <= getActiveStepIndex(job.status));
+                                                            const activeIndex = getActiveStepIndex(job.status);
+                                                            const isActive = activeIndex === stepIndex;
+                                                            const isCompleted = stepIndex < activeIndex;
                                                             return (
-                                                                <Step key={index} >
+                                                                <Step key={stepIndex}>
                                                                     <StepIndicator>
                                                                         <StepStatus
                                                                             complete={<StepIcon />}
@@ -278,18 +299,17 @@ function Profile() {
                                                                         />
                                                                     </StepIndicator>
                                                                     <Box flexShrink='0'>
-                                                                        <StepTitle>{step.title}</StepTitle>
-
+                                                                        <StepTitle>
+                                                                            {getStepTitle(stepIndex, job.status)}
+                                                                        </StepTitle>
                                                                         {isCompleted && <StepStatus complete="✔" />}
-
-                                                                        {isActive && !isCompleted && <StepStatus active="*" />}
+                                                                        {isActive && <StepStatus active="*" />}
                                                                     </Box>
                                                                     <StepSeparator />
                                                                 </Step>
                                                             );
                                                         })}
                                                     </Stepper>
-
                                                 </div>
                                             </div>
                                         ))
@@ -304,7 +324,7 @@ function Profile() {
                                                                     <StepStatus
                                                                         complete={<StepIcon />}
                                                                         incomplete={<StepNumber />}
-                                                                        active={job.status.toLowerCase() === step.title.toLowerCase()}
+                                                                        active={job.status.toLowerCase() == step.title.toLowerCase()}
                                                                     />
                                                                 </StepIndicator>
                                                                 <Box flexShrink='0'>

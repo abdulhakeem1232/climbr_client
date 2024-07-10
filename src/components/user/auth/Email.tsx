@@ -1,7 +1,7 @@
 import React from 'react'
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import logo from "../../../assets/logo.png"
+import logo from "../../../assets/logoclimbr.png"
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
 import { endpoints } from '../../../endpoints/userEndpoint';

@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom'
 import { recruiterAxios } from '../../../utils/Config'
 import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints'
 import LoadingWave from '../../user/home/Spinner'
-import { error } from 'console'
-
 interface Applicant {
     userId: string;
     status: string;
@@ -77,34 +75,59 @@ function ViewApplicants() {
     return (
         <div>
             {loading ? (<LoadingWave />) : (
-                <div className='lg:px-40 pt-5'>
-                    <p className='text-xl font-semibold pb-5'>Applicants</p>
-                    <table className='min-w-full'>
-                        <thead>
-                            <tr>
-                                <th className='border'>Name</th>
-                                <th className='border'>Email</th>
-                                <th className='border'>Mobile</th>
-                                <th className='border'>Resume</th>
-                                <th className='border'>Status/Action</th>
-                            </tr >
-                        </thead >
-                        <tbody>
-                            {applicants?.map((applicant: any) => (
-                                <tr key={applicant.id}>
-                                    <td className='border py-1'>{applicant.name}</td>
-                                    <td className='border py-1'>{applicant.email}</td>
-                                    <td className='border py-1'>{applicant.mobile}</td>
-                                    <td className=' border py-1 cursor-pointer text-blue-500' onClick={() => handlePdfDownload(applicant.cv)}>Download Resume</td>
-                                    <td className='border py-1'>{applicant.status == "Applied" ? <div>
-                                        <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-1' onClick={() => updateStatus(applicant.userId, "Rejected")}>Reject</button>
-                                        <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded' onClick={() => updateStatus(applicant.userId, "Shortlisted")}>Shortlist</button></div> : applicant.status}</td>
-
+                <div className='lg:px-40 pt-8 bg-gray-100 min-h-screen'>
+                    <h2 className='text-2xl font-bold text-indigo-800 mb-6'>Applicants</h2>
+                    <div className='overflow-x-auto shadow-lg rounded-lg'>
+                        <table className='min-w-full'>
+                            <thead className='bg-indigo-600 text-white'>
+                                <tr>
+                                    <th className='px-4 py-3 text-left'>Name</th>
+                                    <th className='px-4 py-3 text-left'>Email</th>
+                                    <th className='px-4 py-3 text-left'>Mobile</th>
+                                    <th className='px-4 py-3 text-left'>Resume</th>
+                                    <th className='px-4 py-3 text-left'>Status/Action</th>
                                 </tr>
-                            ))
-                            }
-                        </tbody >
-                    </table ></div >
+                            </thead>
+                            <tbody className='bg-white'>
+                                {applicants?.map((applicant: any) => (
+                                    <tr key={applicant.id} className='hover:bg-indigo-50 transition-colors'>
+                                        <td className='border-b border-indigo-100 px-4 py-3 text-left'>{applicant.name}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3 text-left'>{applicant.email}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3 text-left'>{applicant.mobile}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3 text-left'>
+                                            <button
+                                                onClick={() => handlePdfDownload(applicant.cv)}
+                                                className='text-indigo-600 hover:text-indigo-800 font-semibold transition-colors'
+                                            >
+                                                Download Resume
+                                            </button>
+                                        </td>
+                                        <td className='border-b border-indigo-100 px-4 py-3 text-left'>
+                                            {applicant.status === "Applied" ? (
+                                                <div>
+                                                    <button
+                                                        className='bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded mr-2 transition-colors'
+                                                        onClick={() => updateStatus(applicant.userId, "Rejected")}
+                                                    >
+                                                        Reject
+                                                    </button>
+                                                    <button
+                                                        className='bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded transition-colors'
+                                                        onClick={() => updateStatus(applicant.userId, "Shortlisted")}
+                                                    >
+                                                        Shortlist
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className={`font-semibold  ${applicant.status === "Rejected" ? 'text-red-600' : 'text-green-600'}`} > {applicant.status}</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
             )
             }

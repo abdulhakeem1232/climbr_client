@@ -12,7 +12,7 @@ function SingleJob() {
                 <Nav />
             </div>
 
-            <div className='flex flex-1 px-24 bg-gray-200' style={{ backgroundColor: '#f5f4d5' }} >
+            <div className='flex flex-1 px-24 bg-gray-50'  >
                 < div className='w-full md:w-1/4 hidden md:block lg:block ml-12' >
                     <Profile />
                 </div >

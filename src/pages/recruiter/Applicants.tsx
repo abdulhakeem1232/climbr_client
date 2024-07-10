@@ -6,7 +6,7 @@ function Applicants() {
         <div>
             <Nav />
             <ViewApplicants />
-        </div>
+        </div >
     )
 }
 

@@ -20,7 +20,7 @@ function HomePage() {
                 <Nav />
             </div>
 
-            <div className='flex flex-1 px-20 bg-white'>
+            <div className='flex flex-1 px-20 bg-gray-100'>
                 <div className='w-full md:w-1/4 hidden md:block lg:block ml-12'>
                     <Profile />
                 </div>

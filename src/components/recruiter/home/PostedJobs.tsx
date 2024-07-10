@@ -11,7 +11,7 @@ import { recruiterAxios } from '../../../utils/Config';
 function PostedJobs() {
     const [jobpost, setJobPost] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(2);
+    const [itemsPerPage] = useState(10);
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [jobIdToDelete, setJobIdToDelete] = useState<string | null>(null);
     const userId = useSelector((store: RootState) => store.UserData.UserId);
@@ -88,60 +88,66 @@ function PostedJobs() {
                     <Link to='/recruiter/newJob'> <button className='mt-3 bg-green-500 hover:bg-green-600 rounded-full px-5 py-2.5 text-center'>Add Job Post</button></Link>
                 </div>
             ) : (
-                <div className='text-center lg:px-40'>
-                    <h1 className='font-bold my-6 text-2xl'>Jobs Posted</h1>
-                    <table className='table-auto w-full'>
-                        <thead>
-                            <tr>
-                                <th className='border px-2 py-2'>Job Role</th>
-                                <th className='border px-2 py-2'>Company Name</th>
-                                <th className='border px-2 py-2'>Employment Type</th>
-                                <th className='border px-2 py-2'>Experience</th>
-                                <th className='border px-2 py-2'>Applicants</th>
-                                <th className='border px-2 py-2'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentJobs.map((post) => (
-                                <tr key={post._id}>
-                                    <td className='border px-2 py-2'>{post.jobrole}</td>
-                                    <td className='border px-2 py-2'>{post.companyname}</td>
-                                    <td className='border px-2 py-2'>{post.emptype}</td>
-                                    <td className='border px-2 py-2'>{post.minexperience}-{post.maxexperience}</td>
-                                    <td className='border px-2 py-2'>
-                                        {post.applicants?.length || 0}
-                                        {post.applicants?.length > 0 && (
-                                            <button
-                                                className='ml-2 bg-blue-500 text-white px-2 py-1 rounded'
-                                                onClick={() => navigate(`/recruiter/applicants/${post._id}`)}
-                                            >
-                                                View Applicants
-                                            </button>
-                                        )}
-                                    </td>
-                                    <td className='border px-4 py-2'>
-                                        <img src={Edit} alt="Edit" className='w-6 h-6 inline cursor-pointer' onClick={() => handleEdit(post._id)} />
-                                        <img src={Delete} alt="Delete" className='w-6 h-6 inline ml-2 cursor-pointer' onClick={() => openConfirmationModal(post._id)} />
-                                    </td>
+                <div className='text-center lg:px-40 bg-gray-100 py-8'>
+                    <h1 className='font-bold py-8 text-3xl text-indigo-800'>Jobs Posted</h1>
+                    <div className='overflow-x-auto shadow-lg rounded-lg'>
+                        <table className='w-full table-auto'>
+                            <thead className='bg-indigo-900 text-white'>
+                                <tr>
+                                    <th className='px-4 py-3'>Job Role</th>
+                                    <th className='px-4 py-3'>Company Name</th>
+                                    <th className='px-4 py-3'>Employment Type</th>
+                                    <th className='px-4 py-3'>Experience</th>
+                                    <th className='px-4 py-3'>Applicants</th>
+                                    <th className='px-4 py-3'>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className='flex justify-center mt-4'>
+                            </thead>
+                            <tbody className='bg-white'>
+                                {currentJobs.map((post) => (
+                                    <tr key={post._id} className='hover:bg-indigo-50 transition-colors'>
+                                        <td className='border-b border-indigo-100 px-4 py-3'>{post.jobrole}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3'>{post.companyname}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3'>{post.emptype}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3'>{post.minexperience}-{post.maxexperience}</td>
+                                        <td className='border-b border-indigo-100 px-4 py-3'>
+                                            <span className='font-semibold text-indigo-700 '>{post.applicants?.length || 0}</span>
+                                            {post.applicants?.length > 0 && (
+                                                <button
+                                                    className='ml-3 bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded-full text-sm transition-colors'
+                                                    onClick={() => navigate(`/recruiter/applicants/${post._id}`)}
+                                                >
+                                                    View Applicants
+                                                </button>
+                                            )}
+                                        </td>
+                                        <td className='border-b border-indigo-100 px-4 py-3'>
+                                            <button onClick={() => handleEdit(post._id)} className='text-indigo-500 hover:text-indigo-700 mr-3 transition-colors'>
+                                                <img src={Edit} alt="Edit" className='w-5 h-5 inline' />
+                                            </button>
+                                            <button onClick={() => openConfirmationModal(post._id)} className='text-red-500 hover:text-red-700 transition-colors'>
+                                                <img src={Delete} alt="Delete" className='w-5 h-5 inline' />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='flex justify-center mt-6'>
                         <button
                             onClick={handlePrevJobPage}
                             disabled={currentPage === 1}
-                            className='bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-l-md'
+                            className='bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-4 py-2 rounded-l transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
                         >
                             Previous
                         </button>
-                        <span className='bg-gray-200 text-gray-700 px-4 py-2'>
+                        <span className='bg-white border-t border-b border-indigo-700 text-indigo-800 font-bold px-4 py-2'>
                             Page {currentPage} of {totalJobPages}
                         </span>
                         <button
                             onClick={handleNextJobPage}
                             disabled={currentPage === totalJobPages}
-                            className='bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-r-md'
+                            className='bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-4 py-2 rounded-r transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
                         >
                             Next
                         </button>
