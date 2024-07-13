@@ -99,6 +99,8 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
         }
         if (selectedFile || message.trim() !== "") {
             socket.emit('sendMessage', { chatId, userId, message, filePath, fileType });
+            console.log('ayachuuuuuuuuuuuuuuuuuuuuuu');
+
             setMessage('');
             setSelectedFile(null);
             setSelectedFileType(null);

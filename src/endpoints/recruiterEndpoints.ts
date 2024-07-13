@@ -1,4 +1,6 @@
-const API_GATEWAY_BASE_URL = 'http://localhost:8080/recruiter';
+// const API_GATEWAY_BASE_URL = 'http://localhost:8080/recruiter';
+const API_GATEWAY_BASE_URL = 'http://localhost:30080/recruiter';
+
 
 export const recruiterendpoints = {
   register: `${API_GATEWAY_BASE_URL}/register`,

@@ -1,4 +1,6 @@
-const API_GATEWAY_BASE_URL = 'http://localhost:8080/admin';
+// const API_GATEWAY_BASE_URL = 'http://localhost:8080/admin';
+const API_GATEWAY_BASE_URL = 'http://localhost:30080/admin';
+
 
 export const adminendpoints = {
     getallUser: `${API_GATEWAY_BASE_URL}/getalluser`,

@@ -1,4 +1,6 @@
-const API_GATEWAY_BASE_URL = 'http://localhost:8080';
+// const API_GATEWAY_BASE_URL = 'http://localhost:8080';
+const API_GATEWAY_BASE_URL = 'http://localhost:30080';
+
 
 export const endpoints = {
   register: `${API_GATEWAY_BASE_URL}/register`,
