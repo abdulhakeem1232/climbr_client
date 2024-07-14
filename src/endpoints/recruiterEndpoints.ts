@@ -1,5 +1,7 @@
 // const API_GATEWAY_BASE_URL = 'http://localhost:8080/recruiter';
-const API_GATEWAY_BASE_URL = 'http://localhost:30080/recruiter';
+// const API_GATEWAY_BASE_URL = 'http://localhost:30080/recruiter';
+const API_GATEWAY_BASE_URL = 'https://climbrserver.online/recruiter';
+
 
 
 export const recruiterendpoints = {
