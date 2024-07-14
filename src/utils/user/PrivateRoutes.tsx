@@ -47,7 +47,7 @@ const PrivateRoute = () => {
     const token = Cookies.get('token');
 
     const isAuthenticated = token && token.trim() !== '';
-    console.log('popopo', isAuthenticated);
+    console.log('popopo', isAuthenticated, token);
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 }
