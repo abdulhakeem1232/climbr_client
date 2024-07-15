@@ -50,10 +50,11 @@ const PrivateRoute = () => {
 
     // const isAuthenticated = token && token.trim() !== '';
     const isAuthenticated = useSelector((store: RootState) => store.UserData.isAuthenticated);
+    const role = useSelector((store: RootState) => store.UserData.role);
 
     console.log('popopo', isAuthenticated, token);
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
+    return isAuthenticated && role == 'user' ? <Outlet /> : <Navigate to="/" />;
 }
 
 export default PrivateRoute;

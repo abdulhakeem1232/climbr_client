@@ -7,7 +7,8 @@ const PrivateRoute = () => {
     const isAuthenticated = useSelector((store: RootState) => store.UserData.isAuthenticated);
     const token = Cookies.get('token');
     console.log(token, isAuthenticated, 'admin');
+    const role = useSelector((store: RootState) => store.UserData.role);
     // const isAuthenticated = token && token.trim() !== '';
-    return isAuthenticated ? <Outlet /> : <Navigate to="/" />
+    return isAuthenticated && role == 'admin' ? <Outlet /> : <Navigate to="/" />
 }
 export default PrivateRoute
