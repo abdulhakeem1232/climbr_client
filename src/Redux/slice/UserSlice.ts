@@ -5,6 +5,7 @@ const initialState = {
     UserId: null,
     image: null,
     Username: null,
+    role: null,
 }
 
 export const userAuthSlice = createSlice({
@@ -16,12 +17,14 @@ export const userAuthSlice = createSlice({
             state.UserId = action.payload._id;
             state.image = action.payload.avatar;
             state.Username = action.payload.username
+            state.role = action.payload.role
         },
         logout: (state) => {
             state.isAuthenticated = false;
             state.UserId = null;
             state.image = null;
             state.Username = null;
+            state.role = null
 
         }
     }

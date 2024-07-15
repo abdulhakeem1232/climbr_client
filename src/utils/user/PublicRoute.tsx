@@ -7,13 +7,15 @@ const PublicRoute = () => {
     const isAuthenticated = useSelector((store: RootState) => store.UserData.isAuthenticated);
 
     const token = Cookies.get('token');
-    const role = Cookies.get('role');
+    // const role = Cookies.get('role');
+    const role = useSelector((store: RootState) => store.UserData.role);
+
     if (isAuthenticated) {
-        if (role === 'user') {
+        if (role == 'user') {
             return <Navigate to="/home" />;
-        } else if (role === 'recruiter') {
+        } else if (role == 'recruiter') {
             return <Navigate to="/recruiter/home" />;
-        } else if (role === 'admin') {
+        } else if (role == 'admin') {
             return <Navigate to="/admin/dashboard" />;
         }
     }
