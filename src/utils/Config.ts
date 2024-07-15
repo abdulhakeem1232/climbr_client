@@ -10,7 +10,6 @@ const USER_API_GATEWAY_BASE_URL = 'https://climbrserver.online';
 const RECRUITER_API_GATEWAY_BASE_URL = 'https://climbrserver.online/recruiter';
 const ADMIN_API_GATEWAY_BASE_URL = 'https://climbrserver.online/admin';
 
-
 export const userAxios = axios.create({
     baseURL: USER_API_GATEWAY_BASE_URL,
     headers: {

@@ -16,7 +16,6 @@ export const userAuthSlice = createSlice({
             state.UserId = action.payload._id;
             state.image = action.payload.avatar;
             state.Username = action.payload.username
-
         },
         logout: (state) => {
             state.isAuthenticated = false;
