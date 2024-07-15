@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 import { useState, useEffect } from 'react';
 import { endpoints } from "../../endpoints/userEndpoint";
 import { userAxios } from "../Config";
+import { RootState } from "../../Redux/store/store";
+import { useSelector } from "react-redux";
 
 const PrivateRoute = () => {
 
@@ -46,7 +48,9 @@ const PrivateRoute = () => {
 
     const token = Cookies.get('token');
 
-    const isAuthenticated = token && token.trim() !== '';
+    // const isAuthenticated = token && token.trim() !== '';
+    const isAuthenticated = useSelector((store: RootState) => store.UserData.isAuthenticated);
+
     console.log('popopo', isAuthenticated, token);
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
