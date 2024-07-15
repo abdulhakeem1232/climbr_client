@@ -166,6 +166,7 @@ function Home() {
             },
             content: CommentContent,
             userId: userId,
+            createdAt: Date.now(),
             _id: result.data?.comments[result.data?.comments?.length - 1]._id,
           });
 
