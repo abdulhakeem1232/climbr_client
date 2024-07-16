@@ -67,6 +67,7 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
                 },
             });
             console.log(response.data);
+            toast.success("Posted Succefully")
         } catch (error: any) {
             if (error.response) {
                 if (error.response.status == 413) {

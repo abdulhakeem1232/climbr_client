@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import login from "../../../assets/login.jpg"
-import logo from "../../../assets/logoclimbr.png"
+import logo from "../../../assets/logo.png"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
@@ -12,10 +12,11 @@ import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oau
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch } from 'react-redux';
-import { loginData } from '../../../Redux/slice/UserSlice';
+import { loginData, logout } from '../../../Redux/slice/UserSlice';
 import { useSelector } from 'react-redux';
 import { userAxios, recruiterAxios } from '../../../utils/Config';
 import socket from '../../../utils/socket/Socket';
+import { toast } from 'sonner';
 
 type FormValues = {
   email: string;
@@ -43,19 +44,37 @@ function Login() {
         response = await recruiterAxios.post(recruiterendpoints.login, data);
         console.log('Usewwr login:', response.data, response);
       }
+      const tokenExpirationTime = 2 * 60 * 60 * 1000;
       if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
         dispatch(loginData(response.data.user))
         socket.emit('join', response.data.user._id);
         console.log('emitted socket join');
+        setTimeout(() => {
+          dispatch(logout());
+          socket.emit('leave', response.data.user._id);
+          navigate('/');
+        }, tokenExpirationTime)
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
         dispatch(loginData(response.data.user))
         socket.emit('join', response.data.user._id);
+        setTimeout(() => {
+          dispatch(logout());
+          socket.emit('leave', response.data.user._id);
+          navigate('/');
+        }, tokenExpirationTime)
         navigate('/recruiter/home')
       } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {
         dispatch(loginData(response.data.user))
+        setTimeout(() => {
+          dispatch(logout());
+          socket.emit('leave', response.data.user._id);
+          navigate('/');
+        }, tokenExpirationTime)
         navigate('/admin/dashboard')
-
+      }
+      else if (response.data.success == 'false' && response.data.message == 'You are Not Verified') {
+        toast.warning("You are not verified from Admin")
       }
       else {
         setError("email", {

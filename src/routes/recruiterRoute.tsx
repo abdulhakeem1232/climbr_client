@@ -7,20 +7,22 @@ import EditJobPage from "../pages/recruiter/EditJobPage";
 import HomePage from '../pages/recruiter/Home'
 import Applicants from "../pages/recruiter/Applicants";
 import NotFound from "../components/user/home/NotFound";
-
+import { Toaster } from "sonner";
 
 const RecruiterRoute = () => {
     return (
-        < Routes >
-            <Route element={<PrivateRoute />} >
-                <Route path='/home' element={<HomePage />} />
-                <Route path="/newJob" element={<Addjob />} />
-                <Route path="/postedJobs" element={<JobPage />} />
-                <Route path="/editjob/:id" element={<EditJobPage />} />
-                <Route path="/applicants/:jobId" element={<Applicants />} />
-            </Route >
-            <Route path='*' element={<NotFound />} />
-        </Routes >
+        <><Toaster position="top-center" richColors />
+            < Routes >
+                <Route element={<PrivateRoute />} >
+                    <Route path='/home' element={<HomePage />} />
+                    <Route path="/newJob" element={<Addjob />} />
+                    <Route path="/postedJobs" element={<JobPage />} />
+                    <Route path="/editjob/:id" element={<EditJobPage />} />
+                    <Route path="/applicants/:jobId" element={<Applicants />} />
+                </Route >
+                <Route path='*' element={<NotFound />} />
+            </Routes >
+        </>
     )
 }
 

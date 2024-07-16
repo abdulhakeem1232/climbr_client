@@ -1,8 +1,4 @@
-// const API_GATEWAY_BASE_URL = 'http://localhost:8080/recruiter';
-// const API_GATEWAY_BASE_URL = 'http://localhost:30080/recruiter';
-const API_GATEWAY_BASE_URL = 'https://climbrserver.site/recruiter';
-
-
+import { RECRUITER_API_GATEWAY_BASE_URL as API_GATEWAY_BASE_URL } from "../utils/Config";
 
 export const recruiterendpoints = {
   register: `${API_GATEWAY_BASE_URL}/register`,

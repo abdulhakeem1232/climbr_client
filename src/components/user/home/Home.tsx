@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { endpoints } from "../../../endpoints/userEndpoint";
 import { userAxios } from '../../../utils/Config';
@@ -6,8 +6,6 @@ import like from "../../../assets/like.png";
 import dislike from "../../../assets/dislike.png";
 import comment from "../../../assets/comment.png";
 import ShimmerHome from "../../skeleton/ShimmerHome";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/slice/UserSlice';
 import { RootState } from '../../../Redux/store/store';
@@ -15,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import ConfirmationModal from "./ConfirmationModal";
 import Modal from "./UserListModal";
+import { toast } from "sonner";
 import { formatDistanceToNowStrict } from 'date-fns';
 
 interface Like {
@@ -251,14 +250,7 @@ function Home() {
   const sendReport = async (postId: string, reason: string) => {
     setShowReport(false);
     setOptionReport(false);
-    toast.success('Request sent successfully', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    toast.success('Request sent successfully');
     let response = await userAxios.post(endpoints.reportPost, { postId: postId, userId: userId, reason: reason });
     console.log(response.data);
   };
@@ -435,7 +427,6 @@ function Home() {
         ))
       )
       }
-      <ToastContainer />
       <ConfirmationModal
         show={showDeleteConfirmation}
         onClose={() => setShowDeleteConfirmation(false)}

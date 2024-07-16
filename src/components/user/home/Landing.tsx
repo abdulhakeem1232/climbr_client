@@ -6,7 +6,7 @@ import finance from '../../../assets/finance.png'
 import Button from '@mui/material/Button';
 import findmore from '../../../assets/findmore.png'
 import Card from 'react-bootstrap/Card';
-import logo from '../../../assets/logoclimbr.png'
+import logo from '../../../assets/logo.png'
 import { styled } from '@mui/material/styles';
 
 
@@ -17,18 +17,8 @@ const CustomButton = styled(Button)({
 const Landing = () => {
     return (
         <div>
-            {/* nav */}
             <div className=' px-4 lg:px-28 flex justify-between h-24  items-center'>
-                {/* <h1 className='font-bold text-2xl'>Logo</h1> */}
                 <img src={logo} alt="" className='w-48' />
-                <div >
-                    <ul className='flex'>
-                        <li className='text-lg font-semibold'>Home</li>
-                        <li className='ml-3 text-lg font-semibold'>Jobs</li>
-                        <li className='ml-3 text-lg font-semibold'>Messages</li>
-
-                    </ul>
-                </div>
                 <div className='flex'>
                     <h2 className='pr-10 pt-1 font-semibold'> Register</h2>
                     <CustomButton variant="contained">Login</CustomButton>

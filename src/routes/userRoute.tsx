@@ -18,6 +18,7 @@ import VideoCall from "../pages/user/VideoCall";
 import LoadingWave from "../components/user/home/Spinner";
 import Sampl from "../components/user/home/Sampl";
 import NotFound from "../components/user/home/NotFound";
+import { Toaster } from "sonner";
 const UserRoutes = () => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -27,48 +28,44 @@ const UserRoutes = () => {
     }, []);
 
     return (
-        <Routes>
+        <><Toaster position="top-center" richColors />
+            <Routes>
+                <Route element={<PublicRoute />}>
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/register' element={<SignupPage />} />
+                    <Route path='/otp' element={<OtpPage />} />
+                    <Route path='/' element={loading ? (<LoadingWave />) : (<Suspense fallback={<LoadingWave />}>< LandingPage /></Suspense>)} />
+                    <Route path='/email' element={<EmailPage />} />
+                    <Route path='/reset' element={<ResetPasswordPage />} />
+                </Route>
 
-            <Route path='/landing' element={<LandingPage />} />
-            <Route path='/videoCall/:roomId' element={<VideoCall />} />
-            <Route path='/loading' element={<LoadingWave />} />
-            <Route path='/sample' element={<Sampl />} />
-
-
-            <Route element={<PublicRoute />}>
-                <Route path='/register' element={<SignupPage />} />
-                <Route path='/otp' element={<OtpPage />} />
-                <Route path='/' element={loading ? (<LoadingWave />) : (<Suspense fallback={<LoadingWave />}>< LoginPage /></Suspense>)} />
-                <Route path='/email' element={<EmailPage />} />
-                <Route path='/reset' element={<ResetPasswordPage />} />
-            </Route>
-
-            <Route element={<PrivateRoute />}>
-                <Route path='/home' element={
-                    loading ? (
-                        <LoadingWave />
-                    ) : (
-                        <Suspense fallback={<LoadingWave />}>
-                            <HomePage />
-                        </Suspense>
-                    )
-                } />
-                <Route path='/job' element={<Job />} />
-                <Route path='/job/:id' element={<SingleJob />} />
-                <Route path='/post' element={<Post />} />
-                <Route path='/profile/:id' element={
-                    loading ? (
-                        <LoadingWave />
-                    ) : (
-                        <Suspense fallback={<LoadingWave />}>
-                            <ProfilePage />
-                        </Suspense>
-                    )
-                } />
-                <Route path='/chats' element={<Message />} />
-            </Route>
-            <Route path='/*' element={<NotFound />} />
-        </Routes >
+                <Route element={<PrivateRoute />}>
+                    <Route path='/home' element={
+                        loading ? (
+                            <LoadingWave />
+                        ) : (
+                            <Suspense fallback={<LoadingWave />}>
+                                <HomePage />
+                            </Suspense>
+                        )
+                    } />
+                    <Route path='/job' element={<Job />} />
+                    <Route path='/job/:id' element={<SingleJob />} />
+                    <Route path='/post' element={<Post />} />
+                    <Route path='/profile/:id' element={
+                        loading ? (
+                            <LoadingWave />
+                        ) : (
+                            <Suspense fallback={<LoadingWave />}>
+                                <ProfilePage />
+                            </Suspense>
+                        )
+                    } />
+                    <Route path='/chats' element={<Message />} />
+                </Route>
+                <Route path='/*' element={<NotFound />} />
+            </Routes >
+        </>
     )
 }
 export default UserRoutes

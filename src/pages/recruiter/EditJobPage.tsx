@@ -1,12 +1,15 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import EditJob from '../../components/recruiter/home/EditJob';
+import Nav from '../../components/recruiter/home/Nav'
 
 function EditJobPage() {
     return (
-        <div className='bg-slate-100 min-h-screen flex justify-center items-center'>
-            <EditJob />
-        </div>
+        <div>
+            <Nav />
+            < div className='bg-slate-100 min-h-screen flex justify-center items-center' >
+                <EditJob />
+            </div >
+        </div >
     );
 }
 

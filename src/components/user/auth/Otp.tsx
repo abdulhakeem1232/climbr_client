@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import logo from "../../../assets/logoclimbr.png"
+import logo from "../../../assets/logo.png"
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import { endpoints } from '../../../endpoints/userEndpoint';
@@ -7,8 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
 import Cookies from 'js-cookie';
 import { userAxios, recruiterAxios } from '../../../utils/Config';
-
-
+import { toast } from 'sonner';
 function Otp() {
   const input1Ref = useRef<HTMLInputElement | null>(null);
   const input2Ref = useRef<HTMLInputElement | null>(null);
@@ -16,7 +15,6 @@ function Otp() {
   const input4Ref = useRef<HTMLInputElement | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [timer, setTimer] = useState(45)
-
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>,
     nextInputRef: React.RefObject<HTMLInputElement> | null) => {
     const value = event.target.value;
@@ -106,7 +104,8 @@ function Otp() {
       navigate('/')
     }
     else {
-      setErrorMsg('Invalid OTP')
+      // setErrorMsg('Invalid OTP')
+      toast.error("Invalid OTP")
     }
   }
   type FormData = {

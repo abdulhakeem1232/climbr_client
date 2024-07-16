@@ -11,7 +11,7 @@ import { RootState } from '../../../Redux/store/store'
 import { logout } from '../../../Redux/slice/UserSlice';
 import Cookies from 'js-cookie';
 import { userAxios } from '../../../utils/Config';
-
+import { toast } from 'sonner';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -92,6 +92,7 @@ function Job() {
             },
         })
         console.log(response);
+        toast.success("Apllied Successfully")
         setApplicationStatus("Applied");
     }
     const handlecvChange = (event: React.ChangeEvent<HTMLInputElement>) => {

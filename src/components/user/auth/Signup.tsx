@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import signup from "../../../assets/signup.png"
 import logo from "../../../assets/logo.png"
-import google from "../../../assets/google.png"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'

@@ -7,9 +7,11 @@ import Post from '../pages/admin/PostManagement';
 import PrivateRoute from '../utils/admin/PrivateRoute';
 import SharedLayout from '../pages/admin/SharedLayout';
 import NotFound from '../components/user/home/NotFound';
+import { Toaster } from 'sonner';
 function AdminRoute() {
     return (
         <div>
+            <Toaster position="top-center" richColors />
             < Routes >
                 <Route element={<PrivateRoute />}>
                     <Route element={<SharedLayout />}>

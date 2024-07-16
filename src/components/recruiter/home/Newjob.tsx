@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { useNavigate } from 'react-router-dom';
 import { recruiterAxios } from '../../../utils/Config';
+import { toast } from 'sonner';
 
 const Newjob = () => {
     const form = useForm()
@@ -62,13 +63,18 @@ const Newjob = () => {
             formDataToSend.append('companylogo', image);
         }
         console.log('fromadatatosend', formDataToSend);
+        try {
+            let response = await recruiterAxios.post(recruiterendpoints.createjob, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            toast.success("Posted Succefully")
+            navigate('/recruiter/home')
+        } catch (err) {
+            toast.error("Error while Posting New Job")
 
-        let response = await recruiterAxios.post(recruiterendpoints.createjob, formDataToSend, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-        navigate('/recruiter/home')
+        }
     };
 
     return (

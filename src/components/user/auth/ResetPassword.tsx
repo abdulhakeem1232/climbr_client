@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import logo from "../../../assets/logoclimbr.png"
+import logo from "../../../assets/logo.png"
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import { endpoints } from '../../../endpoints/userEndpoint';

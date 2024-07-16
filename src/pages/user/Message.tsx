@@ -24,7 +24,6 @@ function Message() {
             <div>
                 <Nav />
             </div>
-            <Toaster position="top-center" richColors />
             < div className='flex  justify-start px-1 md:px-28 lg:px-60 mt-2 bg-gray-50' >
                 <Chatlist onSelectChat={handleSelectChat} />
                 {selectedChat == null && <div className="flex items-center justify-center w-full min:h-screen bg-white rounded-lg shadow">

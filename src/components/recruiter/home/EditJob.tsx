@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import ImageIcon from '../../../assets/ImageIcon.png'
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store/store'
 import { useNavigate, useParams } from 'react-router-dom';
 import { recruiterAxios } from '../../../utils/Config';
+import { toast } from 'sonner';
 
 function EditJob() {
     const form = useForm()
@@ -37,12 +35,10 @@ function EditJob() {
         try {
             data.id = id;
             let response = await recruiterAxios.post(recruiterendpoints.updatejob, data)
-
-
             if (response.data.success) {
+                toast.success("Updated Succefully")
                 navigate('/recruiter/home')
             }
-
         } catch (error) {
             console.error('Error submitting data:', error);
 
