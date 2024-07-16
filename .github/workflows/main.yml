@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '18'
 
-    - name: Set Environment Variables
+      - name: Set Environment Variables
         run: |
           echo "REACT_APP_TWILIO_ACCOUNT_SID=${{ secrets.TWILIO_SID }}" >> .env
           echo "REACT_APP_TWILIO_AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}" >> .env      
