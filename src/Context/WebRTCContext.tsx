@@ -36,11 +36,11 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (!peerConnection.current) {
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
-                    { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+                    { urls: 'stun:stun.l.google.com:19302' },
                     {
                         urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-                        username: process.env.TWILIO_SID,
-                        credential: process.env.AUTH_TOKEN
+                        username: process.env.REACT_APP_TWILIO_ACCOUNT_SID || '',
+                        credential: process.env.REACT_APP_TWILIO_AUTH_TOKEN || ''
                     }
                 ]
             });
@@ -85,11 +85,11 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 //     },
                 // ],
                 iceServers: [
-                    { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+                    { urls: 'stun:stun.l.google.com:19302' },
                     {
                         urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-                        username: process.env.TWILIO_SID,
-                        credential: process.env.AUTH_TOKEN
+                        username: process.env.REACT_APP_TWILIO_ACCOUNT_SID || '',
+                        credential: process.env.REACT_APP_TWILIO_AUTH_TOKEN || ''
                     }
                 ]
             });
