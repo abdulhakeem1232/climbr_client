@@ -3,7 +3,6 @@ import socket from '../utils/socket/Socket';
 import peer from '../Service/peer';
 import { useSelector } from 'react-redux';
 import { RootState } from '../Redux/store/store';
-
 interface WebRTCContextProps {
     localStream: MediaStream | null;
     remoteStream: MediaStream | null;
@@ -12,6 +11,8 @@ interface WebRTCContextProps {
     acceptCall: (userId: string, from: string, offer: RTCSessionDescriptionInit) => void;
     endCall: () => void;
 }
+
+
 
 const WebRTCContext = createContext<WebRTCContextProps | undefined>(undefined);
 
@@ -36,23 +37,13 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (!peerConnection.current) {
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
-                    {
-                        urls: [
-                            "stun:stun.l.google.com:19302",
-                            "stun:global.stun.twilio.com:3478",
-                        ],
-                    },
-                ],
-                // iceServers: [
-                //     { urls: 'stun:stun.l.google.com:19302' },
-                //     {
-                //         urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-                //         username: process.env.REACT_APP_TWILIO_ACCOUNT_SID || '',
-                //         credential: process.env.REACT_APP_TWILIO_AUTH_TOKEN || ''
-                //     }
-                // ]
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun3.l.google.com:19302' },
+                    { urls: 'stun:stun4.l.google.com:19302' },
+                ]
             });
-
             peerConnection.current.ontrack = (event) => {
                 if (event.streams && event.streams[0]) {
                     setRemoteStream(event.streams[0]);
@@ -85,21 +76,12 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (!peerConnection.current) {
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
-                    {
-                        urls: [
-                            "stun:stun.l.google.com:19302",
-                            "stun:global.stun.twilio.com:3478",
-                        ],
-                    },
-                ],
-                // iceServers: [
-                //     { urls: 'stun:stun.l.google.com:19302' },
-                //     {
-                //         urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-                //         username: process.env.REACT_APP_TWILIO_ACCOUNT_SID || '',
-                //         credential: process.env.REACT_APP_TWILIO_AUTH_TOKEN || ''
-                //     }
-                // ]
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun3.l.google.com:19302' },
+                    { urls: 'stun:stun4.l.google.com:19302' },
+                ]
             });
 
             peerConnection.current.ontrack = (event) => {
