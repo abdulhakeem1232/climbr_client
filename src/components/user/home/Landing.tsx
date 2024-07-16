@@ -8,6 +8,7 @@ import findmore from '../../../assets/findmore.png'
 import Card from 'react-bootstrap/Card';
 import logo from '../../../assets/logo.png'
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 
 const CustomButton = styled(Button)({
@@ -20,8 +21,12 @@ const Landing = () => {
             <div className=' px-4 lg:px-28 flex justify-between h-24  items-center'>
                 <img src={logo} alt="" className='w-48' />
                 <div className='flex'>
-                    <h2 className='pr-10 pt-1 font-semibold'> Register</h2>
-                    <CustomButton variant="contained">Login</CustomButton>
+                    <Link to="/register">
+                        <h2 className='pr-10 pt-1 font-semibold'> Register</h2>
+                    </Link>
+                    <Link to="/login">
+                        <CustomButton variant="contained">Login</CustomButton>
+                    </Link>
                 </div>
             </div>
             <div className='flex flex-col md:flex-row px-4 lg:px-28 mt-9 '>
