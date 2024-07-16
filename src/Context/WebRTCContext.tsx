@@ -12,8 +12,6 @@ interface WebRTCContextProps {
     endCall: () => void;
 }
 
-
-
 const WebRTCContext = createContext<WebRTCContextProps | undefined>(undefined);
 
 export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
