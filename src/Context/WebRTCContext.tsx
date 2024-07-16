@@ -36,13 +36,13 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (!peerConnection.current) {
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
+                    { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
                     {
-                        urls: [
-                            "stun:stun.l.google.com:19302",
-                            "stun:global.stun.twilio.com:3478",
-                        ],
-                    },
-                ],
+                        urls: 'turn:global.turn.twilio.com:3478?transport=udp',
+                        username: process.env.TWILIO_SID,
+                        credential: process.env.AUTH_TOKEN
+                    }
+                ]
             });
 
             peerConnection.current.ontrack = (event) => {
@@ -76,14 +76,22 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
         if (!peerConnection.current) {
             peerConnection.current = new RTCPeerConnection({
+                // iceServers: [
+                //     {
+                //         urls: [
+                //             "stun:stun.l.google.com:19302",
+                //             "stun:global.stun.twilio.com:3478",
+                //         ],
+                //     },
+                // ],
                 iceServers: [
+                    { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
                     {
-                        urls: [
-                            "stun:stun.l.google.com:19302",
-                            "stun:global.stun.twilio.com:3478",
-                        ],
-                    },
-                ],
+                        urls: 'turn:global.turn.twilio.com:3478?transport=udp',
+                        username: process.env.TWILIO_SID,
+                        credential: process.env.AUTH_TOKEN
+                    }
+                ]
             });
 
             peerConnection.current.ontrack = (event) => {
