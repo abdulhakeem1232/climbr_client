@@ -29,9 +29,9 @@ function Nav() {
         }, 1500);
     };
     const handleLogout = async () => {
+        dispatch(logout());
         await userAxios.get(endpoints.logout);
         socket.emit('leave', userId);
-        dispatch(logout());
         navigate('/');
     };
 

@@ -4,9 +4,12 @@ import { CgProfile } from "react-icons/cg";
 import { endpoints } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
 import { userAxios } from '../../../utils/Config';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../Redux/slice/UserSlice';
 
 function Nav() {
     const [showOptions, setShowOptions] = useState(false);
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleMouseEnter = () => {
         setShowOptions(true);
@@ -17,6 +20,7 @@ function Nav() {
         }, 1500);
     };
     const handleLogout = async () => {
+        dispatch(logout());
         await userAxios.get(endpoints.logout)
         navigate('/')
     }

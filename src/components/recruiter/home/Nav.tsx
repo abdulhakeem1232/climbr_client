@@ -7,6 +7,8 @@ import { endpoints } from '../../../endpoints/userEndpoint'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { userAxios } from '../../../utils/Config'
+import { logout } from '../../../Redux/slice/UserSlice'
+import { useDispatch } from 'react-redux'
 
 
 
@@ -14,7 +16,7 @@ import { userAxios } from '../../../utils/Config'
 function Nav() {
     const navigate = useNavigate()
     const avatar = useSelector((store: RootState) => store.UserData.image)
-
+    const dispatch = useDispatch()
     const [showOptions, setShowOptions] = useState(false);
     const handleMouseEnter = () => {
         setShowOptions(true);
@@ -25,6 +27,7 @@ function Nav() {
         }, 1500);
     };
     const handleLogout = async () => {
+        dispatch(logout())
         await userAxios.get(endpoints.logout)
         navigate('/')
     }
