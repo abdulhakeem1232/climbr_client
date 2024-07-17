@@ -1,6 +1,5 @@
-import React, { createContext, useCallback, useContext, useState, useRef, useEffect } from 'react';
+import React, { createContext, useState, useRef, useEffect, useContext } from 'react';
 import socket from '../utils/socket/Socket';
-import peer from '../Service/peer';
 import { useSelector } from 'react-redux';
 import { RootState } from '../Redux/store/store';
 
@@ -18,11 +17,10 @@ const WebRTCContext = createContext<WebRTCContextProps | undefined>(undefined);
 export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [localStream, setLocalStream] = useState<MediaStream | null>(null);
     const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
-    const [guestId, setGuestId] = useState('');
+    const [guestId, setGuestId] = useState<string>('');
     const [inCall, setInCall] = useState(false);
     const username = useSelector((store: RootState) => store.UserData.Username);
     const currentUser = useSelector((store: RootState) => store.UserData.UserId);
-
     const peerConnection = useRef<RTCPeerConnection | null>(null);
 
     const startCall = async (userId: string) => {
@@ -39,10 +37,11 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                         { urls: 'stun:stun2.l.google.com:19302' },
                         { urls: 'stun:stun3.l.google.com:19302' },
                         { urls: 'stun:stun4.l.google.com:19302' },
-                    ]
+                    ],
                 });
+
                 peerConnection.current.ontrack = (event) => {
-                    if (event.streams && event.streams[0]) {
+                    if (event.streams && event.streams.length > 0) {
                         setRemoteStream(event.streams[0]);
                     }
                 };
@@ -53,9 +52,7 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                     }
                 };
 
-                for (const track of stream.getTracks()) {
-                    peerConnection.current.addTrack(track, stream);
-                }
+                stream.getTracks().forEach((track) => peerConnection.current!.addTrack(track, stream));
             }
 
             const offer = await peerConnection.current.createOffer();
@@ -71,7 +68,7 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const acceptCall = async (userId: string, fromId: string, offer: RTCSessionDescriptionInit) => {
         try {
             setGuestId(userId);
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
             setLocalStream(stream);
 
             if (!peerConnection.current) {
@@ -82,11 +79,11 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                         { urls: 'stun:stun2.l.google.com:19302' },
                         { urls: 'stun:stun3.l.google.com:19302' },
                         { urls: 'stun:stun4.l.google.com:19302' },
-                    ]
+                    ],
                 });
 
                 peerConnection.current.ontrack = (event) => {
-                    if (event.streams && event.streams[0]) {
+                    if (event.streams && event.streams.length > 0) {
                         setRemoteStream(event.streams[0]);
                     }
                 };
@@ -97,9 +94,7 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                     }
                 };
 
-                for (const track of stream.getTracks()) {
-                    peerConnection.current.addTrack(track, stream);
-                }
+                stream.getTracks().forEach((track) => peerConnection.current!.addTrack(track, stream));
             }
 
             await peerConnection.current.setRemoteDescription(new RTCSessionDescription(offer));
@@ -130,7 +125,7 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 setRemoteStream(null);
             }
 
-            socket.emit("callEnded", guestId);
+            socket.emit('callEnded', guestId);
             setInCall(false);
         } catch (error) {
             console.error('Error ending call:', error);
@@ -184,7 +179,6 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         };
     }, [endCall]);
 
-
     return (
         <WebRTCContext.Provider value={{ localStream, remoteStream, inCall, startCall, acceptCall, endCall }}>
             {children}
@@ -199,4 +193,3 @@ export const useWebRTC = (): WebRTCContextProps => {
     }
     return context;
 };
-
