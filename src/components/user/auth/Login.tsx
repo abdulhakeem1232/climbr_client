@@ -96,7 +96,7 @@ function Login() {
         credential,
       });
       if (response) {
-        console.log(response, '----------------------');
+        console.log(response, '----------------------', response.data?.user, response.data?.data?.user);
         dispatch(loginData(response.data.user))
         const tokenExpirationTime = 2 * 60 * 60 * 1000;
         setTimeout(() => {
