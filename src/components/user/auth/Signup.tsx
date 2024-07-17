@@ -22,8 +22,6 @@ type FormValues = {
   companyemail?: string;
 }
 
-
-
 function Signup() {
   const navigate = useNavigate()
   const [isRecruiter, setIsRecruiter] = useState(false);
@@ -33,6 +31,7 @@ function Signup() {
   const onsubmit = async (data: FormValues) => {
     console.log('sr');
     console.log(data);
+    localStorage.setItem('role', 'false');
     try {
       const response = await userAxios.post(endpoints.register, data);
       console.log('User ot sended successfully:', response.data, response);
@@ -53,6 +52,8 @@ function Signup() {
   };
   const Recruiteronsubmit = async (data: FormValues) => {
     console.log(data, 'kjebs');
+    localStorage.setItem('role', 'true');
+
     try {
 
       const response = await recruiterAxios.post(recruiterendpoints.register, data)
@@ -329,7 +330,7 @@ function Signup() {
               </form>
               <Typography variant="body1" className='m-3' style={{ marginBottom: '20px' }}>
                 Already have an account?
-                <Link to="/" style={{ marginLeft: '5px' }}>Login</Link>
+                <Link to="/login" style={{ marginLeft: '5px', color: '#1976d2', textDecoration: 'none' }}>Login</Link>
               </Typography>
 
             </>

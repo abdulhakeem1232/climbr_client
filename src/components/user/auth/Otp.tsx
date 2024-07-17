@@ -92,10 +92,10 @@ function Otp() {
     event.preventDefault();
     const otpValue = otp.join('');
     console.log('Submitted OTP:', otpValue);
-    const isRecruiter = Cookies.get('isRecruiter');
-    console.log('isRecruiter:', isRecruiter);
+    // const isRecruiter = Cookies.get('isRecruiter');
+    const isRecruiter = localStorage.getItem('role')
     let response;
-    if (isRecruiter === 'true') {
+    if (isRecruiter == 'true') {
       console.log('trueee');
       response = await recruiterAxios.post(recruiterendpoints.otp, { otp: otpValue });
     } else {

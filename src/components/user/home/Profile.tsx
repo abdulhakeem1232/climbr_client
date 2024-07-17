@@ -5,7 +5,7 @@ import { endpoints } from '../../../endpoints/userEndpoint';
 import arrowDown from '../../../assets/arroeDown.png'
 import arrowUp from '../../../assets/arrowUp.png'
 import {
-    Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Box, useSteps,
+    Step, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Box, useSteps,
 } from '@chakra-ui/react'
 import edit from '../../../assets/edit2.png';
 import add from '../../../assets/add.png';
@@ -27,18 +27,6 @@ const steps = [
     { title: 'Pending', value: 'pending' },
     { title: 'Final', value: 'final' }
 ];
-
-const getActiveStepIndex = (status: string) => {
-    switch (status.toLowerCase()) {
-        case 'applied':
-            return 0;
-        case 'shortlisted':
-        case 'rejected':
-            return 2;
-        default:
-            return 1;
-    }
-};
 
 const getStepTitle = (stepIndex: number, jobStatus: string) => {
     if (stepIndex === 2) {

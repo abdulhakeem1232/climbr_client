@@ -175,13 +175,13 @@ function Login() {
             </Button>
           </form>
           <Typography variant="body2" className='m-3' style={{ marginBottom: '10px' }}>
-            <Link to="/email" style={{ marginLeft: '180px' }}>Forgot password?</Link>
+            <Link to="/email" style={{ marginLeft: '180px', color: '#1976d2', textDecoration: 'none' }}>Forgot password?</Link>
           </Typography>
 
 
           <Typography variant="body1" className='m-3' style={{ marginBottom: '10px' }}>
             Create an Account?
-            <Link to="/register" style={{ marginLeft: '5px' }}>Signup</Link>
+            <Link to="/register" style={{ color: '#1976d2', textDecoration: 'none', marginLeft: '5px' }}>Signup</Link>
           </Typography>
           <GoogleOAuthProvider clientId={clientId}>
             <GoogleLogin

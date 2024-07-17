@@ -31,7 +31,7 @@ const Landing = () => {
                     <h1 className=' font-semibold text-4xl md:text-7xl leading-tight  -mt-16 pt-6 md:pt-0'>One Step Closer To Your New Job</h1>
                     <p className='text-slate-500 mt-3'> Whether you're seeking to start your career, looking for a change, or aiming for your dream role, we've got you covered. Join our community and take the next step towards a brighter future.</p>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mt-3 px-4 border border-blue-700 rounded-lg">
-                        Join Now
+                        <Link to="/login">  Join Now</Link>
                     </button>
                 </div>
                 <div className='w-full md:w-1/2 '>
