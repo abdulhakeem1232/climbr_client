@@ -98,6 +98,12 @@ function Login() {
       if (response) {
         console.log(response, '----------------------');
         dispatch(loginData(response.data.user))
+        const tokenExpirationTime = 2 * 60 * 60 * 1000;
+        setTimeout(() => {
+          dispatch(logout());
+          socket.emit('leave', response.data.user._id);
+          navigate('/');
+        }, tokenExpirationTime)
         navigate("/home");
       } else {
         console.error("Failed to store user data in the database.");
