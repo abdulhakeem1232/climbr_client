@@ -144,7 +144,9 @@ export const WebRTCProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 console.log('Received signal:', type, candidate, answer);
 
                 if (peerConnection.current) {
-                    if (type === 'answer' && peerConnection.current.signalingState === 'have-local-offer') {
+                    console.log('---------------');
+
+                    if (type === 'answer') {
                         await peerConnection.current.setRemoteDescription(new RTCSessionDescription(answer));
                     } else if (type === 'candidate' && peerConnection.current.signalingState !== 'closed') {
                         await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
