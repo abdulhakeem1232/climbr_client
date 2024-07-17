@@ -9,8 +9,6 @@ import Card from 'react-bootstrap/Card';
 import logo from '../../../assets/logo.png'
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-
-
 const CustomButton = styled(Button)({
     backgroundColor: 'black',
     color: 'white',
@@ -19,7 +17,7 @@ const Landing = () => {
     return (
         <div>
             <div className=' px-4 lg:px-28 flex justify-between h-24  items-center'>
-                <img src={logo} alt="" className='w-48' />
+                <img src={logo} alt="" className='w-40' />
                 <div className='flex'>
                     <Link to="/register">
                         <h2 className='pr-10 pt-1 font-semibold'> Register</h2>

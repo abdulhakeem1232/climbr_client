@@ -75,7 +75,9 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
             <div className='chat-list'>
                 {chats?.map((chat: any) => {
                     const isOnline = onlineUsers.has(chat.user._id);
-                    const lastlogged = isOnline ? 'online' : formatDistanceToNow(new Date(chat.user.lastLogged), { addSuffix: true });
+                    const lastLoggedTime = chat.user.lastLogged ? new Date(chat.user.lastLogged) : null;
+                    const lastlogged = isOnline ? 'online' : (lastLoggedTime ? formatDistanceToNow(lastLoggedTime, { addSuffix: true }) : 'offline');
+
 
                     return (
                         <div key={chat._id} className='mb-1  hover:bg-gray-200'>
