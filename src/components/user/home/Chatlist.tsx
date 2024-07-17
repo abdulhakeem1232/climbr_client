@@ -95,7 +95,9 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
                                     {isOnline ? 'Online' : 'Offline'}
                                 </span>
                             </div>
-                            <p className='text-left ml-16 -mt-5'>{chat.lastMessage && (chat.lastMessage.fileType ? chat.lastMessage.fileType : chat.lastMessage.message)}</p>
+                            <p className='text-left ml-16 -mt-5'>
+                                {chat.lastMessage ? (chat.lastMessage.fileType ? chat.lastMessage.fileType : chat.lastMessage.message) : 'No messages yet'}
+                            </p>
                             <hr className="" />
                         </div>
                     );
