@@ -1,4 +1,3 @@
-import React from 'react'
 import banner from '../../../assets/bannerlanding.png'
 import merketting from '../../../assets/merketting.png'
 import technology from '../../../assets/technology.png'
@@ -30,7 +29,7 @@ const Landing = () => {
             <div className='flex flex-col md:flex-row px-4 lg:px-28 mt-9 '>
                 <div className='w-full md:w-1/2 my-auto px-4 lg:px-20 text-left'>
                     <h1 className=' font-semibold text-4xl md:text-7xl leading-tight  -mt-16 pt-6 md:pt-0'>One Step Closer To Your New Job</h1>
-                    <p className='text-slate-500 mt-3'>Explore thousands of job opprtunities with all kahfowlie ushdfoilwehsodlf ihweiorilsdhfwoel    c8jwe;od  wsdwesdi  8eud fjpwo; hsxgunv erhfglviedfhg eiufhgweiru</p>
+                    <p className='text-slate-500 mt-3'> Whether you're seeking to start your career, looking for a change, or aiming for your dream role, we've got you covered. Join our community and take the next step towards a brighter future.</p>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mt-3 px-4 border border-blue-700 rounded-lg">
                         Join Now
                     </button>
@@ -48,7 +47,6 @@ const Landing = () => {
                     <div className='h-44 w-44  mr-2 flex flex-col items-start justify-end bg-black p-3 rounded-md border-2 cursor-pointer shadow-sm hover:transform hover:scale-105 transition-transform duration-300'>
 
                         <div>
-
                             <span className='text-white font-medium text-xl'>Design</span><br />
                             <span className='text-white'> New 186 Jobs Posted</span>
                         </div>
