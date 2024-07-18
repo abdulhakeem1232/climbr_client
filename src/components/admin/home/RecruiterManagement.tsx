@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { adminendpoints } from '../../../endpoints/adminendpoints';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { adminAxios } from '../../../utils/Config';
+import ConfirmationModal from '../../user/home/ConfirmationModal';
 
 type User = {
     username: string;
@@ -18,36 +19,56 @@ type User = {
     mobile: number;
     companyName: string;
     companyemail: string;
+};
 
-}
 function UserManagement() {
     const [Users, setUsers] = useState<User[]>([]);
+    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [actionType, setActionType] = useState<'toggleActive' | 'approveStatus' | null>(null);
+
     const handleToggleActive = async (user: User) => {
-        try {
-            let response = await adminAxios.put(adminendpoints.updateRecruiter, user)
-            console.log('response.data.userswekf', response.data.users);
-            setUsers(response.data.users);
-        } catch (error) {
-            console.error('Error fetching users:', error);
-        }
+        setCurrentUser(user);
+        setActionType('toggleActive');
+        setShowConfirmation(true);
     };
+
     const handleStatus = async (user: User) => {
-        try {
-            let response = await adminAxios.put(adminendpoints.approveRecruiter, user)
-            console.log('response.data.userswekf', response.data.users);
-            setUsers(response.data.users);
-        } catch (error) {
-            console.error('Error fetching users:', error);
+        setCurrentUser(user);
+        setActionType('approveStatus');
+        setShowConfirmation(true);
+    };
+
+    const handleConfirmAction = async () => {
+        if (currentUser && actionType) {
+            try {
+                let response;
+                if (actionType == 'toggleActive') {
+                    response = await adminAxios.put(adminendpoints.updateRecruiter, currentUser);
+                } else if (actionType == 'approveStatus') {
+                    response = await adminAxios.put(adminendpoints.approveRecruiter, currentUser);
+                }
+                if (response) {
+                    console.log('Updated user:', response.data.users);
+                    setUsers(response.data.users);
+                }
+            } catch (error) {
+                console.error('Error updating user:', error);
+            }
         }
+        setShowConfirmation(false);
+    };
+
+    const handleCloseModal = () => {
+        setShowConfirmation(false);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log('endponis', adminendpoints.getallRecruiter);
-
+                console.log('endpoints', adminendpoints.getallRecruiter);
                 let response = await adminAxios.get(adminendpoints.getallRecruiter);
-                console.log('response.data.users', response.data.users);
+                console.log('Fetched users:', response.data.users);
                 setUsers(response.data.users);
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -55,17 +76,11 @@ function UserManagement() {
         };
 
         fetchData();
-        console.log(Users, 'eo');
-
     }, []);
-    useEffect(() => {
-        console.log(Users, 'wiwi');
-
-    }, [Users])
 
     return (
-        <div >
-            <h1 className='my-2 text-2xl '>Recruiter Management</h1>
+        <div>
+            <h1 className='my-2 text-2xl'>Recruiter Management</h1>
             <div className='flex justify-center'>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -78,12 +93,9 @@ function UserManagement() {
                                 <TableCell align="left">Company E-Mail</TableCell>
                                 <TableCell align="left">Active</TableCell>
                                 <TableCell align="left">Status</TableCell>
-
-
                             </TableRow>
                         </TableHead>
                         <TableBody>
-
                             {Users.map((user) => (
                                 <TableRow
                                     key={user.email}
@@ -97,6 +109,15 @@ function UserManagement() {
                                     <TableCell align="left">{user.companyName}</TableCell>
                                     <TableCell align="left">{user.companyemail}</TableCell>
                                     <TableCell align="left">
+                                        <Button
+                                            variant="contained"
+                                            color={user.isActive ? 'secondary' : 'primary'}
+                                            onClick={() => handleToggleActive(user)}
+                                        >
+                                            {user.isActive ? 'Block' : 'Unblock'}
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="left">
                                         {user.status ? (
                                             <span>Approved</span>
                                         ) : (
@@ -109,28 +130,21 @@ function UserManagement() {
                                             </Button>
                                         )}
                                     </TableCell>
-
-
-                                    <TableCell align="left">
-                                        <Button
-                                            variant="contained"
-                                            color={user.isActive ? 'secondary' : 'primary'}
-                                            onClick={() => handleToggleActive(user)}
-                                        >
-                                            {user.isActive ? 'Block' : 'Unblock'}
-                                        </Button>
-                                    </TableCell>
-
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </div>
-        </div >
-    );
 
+            <ConfirmationModal
+                show={showConfirmation}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmAction}
+                message={`Are you sure you want to ${actionType === 'toggleActive' ? (currentUser?.isActive ? 'block' : 'unblock') : 'approve'} ${currentUser?.username}?`}
+            />
+        </div>
+    );
 }
 
-export default UserManagement
-
+export default UserManagement;

@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { adminAxios } from '../../../utils/Config';
+import ConfirmationModal from '../../user/home/ConfirmationModal';
 
 type User = {
     username: string;
@@ -19,14 +20,27 @@ type User = {
 }
 function UserManagement() {
     const [Users, setUsers] = useState<User[]>([]);
+    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const handleToggleActive = async (user: User) => {
-        try {
-            let response = await adminAxios.put(adminendpoints.updateUser, user)
-            console.log('response.data.userswekf', response.data.users);
-            setUsers(response.data.users);
-        } catch (error) {
-            console.error('Error fetching users:', error);
+        setCurrentUser(user);
+        setShowConfirmation(true);
+    };
+
+    const handleConfirmToggleActive = async () => {
+        if (currentUser) {
+            try {
+                let response = await adminAxios.put(adminendpoints.updateUser, currentUser);
+                console.log('Updated user:', response.data.users);
+                setUsers(response.data.users);
+            } catch (error) {
+                console.error('Error updating user:', error);
+            }
         }
+        setShowConfirmation(false);
+    };
+    const handleCloseModal = () => {
+        setShowConfirmation(false);
     };
 
     useEffect(() => {
@@ -86,6 +100,12 @@ function UserManagement() {
                     </Table>
                 </TableContainer>
             </div>
+            <ConfirmationModal
+                show={showConfirmation}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmToggleActive}
+                message={`Are you sure you want to ${currentUser?.isActive ? 'block' : 'unblock'} ${currentUser?.username}?`}
+            />
         </div >
     );
 
