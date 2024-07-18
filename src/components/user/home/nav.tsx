@@ -20,14 +20,6 @@ function Nav() {
     const dispatch = useDispatch();
 
     const [showOptions, setShowOptions] = useState(false);
-    const handleMouseEnter = () => {
-        setShowOptions(true);
-    };
-    const handleMouseLeave = () => {
-        setTimeout(() => {
-            setShowOptions(false);
-        }, 1500);
-    };
     const handleLogout = async () => {
         dispatch(logout());
         await userAxios.get(endpoints.logout);
@@ -108,7 +100,7 @@ function Nav() {
             </div>
 
             <div className="flex items-center">
-                <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="relative">
+                <div onClick={() => setShowOptions(!showOptions)} className="relative">
                     <h4>
                         <img src={avatar || profile} alt="Profile" className="w-9 cursor-pointer rounded-full" />
                     </h4>
@@ -118,9 +110,9 @@ function Nav() {
                                 <li>
                                     <Link to={`/profile/${userId}`}>Profile</Link>
                                 </li>
-                                <li>
-                                    <hr className="my-2" />
-                                </li>
+
+                                <hr className="my-2" />
+
                                 <li>
                                     <button onClick={handleLogout} className="text-red-500">Logout</button>
                                 </li>
@@ -129,7 +121,7 @@ function Nav() {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
