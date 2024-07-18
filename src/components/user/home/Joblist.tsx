@@ -113,10 +113,6 @@ function Joblist() {
                     <JobSkeleton />
 
                 </>
-            ) : filteredJobs?.length === 0 ? (
-                <div>
-                    SORRY! NO JOB POST
-                </div>
             ) : (
 
                 <div className="job-list-container flex ">
@@ -167,24 +163,32 @@ function Joblist() {
                         </div>
 
                     </div>
-                    <div className="card-container flex flex-wrap  ml-5 pl-16 lg:pl-64">
-
-                        {filteredJobs?.map((job, index) => (
-                            <Card key={index} style={{ width: '16rem' }} className='rounded-xl bg-white mr-6 h-fit mb-6 p-3 justify-between shadow-xl  hover:transform hover:scale-105 transition-transform duration-300'>
-                                <Card.Img variant="top" src={job.image} className='w-16 h-12 mb-2 rounded-md' />
-                                <Card.Body className='text-left'>
-                                    <Card.Title>{job.jobrole}</Card.Title>
-                                    <Card.Text>
-                                        <p className='font-bold'>Company Name: {job.companyname}</p>
-                                        <p className='font-bold'>Location: {job.joblocation}</p>
-                                        <p className='font-bold'>Experience: {job.minexperience}-{job.maxexperience}</p>
-                                    </Card.Text>
-                                    <button className='bg-blue-500 hover:bg-blue-700 text-sm mt-2 text-white font-bold py-2 px-2 rounded-full' onClick={() => handleButton(job._id)}>More Details</button>
-                                </Card.Body>
-                            </Card>
-                        ))}
-
-
+                    <div className="card-container flex flex-wrap ml-5 pl-16 lg:pl-64">
+                        {filteredJobs?.length > 0 ? (
+                            filteredJobs.map((job, index) => (
+                                <Card key={index} style={{ width: '16rem' }} className='rounded-xl bg-white mr-6 h-fit mb-6 p-3 justify-between shadow-xl hover:transform hover:scale-105 transition-transform duration-300'>
+                                    <Card.Img variant="top" src={job.image} className='w-16 h-12 mb-2 rounded-md' />
+                                    <Card.Body className='text-left'>
+                                        <Card.Title>{job.jobrole}</Card.Title>
+                                        <Card.Text>
+                                            <p className='font-bold'>Company Name: {job.companyname}</p>
+                                            <p className='font-bold'>Location: {job.joblocation}</p>
+                                            <p className='font-bold'>Experience: {job.minexperience}-{job.maxexperience}</p>
+                                        </Card.Text>
+                                        <button className='bg-blue-500 hover:bg-blue-700 text-sm mt-2 text-white font-bold py-2 px-2 rounded-full' onClick={() => handleButton(job._id)}>More Details</button>
+                                    </Card.Body>
+                                </Card>
+                            ))
+                        ) : (
+                            <div className="w-full flex flex-col items-center justify-center min-h-[400px] text-center">
+                                <svg className="w-24 h-24 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <h2 className="text-3xl font-bold text-gray-700 mb-2">No Job Posts Found</h2>
+                                <p className="text-xl text-gray-500">We couldn't find any job posts matching your criteria.</p>
+                                <p className="text-lg text-gray-500 mt-2">Try adjusting your search or filters.</p>
+                            </div>
+                        )}
                     </div>
 
                 </div>

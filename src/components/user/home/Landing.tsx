@@ -1,4 +1,5 @@
 import banner from '../../../assets/bannerlanding.png'
+import banner2 from '../../../assets/bannerlanding3.png'
 import merketting from '../../../assets/merketting.png'
 import technology from '../../../assets/technology.png'
 import finance from '../../../assets/finance.png'
@@ -8,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import logo from '../../../assets/logo.png'
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { Star, Briefcase, ClipboardCheck, User } from 'lucide-react';
 const CustomButton = styled(Button)({
     backgroundColor: 'black',
     color: 'white',
@@ -125,35 +127,104 @@ const Landing = () => {
                     }
 
                 </div>
-            </div>
-            {/* footer */}
-            <footer className="bg-gray-900 text-white py-8 mt-5">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <h2 className="text-xl font-semibold mb-4">About Us</h2>
-                            <p className="text-sm">Welcome to Climbr, where finding your dream job is made easy! We connect talented individuals with top companies, offering opportunities for professional growth and success.</p>
-                            <p className="text-sm">Join us today and take the next step toward your career goals with Climbr. We're dedicated to your success every step of the way.</p> </div>
-                        <div>
-                            <h2 className="text-xl font-semibold mb-4">Quick Links</h2>
-                            <ul className="text-sm">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Browse Jobs</a></li>
-                                <li><a href="#">Post a Job</a></li>
-                            </ul>
+                <div className="container mx-auto px-4 py-12 max-w-6xl">
+                    <div className="flex flex-col md:flex-row items-center justify-between">
+                        <div className="md:w-1/2 mb-8 md:mb-0">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-blue-200 rounded-tl-3xl rounded-br-3xl transform -rotate-6"></div>
+                                <div className="relative z-10 bg-white p-6 rounded-tl-3xl rounded-br-3xl shadow-lg flex justify-center">
+                                    <img
+                                        src={banner2}
+                                        alt="Smiling candidate"
+                                        className=" w-[50%] md:w-96 h-auto rounded-tl-2xl rounded-br-2xl"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
-                            <p className="text-sm">123 Job Street, City</p>
-                            <p className="text-sm">Phone: +123 456 7890</p>
-                            <p className="text-sm">Email: climbr@gmail.com</p>
+
+                        <div className="md:w-1/2 md:pl-12">
+                            <h2 className="text-4xl font-semibold mb-12">
+                                Perfect for Candidates.<br />
+                                Beautiful for Employers.
+                            </h2>
+
+                            <div className="grid grid-cols-2 gap-8">
+                                <FeatureCard
+                                    icon={<Star className="w-6 h-6 text-teal-black" />}
+                                    title="Profile Highlighters"
+                                    description="Get highlighted by the company that you've been worked"
+                                />
+                                <FeatureCard
+                                    icon={<Briefcase className="w-6 h-6 text-teal-black" />}
+                                    title="Career Booster"
+                                    description="Boost your career journey faster than before"
+                                />
+                                <FeatureCard
+                                    icon={<ClipboardCheck className="w-6 h-6 text-teal-black" />}
+                                    title="Interactive Assesment"
+                                    description="Work on the interactive assesment given from company"
+                                />
+                                <FeatureCard
+                                    icon={<User className="w-6 h-6 text-teal-black" />}
+                                    title="Featured Profile"
+                                    description="Being featured makes your profile stands out from others"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="border-t border-gray-800 mt-8 pt-4 text-center">
-                    <p className="text-sm">&copy; 2024 Climbr. All rights reserved.</p>
-                </div>
-            </footer>
+            </div>
+            {/* footer */}
+            <div>
+                <footer className="bg-gray-900 text-white py-12 mt-10">
+                    <div className="container mx-auto px-4">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div>
+                                <h2 className="text-xl font-semibold mb-4">About Us</h2>
+                                <p className="text-sm p-1">
+                                    Welcome to Climbr, where finding your dream job is made easy! We connect talented individuals with opportunities for professional growth and success.
+                                </p>
+                                <p className="text-sm p-1">
+                                    Join us today and take the next step toward your career goals with Climbr.  We're dedicated to your success every step of the way.
+                                </p>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-semibold mb-4">Quick Links</h2>
+                                <ul className="text-sm">
+                                    <li className='p-1'><a href="#">Home</a></li>
+                                    <li className='p-1'><a href="#">Browse Jobs</a></li>
+                                    <li className='p-1'><a href="#">Post a Job</a></li>
+                                    <li className='p-1'><a href="#">Blog</a></li>
+                                    <li className='p-1'><a href="#">Contact</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
+                                <p className="text-sm p-1">123 Job Street, City</p>
+                                <p className="text-sm p-1">Phone: +123 456 7890</p>
+                                <p className="text-sm p-1">Email: climbr@gmail.com</p>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-semibold mb-4">Newsletter</h2>
+                                <p className="text-sm p-1">Subscribe to our newsletter to get the latest job opportunities and updates.</p>
+                                <form className="mt-4">
+                                    <input
+                                        type="email"
+                                        className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Your email"
+                                    />
+                                    <button type="submit" className="w-full mt-2 p-2 rounded bg-blue-600 hover:bg-blue-800 text-white">
+                                        Subscribe
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-800 mt-12 pt-4 text-center">
+                        <p className="text-sm">&copy; 2024 Climbr. All rights reserved.</p>
+                    </div>
+                </footer>
+            </div>
 
         </div >
     )
@@ -162,3 +233,19 @@ const Landing = () => {
 export default Landing
 
 
+interface FeatureCardProps {
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => (
+    <div className="flex flex-col items-center text-center">
+        <div className="bg-gray-100 p-3 rounded-full mb-2">
+            {icon}
+        </div>
+        <h3 className="font-semibold mb-1">{title}</h3>
+        <p className="text-sm text-gray-600">{description}</p>
+    </div>
+);
+;
