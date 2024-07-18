@@ -170,12 +170,12 @@ function Profile() {
             setCurrentUserData((prevData: any[]) => prevData.filter((userId: string | undefined) => userId !== id));
             setUserDetails((prevState: any) => ({
                 ...prevState,
-                followers: prevState.followers.filter((userId: string) => userId !== userId),
+                followers: prevState.followers.filter((follower: string) => follower !== userId),
             }));
             const response = await userAxios.get(`${endpoints.unfollow}/${userId}/${id}`)
         } else {
             {/* @ts-ignore */ }
-            setCurrentUserData(prevData => [...prevData, id]);
+            setCurrentUserData(prevData => (prevData ? [...prevData, id] : [id]));
             setUserDetails((prevState: any) => ({
                 ...prevState,
                 followers: prevState.followers ? [...prevState.followers, userId] : [userId],

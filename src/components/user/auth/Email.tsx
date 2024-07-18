@@ -120,7 +120,7 @@ function Email() {
                     </Paper>
                 </Grid>
             </Grid>
-        </Box>
+        </Box >
     )
 }
 
