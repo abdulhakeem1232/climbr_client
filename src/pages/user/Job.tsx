@@ -10,11 +10,8 @@ function Job() {
                 <Nav />
             </div>
             {/* style={{ backgroundColor: 'rgba(255,250,247,247)' }} */}
-            <div className='flex w-full pl-4 py-24 lg:pl-24   min-h-screen bg-gray-50'  >
+            <div className='flex w-full pl-4 py-24 lg:pl-24 bg-gray-100 h-auto min-h-full' >
                 <Joblist />
-
-
-
             </div >
             <MiddleBar />
         </div >

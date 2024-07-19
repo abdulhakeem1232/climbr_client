@@ -54,52 +54,54 @@ function Nav() {
     };
 
     return (
-        <div className=" shadow-md h-16 flex items-center justify-between pr-28 md:pr-40 pl-20  py-2">
-            <div className='flex items-center'>
+        <div className=" shadow-md h-16 flex items-center justify-between px-28 md:pr-40   py-2">
+            <div className='flex items-center justify-start'>
                 <img src={logo} alt="Logo" className="w-44" />
-
-                <input
-                    type='text'
-                    className='bg-gray-200 rounded-lg h-10 w-52 focus:outline-none pl-3 hidden lg:block '
-                    placeholder='Search'
-                    value={search}
-                    onChange={handleSearchChange}
-                />
-            </div>
-            {searchedUser?.length > 0 && (
-                <div className="absolute bg-white shadow-md rounded-md top-20 z-10 mt-2 w-72">
-                    {searchedUser.map((user) => (
-                        <div
-                            key={user._id}
-                            className="p-2 flex items-center cursor-pointer hover:bg-gray-200"
-                            onClick={() => handleUserClick(user._id)}
-                        >
-                            <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-full" />
-                            <div className="ml-2">
-                                <h4 className="font-semibold">{user.username}</h4>
-                                <p className="text-sm">{user.header}</p>
-                            </div>
+                <div>
+                    <input
+                        type='text'
+                        className='bg-gray-200 rounded-lg h-10 w-64 focus:outline-none pl-2 hidden lg:block '
+                        placeholder='Search'
+                        value={search}
+                        onChange={handleSearchChange}
+                    />
+                    {searchedUser?.length > 0 && (
+                        <div className="absolute bg-white shadow-md rounded-md top-20 z-10 mt-2 w-72">
+                            {searchedUser.map((user) => (
+                                <div
+                                    key={user._id}
+                                    className="p-2 flex items-center cursor-pointer hover:bg-gray-200"
+                                    onClick={() => handleUserClick(user._id)}
+                                >
+                                    <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-full" />
+                                    <div className="ml-2">
+                                        <h4 className="font-semibold">{user.username}</h4>
+                                        <p className="text-sm">{user.header}</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    )}
                 </div>
-            )}
-
-            <div className="hidden sm:block ">
-                <ul className="flex">
-                    <li className="mr-8 font-semibold">
-                        <Link to="/home">Home</Link>
-                    </li>
-
-                    <li className="mr-8 font-semibold">
-                        <Link to="/job">Jobs</Link>
-                    </li>
-                    <li className="mr-8 font-semibold">
-                        <Link to="/chats">Messages</Link>
-                    </li>
-                </ul>
             </div>
+
+
 
             <div className="flex items-center">
+                <div className="hidden sm:block ">
+                    <ul className="flex ">
+                        <li className="mr-8 font-semibold">
+                            <Link to="/home">Home</Link>
+                        </li>
+
+                        <li className="mr-8 font-semibold">
+                            <Link to="/job">Jobs</Link>
+                        </li>
+                        <li className="mr-8 font-semibold">
+                            <Link to="/chats">Messages</Link>
+                        </li>
+                    </ul>
+                </div>
                 <div onClick={() => setShowOptions(!showOptions)} className="relative">
                     <h4>
                         <img src={avatar || profile} alt="Profile" className="w-9 cursor-pointer rounded-full" />

@@ -41,6 +41,7 @@ function Post() {
             {posts?.length == 0 ? <div>No Post Is Reported</div> : <div>
                 {posts?.map((post, index) => (
                     <div key={index} className='w-1/2 mx-auto my-4 bg-gray-300 shadow-md p-4 rounded-lg'>
+                        <h1 className='my-4 text-3xl font-bold text-gray-800'>Post Management</h1>
                         <div className='flex justify-between items-center'>
                             <span className='font-semibold text-lg'> No of Reports:{post.reported.length}</span>
                             <div className="flex justify-end mt-2">

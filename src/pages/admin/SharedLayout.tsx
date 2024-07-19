@@ -14,7 +14,7 @@ function SharedLayout() {
                     <div className='w-1/6 h-screen' style={{ backgroundColor: "#e1e5eb" }}>
                         <Sidebar />
                     </div>
-                    <div className='w-5/6 min:h-screen px-14'>
+                    <div className='w-5/6 min:h-screen '>
                         <Outlet />
                     </div>
                 </div>

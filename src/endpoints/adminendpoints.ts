@@ -12,5 +12,8 @@ export const adminendpoints = {
     recruiterReport: `${API_GATEWAY_BASE_URL}/recruiterReport`,
     postReport: `${API_GATEWAY_BASE_URL}/postReport`,
     jobReport: `${API_GATEWAY_BASE_URL}/jobReport`,
-
+    getallskills: `${API_GATEWAY_BASE_URL}/getallskills`,
+    addskills: `${API_GATEWAY_BASE_URL}/addskill`,
+    updateskills: `${API_GATEWAY_BASE_URL}/updateskill`,
+    deleteskills: `${API_GATEWAY_BASE_URL}/deleteskill`,
 };

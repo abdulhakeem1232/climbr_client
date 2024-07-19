@@ -223,7 +223,7 @@ function UserManagement() {
                 </TableContainer>
             </div>
             <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[2, 10, 25]}
                 component="div"
                 count={filteredUsers.length}
                 rowsPerPage={rowsPerPage}
