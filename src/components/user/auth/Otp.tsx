@@ -106,7 +106,7 @@ function Otp() {
       response = await userAxios.post(endpoints.otp, { otp: otpValue });
     }
     console.log(response.data.success, isRecruiter, 'wehviks');
-    if (response.data.success && response.data.msg === 'ForgotOtp') {
+    if (response.data.success && response.data.msg == 'ForgotOtp') {
       console.log('forgot pass');
       navigate('/reset');
     } else if (response.data.success && isRecruiter == 'false') {
@@ -122,15 +122,15 @@ function Otp() {
         navigate('/');
       }, tokenExpirationTime)
       navigate('/home');
-    } else if (response.data.success && isRecruiter === 'true') {
+    } else if (response.data.success && isRecruiter == 'true') {
       sessionStorage.removeItem('otpTimer');
       const tokenExpirationTime = 2 * 60 * 60 * 1000;
-      dispatch(loginData(response.data.userdata))
-      socket.emit('join', response.data.userdata._id);
+      dispatch(loginData(response.data.user))
+      socket.emit('join', response.data.user._id);
       console.log('emitted socket join');
       setTimeout(() => {
         dispatch(logout());
-        socket.emit('leave', response.data.userdata._id);
+        socket.emit('leave', response.data.user._id);
         navigate('/');
       }, tokenExpirationTime)
       navigate('/');

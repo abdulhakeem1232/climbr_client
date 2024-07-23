@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store/store'
 import { endpoints } from '../../../endpoints/userEndpoint';
 import { userAxios } from '../../../utils/Config';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 interface CreatePostProps {
@@ -20,7 +21,7 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
     const [imageError, setImageError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
     const [imagePreview, setImagePreview] = useState<string>('');
-
+    const navigate = useNavigate()
     const avatar = useSelector((store: RootState) => store.UserData.image);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +69,7 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
             });
             console.log(response.data);
             toast.success("Posted Succefully")
+            navigate('/home')
         } catch (error: any) {
             if (error.response) {
                 if (error.response.status == 413) {
@@ -82,10 +84,12 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
             }
             console.error('Error:', error);
         }
-        setIsLoading(false);
         setDescription('');
         setImagePreview('');
         setImage(null);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
     };
 
     return (

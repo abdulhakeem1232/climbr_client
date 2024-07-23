@@ -11,6 +11,7 @@ import { format, isToday, isYesterday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
 import { useWebRTC } from '../../../Context/WebRTCContext';
 import { userAxios } from '../../../utils/Config';
+import Chatbg from '../../../assets/chatbg.jpg'
 interface Message {
     chatId: string;
     name: string;
@@ -148,7 +149,8 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
     };
 
     return (
-        <div className='flex flex-col min-h-screen max-h-screen p-4 shadow-lg rounded-lg w-full bg-white'>
+        <div className='flex flex-col min-h-screen max-h-screen p-4 shadow-lg rounded-lg w-full bg-white'
+            style={{ backgroundImage: `url(${Chatbg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className='flex items-center mb-4 bg-gray-100 p-2 rounded-lg'>
                 <img
                     src={avatar}

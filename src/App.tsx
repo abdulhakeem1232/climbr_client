@@ -16,13 +16,7 @@ function App() {
     <WebRTCProvider>
       <div className="App">
         <ErrorBoundary FallbackComponent={fallbackRender}>
-          <Router>
-            <Routes>
-              <Route path='/*' element={<UserRoutes />} />
-              <Route path='/recruiter/*' element={<RecruiterRoute />} />
-              <Route path='/admin/*' element={<AdminRoute />} />
-            </Routes>
-          </Router>
+          x``
           <GlobalVideoCallHandler />
           <GlobalIncomingCallHandler />
         </ErrorBoundary>
