@@ -5,9 +5,11 @@ import Button from '@mui/material/Button'
 import { endpoints } from '../../../endpoints/userEndpoint';
 import { useNavigate } from 'react-router-dom';
 import { recruiterendpoints } from '../../../endpoints/recruiterEndpoints';
-import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { loginData, logout } from '../../../Redux/slice/UserSlice';
 import { userAxios, recruiterAxios } from '../../../utils/Config';
 import { toast } from 'sonner';
+import socket from '../../../utils/socket/Socket';
 
 function Otp() {
   const [otp, setOtp] = useState<string[]>(['', '', '', '']);
@@ -15,6 +17,7 @@ function Otp() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [timer, setTimer] = useState<number>(45);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const startTimer = () => {
     const intervalId = setInterval(() => {
@@ -106,11 +109,29 @@ function Otp() {
     if (response.data.success && response.data.msg === 'ForgotOtp') {
       console.log('forgot pass');
       navigate('/reset');
-    } else if (response.data.success && isRecruiter === 'false') {
+    } else if (response.data.success && isRecruiter == 'false') {
       sessionStorage.removeItem('otpTimer');
+      const tokenExpirationTime = 2 * 60 * 60 * 1000;
+      dispatch(loginData(response.data.userdata))
+      socket.emit('join', response.data.userdata._id);
+      console.log('emitted socket join');
+      setTimeout(() => {
+        dispatch(logout());
+        socket.emit('leave', response.data.userdata._id);
+        navigate('/');
+      }, tokenExpirationTime)
       navigate('/home');
     } else if (response.data.success && isRecruiter === 'true') {
       sessionStorage.removeItem('otpTimer');
+      const tokenExpirationTime = 2 * 60 * 60 * 1000;
+      dispatch(loginData(response.data.userdata))
+      socket.emit('join', response.data.userdata._id);
+      console.log('emitted socket join');
+      setTimeout(() => {
+        dispatch(logout());
+        socket.emit('leave', response.data.userdata._id);
+        navigate('/');
+      }, tokenExpirationTime)
       navigate('/');
     } else {
       toast.error("Invalid OTP");
