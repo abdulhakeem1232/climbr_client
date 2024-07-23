@@ -112,6 +112,7 @@ function Otp() {
     } else if (response.data.success && isRecruiter == 'false') {
       sessionStorage.removeItem('otpTimer');
       const tokenExpirationTime = 2 * 60 * 60 * 1000;
+      console.log(response.data, '--------------------');
       dispatch(loginData(response.data.userdata))
       socket.emit('join', response.data.userdata._id);
       console.log('emitted socket join');
