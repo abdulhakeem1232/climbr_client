@@ -97,7 +97,7 @@ function Otp() {
     console.log('Submitted OTP:', otpValue);
     // const isRecruiter = Cookies.get('isRecruiter');
     const isRecruiter = localStorage.getItem('role')
-    let response;
+    let response: any;
     if (isRecruiter == 'true') {
       console.log('trueee');
       response = await recruiterAxios.post(recruiterendpoints.otp, { otp: otpValue });
