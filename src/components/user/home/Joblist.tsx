@@ -127,88 +127,99 @@ function Joblist({ showFilters }: JoblistProps) {
                             onChange={handleChange}
                             placeholder="Search by Location"
                         />
-                        <span className="text-lg m">Types of Employment</span><br />
+                        <span className="text-lg font-semibold mb-2 block">Types of Employment</span>
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="onsiteFullTime" name="onsiteFullTime" className='hidden peer' checked={filters.onsiteFullTime} onChange={handleFilterChange} />
                             <label htmlFor="onsiteFullTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 On-site Full-Time
                             </label>
                         </div>
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="remoteFullTime" name="remoteFullTime" className='hidden peer' checked={filters.remoteFullTime} onChange={handleFilterChange} />
                             <label htmlFor="remoteFullTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 Remote Full-Time
                             </label>
                         </div>
-                        {/* <div className='filter-option mb-2'>
-                            <input type="checkbox" id="remoteFullTime" name="remoteFullTime" className='transform scale-125 mr-1'
-                                checked={filters.remoteFullTime} onChange={handleFilterChange} />
-                            <label htmlFor="remoteFullTime">Remote Full-Time</label>
-                        </div> */}
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="onsitePartTime" name="onsitePartTime" className='hidden peer' checked={filters.onsitePartTime} onChange={handleFilterChange} />
                             <label htmlFor="onsitePartTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 On-site Part-Time
                             </label>
                         </div>
-                        {/* <div className='mb-1 ml-2'>
-                            <input type="checkbox" id="onsitePartTime" name="onsitePartTime" className='transform scale-125 mr-1'
-                                checked={filters.onsitePartTime} onChange={handleFilterChange} />
-                            <label htmlFor="onsitePartTime">On-site Part-Time</label>
-                        </div> */}
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="remotePartTime" name="remotePartTime" className='hidden peer' checked={filters.remotePartTime} onChange={handleFilterChange} />
                             <label htmlFor="remotePartTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 Remote Part-Time
                             </label>
                         </div>
-                        {/* <div className='mb-1 ml-2'>
-                            <input type="checkbox" id="remotePartTime" name="remotePartTime" className='transform scale-125 mr-1'
-                                checked={filters.remotePartTime} onChange={handleFilterChange} />
-                            <label htmlFor="remotePartTime">Remote Part-Time</label>
-                        </div> */}
-                        <span className="text-lg m">Designation</span><br />
+                        <span className="text-lg font-semibold mb-2 block mt-4">Designation</span>
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="backEndDeveloper" name="backEndDeveloper" className='hidden peer' checked={filters.backEndDeveloper} onChange={handleFilterChange} />
                             <label htmlFor="backEndDeveloper" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 Back-End Developer
                             </label>
                         </div>
-                        {/* <div className='my-1 ml-2'>
-                            <input type="checkbox" id="backEndDeveloper" name="backEndDeveloper" className='transform scale-125 mr-1'
-                                checked={filters.backEndDeveloper} onChange={handleFilterChange} />
-                            <label htmlFor="backEndDeveloper">Back-End Developer</label>
-                        </div> */}
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="frontEndDeveloper" name="frontEndDeveloper" className='hidden peer' checked={filters.frontEndDeveloper} onChange={handleFilterChange} />
                             <label htmlFor="frontEndDeveloper" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 Front-End Developer
                             </label>
                         </div>
-                        {/* <div className='my-1 ml-2'>
-                            <input type="checkbox" id="frontEndDeveloper" name="frontEndDeveloper" className='transform scale-125 mr-1'
-                                checked={filters.frontEndDeveloper} onChange={handleFilterChange} />
-                            <label htmlFor="frontEndDeveloper">Front-End Developer</label>
-                        </div> */}
                         <div className="filter-option mb-2">
                             <input type="checkbox" id="fullStackDeveloper" name="fullStackDeveloper" className='hidden peer' checked={filters.fullStackDeveloper} onChange={handleFilterChange} />
                             <label htmlFor="fullStackDeveloper" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
-                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500 peer-checked:border-blue-500 relative">
+                                    <span className="absolute inset-0 hidden peer-checked:block">
+                                        <svg className="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </span>
                                 Full-Stack Developer
                             </label>
                         </div>
-                        {/* <div className='mb-1 ml-2'>
-                            <input type="checkbox" id="fullStackDeveloper" name="fullStackDeveloper" className='transform scale-125 mr-1'
-                                checked={filters.fullStackDeveloper} onChange={handleFilterChange} />
-                            <label htmlFor="fullStackDeveloper">Full-Stack Developer</label>
-                        </div> */}
-
                     </div>
                     <div className="card-container flex flex-wrap ml-5 pl-16 lg:pl-64">
                         {filteredJobs?.length > 0 ? (
