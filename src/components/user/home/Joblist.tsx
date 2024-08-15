@@ -135,54 +135,120 @@ function Joblist({ showFilters }: JoblistProps) {
                                 On-site Full-Time
                             </label>
                         </div>
-                        <div className='mb-1 ml-2'>
+                        <div className="filter-option mb-2">
+                            <input type="checkbox" id="remoteFullTime" name="remoteFullTime" className='hidden peer' checked={filters.remoteFullTime} onChange={handleFilterChange} />
+                            <label htmlFor="remoteFullTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                Remote Full-Time
+                            </label>
+                        </div>
+                        {/* <div className='filter-option mb-2'>
                             <input type="checkbox" id="remoteFullTime" name="remoteFullTime" className='transform scale-125 mr-1'
                                 checked={filters.remoteFullTime} onChange={handleFilterChange} />
                             <label htmlFor="remoteFullTime">Remote Full-Time</label>
+                        </div> */}
+                        <div className="filter-option mb-2">
+                            <input type="checkbox" id="onsitePartTime" name="onsitePartTime" className='hidden peer' checked={filters.onsitePartTime} onChange={handleFilterChange} />
+                            <label htmlFor="onsitePartTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                On-site Part-Time
+                            </label>
                         </div>
-                        <div className='mb-1 ml-2'>
+                        {/* <div className='mb-1 ml-2'>
                             <input type="checkbox" id="onsitePartTime" name="onsitePartTime" className='transform scale-125 mr-1'
                                 checked={filters.onsitePartTime} onChange={handleFilterChange} />
                             <label htmlFor="onsitePartTime">On-site Part-Time</label>
+                        </div> */}
+                        <div className="filter-option mb-2">
+                            <input type="checkbox" id="remotePartTime" name="remotePartTime" className='hidden peer' checked={filters.remotePartTime} onChange={handleFilterChange} />
+                            <label htmlFor="remotePartTime" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                Remote Part-Time
+                            </label>
                         </div>
-                        <div className='mb-1 ml-2'>
+                        {/* <div className='mb-1 ml-2'>
                             <input type="checkbox" id="remotePartTime" name="remotePartTime" className='transform scale-125 mr-1'
                                 checked={filters.remotePartTime} onChange={handleFilterChange} />
                             <label htmlFor="remotePartTime">Remote Part-Time</label>
-                        </div>
+                        </div> */}
                         <span className="text-lg m">Designation</span><br />
-                        <div className='my-1 ml-2'>
+                        <div className="filter-option mb-2">
+                            <input type="checkbox" id="backEndDeveloper" name="backEndDeveloper" className='hidden peer' checked={filters.backEndDeveloper} onChange={handleFilterChange} />
+                            <label htmlFor="backEndDeveloper" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                Back-End Developer
+                            </label>
+                        </div>
+                        {/* <div className='my-1 ml-2'>
                             <input type="checkbox" id="backEndDeveloper" name="backEndDeveloper" className='transform scale-125 mr-1'
                                 checked={filters.backEndDeveloper} onChange={handleFilterChange} />
                             <label htmlFor="backEndDeveloper">Back-End Developer</label>
+                        </div> */}
+                        <div className="filter-option mb-2">
+                            <input type="checkbox" id="frontEndDeveloper" name="frontEndDeveloper" className='hidden peer' checked={filters.frontEndDeveloper} onChange={handleFilterChange} />
+                            <label htmlFor="frontEndDeveloper" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                Front-End Developer
+                            </label>
                         </div>
-                        <div className='my-1 ml-2'>
+                        {/* <div className='my-1 ml-2'>
                             <input type="checkbox" id="frontEndDeveloper" name="frontEndDeveloper" className='transform scale-125 mr-1'
                                 checked={filters.frontEndDeveloper} onChange={handleFilterChange} />
                             <label htmlFor="frontEndDeveloper">Front-End Developer</label>
+                        </div> */}
+                        <div className="filter-option mb-2">
+                            <input type="checkbox" id="fullStackDeveloper" name="fullStackDeveloper" className='hidden peer' checked={filters.fullStackDeveloper} onChange={handleFilterChange} />
+                            <label htmlFor="fullStackDeveloper" className="flex items-center cursor-pointer text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                                <span className="w-5 h-5 inline-block mr-2 rounded-full border border-gray-300 peer-checked:bg-blue-500"></span>
+                                Full-Stack Developer
+                            </label>
                         </div>
-                        <div className='mb-1 ml-2'>
+                        {/* <div className='mb-1 ml-2'>
                             <input type="checkbox" id="fullStackDeveloper" name="fullStackDeveloper" className='transform scale-125 mr-1'
                                 checked={filters.fullStackDeveloper} onChange={handleFilterChange} />
                             <label htmlFor="fullStackDeveloper">Full-Stack Developer</label>
-                        </div>
+                        </div> */}
 
                     </div>
                     <div className="card-container flex flex-wrap ml-5 pl-16 lg:pl-64">
                         {filteredJobs?.length > 0 ? (
                             filteredJobs.map((job, index) => (
-                                <Card key={index} className='bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden mb-4 md:mr-4 md:w-64'>
-                                    <div className="p-4">
-                                        <Card.Img variant="top" src={job.image} className='w-16 h-16 mb-4 rounded-full mx-auto' />
-                                        <Card.Body className='text-center'>
-                                            <Card.Title className="font-bold text-xl mb-2">{job.jobrole}</Card.Title>
-                                            <Card.Text>
-                                                <p className='text-gray-600 mb-1'>{job.companyname}</p>
-                                                <p className='text-gray-600 mb-1'>{job.joblocation}</p>
-                                                <p className='text-gray-600 mb-3'>{job.minexperience}-{job.maxexperience} years</p>
-                                            </Card.Text>
-                                            <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-200' onClick={() => handleButton(job._id)}>More Details</button>
-                                        </Card.Body>
+                                <Card key={index} className='bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden mb-6 md:mr-6 md:w-72 transform hover:-translate-y-1'>
+                                    <div className="relative p-6">
+                                        <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
+                                            {job.emptype}
+                                        </div>
+                                        <div className="flex items-center mb-4">
+                                            <Card.Img variant="top" src={job.image} className='w-16 h-16 rounded-full border-4 border-blue-100' />
+                                            <div className="ml-4">
+                                                <Card.Title className="font-bold text-xl text-gray-800">{job.jobrole}</Card.Title>
+                                                <p className='text-blue-500 font-semibold'>{job.companyname}</p>
+                                            </div>
+                                        </div>
+                                        <Card.Text>
+                                            <div className="flex items-center text-gray-600 mb-2">
+                                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                                {job.joblocation}
+                                            </div>
+                                            <div className="flex items-center text-gray-600 mb-4">
+                                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                                {job.minexperience}-{job.maxexperience} years
+                                            </div>
+                                        </Card.Text>
+                                        <button
+                                            className='w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-200 flex items-center justify-center'
+                                            onClick={() => handleButton(job._id)}
+                                        >
+                                            More Details
+                                            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </Card>
                             ))
