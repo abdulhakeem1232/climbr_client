@@ -119,7 +119,7 @@ function Joblist({ showFilters }: JoblistProps) {
             ) : (
 
                 <div className="job-list-container flex flex-col md:flex-row ">
-                    <div className={`filter-container bg-white rounded-lg shadow-lg p-4 mb-4 md:mb-0 md:mr-4 md:w-64 ${showFilters ? 'block' : 'hidden md:block'}`}>
+                    <div className={`filter-container bg-white rounded-lg lg:min-h-screen shadow-lg p-4 mb-4 md:mb-0 md:mr-4 md:w-64 ${showFilters ? 'block' : 'hidden md:block'}`}>
                         <input
                             type="text"
                             className='w-full pl-4 h-10 focus:border-transparent focus:outline-none shadow-md mb-4 rounded-full bg-gray-100'
@@ -166,7 +166,7 @@ function Joblist({ showFilters }: JoblistProps) {
                         </div>
 
                     </div>
-                    <div className="card-container flex flex-wrap ml-5 pl-16 lg:pl-64">
+                    <div className="card-container flex flex-wrap ml-5">
                         {filteredJobs?.length > 0 ? (
                             filteredJobs.map((job, index) => (
                                 <Card key={index} className='bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden mb-6 md:mr-6 md:w-72 transform hover:-translate-y-1'>
