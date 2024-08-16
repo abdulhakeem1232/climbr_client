@@ -14,23 +14,43 @@ interface ChatDetails {
 
 function Message() {
     const [selectedChat, setSelectedChat] = useState<ChatDetails | null>(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleSelectChat = (chatId: string, avatar: string, username: string, id: string, lastlogged: string) => {
         setSelectedChat({ chatId, avatar, username, id, lastlogged });
+        setIsMobileMenuOpen(false);
     };
 
     return (
-        <div>
-            <div>
-                <Nav />
+        <div className="flex flex-col h-screen bg-gray-100">
+            <Nav />
+            <div className="flex-grow flex overflow-hidden">
+                <div className={`md:w-1/3 lg:w-1/4 bg-white shadow-md ${isMobileMenuOpen ? 'block' : 'hidden'} md:block`}>
+                    <Chatlist onSelectChat={handleSelectChat} />
+                </div>
+                <div className="flex-grow flex flex-col md:ml-4">
+                    {selectedChat ? (
+                        <Chatting
+                            chatId={selectedChat.chatId}
+                            avatar={selectedChat.avatar}
+                            username={selectedChat.username}
+                            id={selectedChat.id}
+                            lastlogged={selectedChat.lastlogged}
+                        />
+                    ) : (
+                        <div className="flex items-center justify-center h-full bg-white rounded-lg shadow-md">
+                            <p className="text-gray-500">Select a chat to start messaging</p>
+                        </div>
+                    )}
+                </div>
             </div>
-            < div className='flex  justify-start px-1 md:px-28 lg:px-60 mt-2 bg-gray-50' >
-                <Chatlist onSelectChat={handleSelectChat} />
-                {selectedChat == null && <div className="flex items-center justify-center w-full min:h-screen bg-white rounded-lg shadow">
-                    <p className="text-gray-500">Select a chat to start messaging</p>
-                </div>}
-                {selectedChat && <Chatting chatId={selectedChat.chatId} avatar={selectedChat.avatar} username={selectedChat.username} id={selectedChat.id} lastlogged={selectedChat.lastlogged} />}
-            </div >
+            <button
+                className="md:hidden fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+                {isMobileMenuOpen ? 'Close' : 'Chats'}
+            </button>
+            <Toaster position="top-right" />
         </div>
     );
 }

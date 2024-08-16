@@ -149,55 +149,56 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
     };
 
     return (
-        <div className='flex flex-col min-h-screen max-h-screen p-4 shadow-lg rounded-lg w-full bg-white'
-            style={{ backgroundImage: `url(${Chatbg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <div className='flex items-center mb-4 bg-gray-100 p-2 rounded-lg'>
+        <div className='flex flex-col h-full bg-gray-100 rounded-lg shadow-lg overflow-hidden'>
+            <div className='flex items-center p-4 bg-white border-b'>
                 <img
                     src={avatar}
                     alt={`${username}'s avatar`}
-                    className='w-10 h-10 rounded-full mr-4'
+                    className='w-10 h-10 rounded-full mr-4 object-cover'
                 />
-                <div className='text-left'>
-                    <h2 className='text-xl font-bold'>{username}</h2>
+                <div className='flex-grow'>
+                    <h2 className='text-lg font-semibold'>{username}</h2>
                     <span className='text-sm text-gray-500'>{lastlogged}</span>
                 </div>
-                <img src={videocall} alt="" className='w-8 ml-auto mr-2 cursor-pointer' onClick={() => startCall(id)} />
+                <img src={videocall} alt="" className='w-8 cursor-pointer' onClick={() => startCall(id)} />
             </div>
-            <ul className='flex-1 p-4 list-none m-0 overflow-y-scroll no-scrollbar'>
+            <div className='flex-grow overflow-y-auto p-4' style={{ backgroundImage: `url(${Chatbg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                 {Object.keys(groupedMessages).map(date => (
-                    <div key={date}>
-                        <li className='text-center text-gray-500 my-2'>
+                    <div key={date} className='mb-4'>
+                        <div className='text-center text-sm text-gray-500 my-2'>
                             {getDateLabel(date)}
-                        </li>
+                        </div>
                         {groupedMessages[date].map((message: Message, index: number) => (
-                            <li
+                            <div
                                 key={index}
-                                className={`mb-2 p-2 rounded-lg break-words ${message.sender === userId ? 'ml-auto' : 'mr-auto'} ${message.sender === userId ? 'bg-blue-100 self-end text-right' : 'bg-green-100 self-start text-left'} max-w-max`}
+                                className={`flex ${message.sender === userId ? 'justify-end' : 'justify-start'} mb-2`}
                             >
-                                {message.fileType?.startsWith('image/') && <img src={`${message.filePath}`} alt='sent image' className='max-w-xs max-h-40 mb-2' />}
-                                {message.fileType?.startsWith('video/') && <video src={`${message.filePath}`} controls className='max-w-xs max-h-40 mb-2'></video>}
-                                {message.fileType && !message.fileType.startsWith('image/') && !message.fileType.startsWith('video/') && (
-                                    <a href={`${message.filePath}`} download className='text-blue-500 underline'>
-                                        Download file
-                                    </a>
-                                )}
-                                <div>{message.message}</div>
-                                <div className="text-xs text-gray-500">
-                                    {format(new Date(message.createdAt), 'HH:mm')}
+                                <div className={`rounded-lg p-3 max-w-xs lg:max-w-md ${message.sender === userId ? 'bg-blue-500 text-white' : 'bg-white'}`}>
+                                    {message.fileType?.startsWith('image/') && <img src={`${message.filePath}`} alt='sent image' className='max-w-full rounded-lg mb-2' />}
+                                    {message.fileType?.startsWith('video/') && <video src={`${message.filePath}`} controls className='max-w-full rounded-lg mb-2'></video>}
+                                    {message.fileType && !message.fileType.startsWith('image/') && !message.fileType.startsWith('video/') && (
+                                        <a href={`${message.filePath}`} download className='text-blue-300 underline'>
+                                            Download file
+                                        </a>
+                                    )}
+                                    <p>{message.message}</p>
+                                    <div className="text-xs opacity-75 mt-1">
+                                        {format(new Date(message.createdAt), 'HH:mm')}
+                                    </div>
                                 </div>
-                            </li>
+                            </div>
                         ))}
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
-            </ul>
-            <form onSubmit={sendMessage} className='flex p-4 bg-white border-t border-gray-300 relative'>
-                <div className='relative'>
-                    <button type='button' onClick={() => setShowFileOptions(!showFileOptions)} className='p-2 bg-gray-200 text-gray-800 rounded mr-2'>
+            </div>
+            <form onSubmit={sendMessage} className='flex items-center p-4 bg-white'>
+                <div className='relative mr-2'>
+                    <button type='button' onClick={() => setShowFileOptions(!showFileOptions)} className='p-2 bg-gray-200 text-gray-800 rounded-full'>
                         <img src={Add} alt="" className='w-6' />
                     </button>
                     {showFileOptions && (
-                        <div className='absolute bottom-12 right-2 bg-white border border-gray-300 rounded shadow-lg'>
+                        <div className='absolute bottom-12 left-0 bg-white border border-gray-300 rounded-lg shadow-lg'>
                             <button type='button' onClick={() => handleFileOptionClick('image')} className='block w-full text-left px-4 py-2 hover:bg-gray-100'>
                                 Image
                             </button>
@@ -211,22 +212,24 @@ function Chatting({ chatId, avatar, username, id, lastlogged }: ChattingProps) {
                     )}
                 </div>
                 <input type='file' className='hidden' id='file-input' />
-                <button type='button' onClick={() => setShowEmojiPicker(!showEmojiPicker)} className='p-2 bg-gray-200 text-gray-800 rounded mr-2'>
+                <button type='button' onClick={() => setShowEmojiPicker(!showEmojiPicker)} className='p-2 bg-gray-200 text-gray-800 rounded-full mr-2'>
                     😊
                 </button>
                 {showEmojiPicker && (
-                    <div className='absolute bottom-16 right-2'>
+                    <div className='absolute bottom-16 right-4'>
                         <Picker data={data} onEmojiSelect={handleEmojiSelect} />
                     </div>
                 )}
                 <input
                     type='text'
                     value={message}
-                    placeholder='Your message'
+                    placeholder='Type a message...'
                     onChange={(event) => setMessage(event.target.value)}
-                    className='flex-1 p-2 mr-2 border border-gray-300 rounded'
+                    className='flex-grow p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500'
                 />
-                <button type='submit' className='p-2 bg-blue-500 text-white rounded'>Send</button>
+                <button type='submit' className='ml-2 p-2 bg-blue-500 text-white rounded-full'>
+                    Send
+                </button>
             </form>
         </div>
     );

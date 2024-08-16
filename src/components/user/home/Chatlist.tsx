@@ -70,35 +70,38 @@ function Chatlist({ onSelectChat }: ChatlistProps) {
     }, [userId]);
 
     return (
-        <div className='chat-list-container mr-1 rounded-lg w-2/5 shadow-lg bg-white min-h-screen'>
-            <h2 className='chat-list-title'>Chats</h2>
-            <div className='chat-list'>
+        <div className='h-full flex flex-col bg-gray-50'>
+            <h2 className='text-2xl font-bold p-4 bg-blue-500 text-white'>Chats</h2>
+            <div className='flex-grow overflow-y-auto'>
                 {chats?.map((chat: any) => {
                     const isOnline = onlineUsers.has(chat.user._id);
                     const lastLoggedTime = chat.user.lastLogged ? new Date(chat.user.lastLogged) : null;
                     const lastlogged = isOnline ? 'online' : (lastLoggedTime ? formatDistanceToNow(lastLoggedTime, { addSuffix: true }) : 'offline');
 
-
                     return (
-                        <div key={chat._id} className='mb-1  hover:bg-gray-200'>
+                        <div key={chat._id} className='hover:bg-gray-100 transition-colors duration-200'>
                             <div
                                 onClick={() => onSelectChat(chat._id, chat.user.avatar, chat.user.username, chat.user._id, lastlogged)}
-                                className='chat-item cursor-pointer flex items-center p-2 rounded-lg'
+                                className='flex items-center p-4 cursor-pointer border-b border-gray-200'
                             >
-                                <img
-                                    src={chat.user.avatar}
-                                    alt={`${chat.user.username}'s avatar`}
-                                    className='chat-item-avatar w-10 h-10 rounded-full mr-4'
-                                />
-                                <span className='chat-item-username'>{chat.user.username}</span>
-                                <span className={`ml-auto ${isOnline ? 'text-green-500' : 'text-gray-500'}`}>
-                                    {isOnline ? 'Online' : 'Offline'}
+                                <div className='relative'>
+                                    <img
+                                        src={chat.user.avatar}
+                                        alt={`${chat.user.username}'s avatar`}
+                                        className='w-12 h-12 rounded-full mr-4 object-cover'
+                                    />
+                                    <span className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-500'}`}></span>
+                                </div>
+                                <div className='flex-grow'>
+                                    <h3 className='font-semibold'>{chat.user.username}</h3>
+                                    <p className='text-sm text-gray-600 truncate'>
+                                        {chat.lastMessage ? (chat.lastMessage.fileType ? chat.lastMessage.fileType : chat.lastMessage.message) : 'No messages yet'}
+                                    </p>
+                                </div>
+                                <span className='text-xs text-gray-500'>
+                                    {isOnline ? 'Online' : lastlogged}
                                 </span>
                             </div>
-                            <p className='text-left ml-16 -mt-5'>
-                                {chat.lastMessage ? (chat.lastMessage.fileType ? chat.lastMessage.fileType : chat.lastMessage.message) : 'No messages yet'}
-                            </p>
-                            <hr className="" />
                         </div>
                     );
                 })}
