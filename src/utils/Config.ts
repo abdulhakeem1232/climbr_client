@@ -119,8 +119,7 @@ const handle401Error = (dispatch: any, navigate: any) => {
 const addRequestInterceptor = (axiosInstance: any) => {
     axiosInstance.interceptors.request.use(
         (config: any) => {
-            const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
-            const token = tokenCookie ? tokenCookie.split('=')[1] : undefined;
+            const token = localStorage.getItem('token');
             if (token) {
                 config.headers['Authorization'] = `Bearer ${token}`;
             }
@@ -131,6 +130,7 @@ const addRequestInterceptor = (axiosInstance: any) => {
         }
     );
 };
+
 
 
 const addResponseInterceptor = (axiosInstance: any) => {
