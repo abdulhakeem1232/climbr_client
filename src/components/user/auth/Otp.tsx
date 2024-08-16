@@ -114,11 +114,13 @@ function Otp() {
       const tokenExpirationTime = 2 * 60 * 60 * 1000;
       console.log(response.data, '----------+++++++++++++++++----------');
       dispatch(loginData(response.data.userdata))
+      localStorage.setItem('token', response.data.token);
       socket.emit('join', response.data.userdata._id);
       console.log('emitted socket join');
       setTimeout(() => {
         dispatch(logout());
         socket.emit('leave', response.data.userdata._id);
+        localStorage.removeItem('token');
         navigate('/');
       }, tokenExpirationTime)
       navigate('/home');
@@ -126,11 +128,13 @@ function Otp() {
       sessionStorage.removeItem('otpTimer');
       const tokenExpirationTime = 2 * 60 * 60 * 1000;
       dispatch(loginData(response.data.user))
+      localStorage.setItem('token', response.data.token);
       socket.emit('join', response.data.user._id);
       console.log('emitted socket join');
       setTimeout(() => {
         dispatch(logout());
         socket.emit('leave', response.data.user._id);
+        localStorage.removeItem('token');
         navigate('/');
       }, tokenExpirationTime)
       navigate('/');

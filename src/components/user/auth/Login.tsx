@@ -47,28 +47,34 @@ function Login() {
       const tokenExpirationTime = 2 * 60 * 60 * 1000;
       if (response.data.success && isRecruiter == false && response.data.isAdmin == false) {
         dispatch(loginData(response.data.user))
+        localStorage.setItem('token', response.data.token);
         socket.emit('join', response.data.user._id);
         console.log('emitted socket join');
         setTimeout(() => {
           dispatch(logout());
           socket.emit('leave', response.data.user._id);
+          localStorage.removeItem('token');
           navigate('/');
         }, tokenExpirationTime)
         navigate('/home')
       } else if (response.data.success && isRecruiter == true) {
         dispatch(loginData(response.data.user))
+        localStorage.setItem('token', response.data.token);
         socket.emit('join', response.data.user._id);
         setTimeout(() => {
           dispatch(logout());
           socket.emit('leave', response.data.user._id);
+          localStorage.removeItem('token');
           navigate('/');
         }, tokenExpirationTime)
         navigate('/recruiter/home')
       } else if (response.data.success && isRecruiter == false && response.data.isAdmin) {
         dispatch(loginData(response.data.user))
+        localStorage.setItem('token', response.data.token);
         setTimeout(() => {
           dispatch(logout());
           socket.emit('leave', response.data.user._id);
+          localStorage.removeItem('token');
           navigate('/');
         }, tokenExpirationTime)
         navigate('/admin/dashboard')
@@ -98,10 +104,12 @@ function Login() {
       if (response) {
         console.log(response, '----------------------', response.data?.user, response.data?.data?.user);
         dispatch(loginData(response.data.user))
+        localStorage.setItem('token', response.data.token);
         const tokenExpirationTime = 2 * 60 * 60 * 1000;
         setTimeout(() => {
           dispatch(logout());
           socket.emit('leave', response.data.user._id);
+          localStorage.removeItem('token');
           navigate('/');
         }, tokenExpirationTime)
         navigate("/home");
