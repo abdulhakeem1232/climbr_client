@@ -201,21 +201,21 @@ function Profile() {
         }
     };
     return (
-        <div className='w-full text-left mb-10'>
+        <div className='w-full text-left mb-10 px-4 sm:px-6 lg:px-8'>
             {
                 userDetails == null ? <LoadingWave /> :
-                    < div className='w-3/5 ml-2' >
-                        <div className='bg-white rounded-lg shadow-md border-2 '>
-                            <div className='relative '>
+                    <div className='w-full max-w-4xl mx-auto'>
+                        <div className='bg-white rounded-lg shadow-md border-2'>
+                            <div className='relative'>
                                 {sameUser ? (
-                                    <img src={userDetails.avatar} alt="" className='w-32 top-20 left-3 cursor-pointer rounded-full absolute' onClick={() => setImageModal(true)} />
+                                    <img src={userDetails.avatar} alt="" className='w-24 sm:w-32 top-16 sm:top-20 left-3 cursor-pointer rounded-full absolute' onClick={() => setImageModal(true)} />
                                 ) : (
-                                    <img src={userDetails.avatar} alt="" className='w-32 top-20 left-3 cursor-pointer rounded-full absolute' />
+                                    <img src={userDetails.avatar} alt="" className='w-24 sm:w-32 top-16 sm:top-20 left-3 cursor-pointer rounded-full absolute' />
                                 )}
                                 {sameUser && (
                                     <img src={edit} alt="" className='absolute cursor-pointer w-6 right-1 bottom-1' onClick={() => setBannerModal(!bannerModal)} />
                                 )}
-                                <img src={userDetails.banner} alt="" className='h-40 w-full rounded-md' />
+                                <img src={userDetails.banner} alt="" className='h-32 sm:h-40 w-full rounded-md object-cover' />
                             </div>
                             <BannerModal isOpen={bannerModal} onClose={() => setBannerModal(false)} currentImage={userDetails.banner} onSelectNewImage={function (newImage: File): void {
                                 throw new Error('Function not implemented.');
@@ -225,33 +225,35 @@ function Profile() {
                             <SkillsModal isOpen={skillsModal} onClose={() => setSkillsModal(false)} fetchProfileData={fetchData} />
                             <EducationModal isOpen={educationModal} onClose={() => setEducationModal(false)} fetchProfileData={fetchData} />
                             <ExperienceModal isOpen={experienceModal} onClose={() => setExeperienceModal(false)} fetchProfileData={fetchData} />
-                            <div className='px-6 relative pb-3'>
+                            <div className='px-4 sm:px-6 relative pb-3'>
                                 <div className='my-auto'>
-                                    <div className='font-semibold mt-14'>
+                                    <div className='font-semibold mt-20 sm:mt-14'>
                                         {userDetails.username}
                                     </div>
                                     <div className='font-semibold mt-1'>
                                         {userDetails.header}
                                     </div>
-                                    <div className='text-blue-400 mt-1'>
+                                    <div className='text-blue-400 mt-1 text-sm sm:text-base'>
                                         {userDetails.email} | {userDetails.mobile}
                                     </div>
-                                    <div className='my-2'>
+                                    <div className='my-2 flex flex-wrap gap-2'>
                                         {!sameUser && (
                                             <>
-                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full" onClick={follow}>
+                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full text-sm" onClick={follow}>
                                                     {/* @ts-ignore */}
                                                     {id && currentUserData?.includes(id) ? "Unfollow" : "Follow"}
                                                 </button>
-                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full ml-3" onClick={message}>
+                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full text-sm" onClick={message}>
                                                     Message
                                                 </button>
                                             </>
                                         )}
                                     </div>
                                 </div>
-                                <div onClick={handleFollowingsClick} className='cursor-pointer'>Followings {userDetails?.following?.length || 0}</div>
-                                <div onClick={handleFollowersClick} className='cursor-pointer'>Followers {userDetails?.followers?.length || 0}</div>
+                                <div className='flex gap-4 text-sm sm:text-base'>
+                                    <div onClick={handleFollowingsClick} className='cursor-pointer'>Followings {userDetails?.following?.length || 0}</div>
+                                    <div onClick={handleFollowersClick} className='cursor-pointer'>Followers {userDetails?.followers?.length || 0}</div>
+                                </div>
                                 <Modal
                                     isOpen={isModalOpen}
                                     onClose={() => setIsModalOpen(false)}
@@ -263,8 +265,10 @@ function Profile() {
                                 )}
                             </div>
                         </div>
+
+
                         {sameUser && (
-                            <div className='mt-2 p-4 pl-6 bg-white rounded-lg shadow-md'>
+                            <div className='mt-4 p-4 bg-white rounded-lg shadow-md'>
                                 <div className='my-2 font-semibold'>Applied Jobs:</div>
                                 <div className='mb-2'>
                                     {showAllAppliedJobs
@@ -337,16 +341,16 @@ function Profile() {
                                 )}
                             </div>
                         )}
-                        <div className='mt-2 p-4 pl-6 bg-white rounded-lg shadow-md'>
+                        <div className='mt-4 p-4 bg-white rounded-lg shadow-md'>
                             <div className='my-2 font-semibold'>Posts:</div>
                             <div className='mb-2'>
                                 {userDetails.postData && userDetails.postData.length > 0 ? (
                                     <>
-                                        {showAllPostedJobs
-                                            ? userDetails.postData?.map((job: any, index: number) => (
-                                                <div key={index} className='py-2'>
-                                                    <div className='flex'>
-                                                        <img src={job.image} alt="" className='rounded-md w-2/4 mr-3' />
+                                        {(showAllPostedJobs ? userDetails.postData : userDetails.postData.slice(0, 2)).map((job: any, index: number) => (
+                                            <div key={index} className='py-2'>
+                                                <div className='flex flex-col sm:flex-row'>
+                                                    <img src={job.image} alt="" className='rounded-md w-full sm:w-2/4 mb-2 sm:mb-0 sm:mr-3' />
+                                                    <div className='flex-grow'>
                                                         {job._id == editId ? (
                                                             <div>
                                                                 <input
@@ -358,50 +362,23 @@ function Profile() {
                                                                 />
                                                                 <button onClick={() => makeEdit(job._id, editedDescription)}>Edit</button>
                                                             </div>
-                                                        ) : job.description}
-                                                        <span className='ml-auto cursor-pointer' onClick={(event) => handleEllipsisClick(event, job._id)}>...</span>
-                                                        {postId == job._id && showModal && (
-                                                            <div className='options'>
-                                                                <ul className='absolute mt-5 bg-white'>
-                                                                    <li onClick={() => handleEdit(job._id, job.description)} className='cursor-pointer'>Edit</li>
-                                                                    <hr />
-                                                                    <li onClick={() => handleDelete(job._id)} className='cursor-pointer'>Delete</li>
-                                                                </ul>
-                                                            </div>
+                                                        ) : (
+                                                            <p>{job.description}</p>
                                                         )}
-
-                                                    </div>
-                                                </div>
-                                            ))
-                                            : userDetails.postData?.slice(0, 2)?.map((job: any, index: number) => (
-                                                <div key={index} className='py-2'>
-                                                    <div className='flex'>
-                                                        <img src={job.image} alt="" className='rounded-md w-2/4 mr-3' />
-                                                        {job._id == editId ? (
-                                                            <div>
-                                                                <input
-                                                                    type='text'
-                                                                    value={editedDescription}
-                                                                    onChange={e => setEditedDescription(e.target.value)}
-                                                                    autoFocus
-                                                                    className='rounded-md w-full mr-3 h-12'
-                                                                />
-                                                                <button onClick={() => makeEdit(job._id, editedDescription)}>Edit</button>
-                                                            </div>
-                                                        ) : job.description}
-                                                        <span className='ml-auto cursor-pointer' onClick={(event) => handleEllipsisClick(event, job._id)}>...</span>
+                                                        <span className='mt-2 sm:mt-0 sm:ml-auto cursor-pointer' onClick={(event) => handleEllipsisClick(event, job._id)}>...</span>
                                                         {postId == job._id && showModal && (
                                                             <div className='options'>
-                                                                <ul className='absolute mt-5 bg-white'>
-                                                                    <li onClick={() => handleEdit(job._id, job.description)} className='cursor-pointer'>Edit</li>
+                                                                <ul className='absolute mt-5 bg-white shadow-md rounded'>
+                                                                    <li onClick={() => handleEdit(job._id, job.description)} className='cursor-pointer p-2 hover:bg-gray-100'>Edit</li>
                                                                     <hr />
-                                                                    <li onClick={() => handleDelete(job._id)} className='cursor-pointer'>Delete</li>
+                                                                    <li onClick={() => handleDelete(job._id)} className='cursor-pointer p-2 hover:bg-gray-100'>Delete</li>
                                                                 </ul>
                                                             </div>
                                                         )}
                                                     </div>
                                                 </div>
-                                            ))}
+                                            </div>
+                                        ))}
                                         {userDetails.postData?.length > 2 && (
                                             <button onClick={() => setShowAllPostedJobs(!showAllPostedJobs)} className='mt-2 flex mx-auto'>
                                                 {showAllPostedJobs ? (

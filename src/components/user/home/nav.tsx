@@ -56,7 +56,7 @@ function Nav() {
     return (
         <div className=" shadow-md h-16 flex items-center justify-between px-28 md:pr-40   py-2">
             <div className='flex items-center justify-start'>
-                <img src={logo} alt="Logo" className="w-44" />
+                <Link to="/home"> <img src={logo} alt="Logo" className="w-44" /></Link>
                 <div>
                     <input
                         type='text'
