@@ -69,7 +69,11 @@ function CreatePost({ setIsLoading }: CreatePostProps) {
             });
             console.log(response.data);
             toast.success("Posted Succefully")
-            navigate('/home')
+            if (window.location.pathname === '/home') {
+                window.location.reload();
+            } else {
+                navigate('/home')
+            }
         } catch (error: any) {
             if (error.response) {
                 if (error.response.status == 413) {

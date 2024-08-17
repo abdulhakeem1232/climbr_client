@@ -92,6 +92,11 @@ function Job() {
             },
         })
         console.log(response);
+        if (response.data.message == 'Applicant has already applied for this job.') {
+            toast.success("Sorry You Have Already Applied")
+            window.location.reload();
+            return;
+        }
         toast.success("Apllied Successfully")
         setApplicationStatus("Applied");
     }
