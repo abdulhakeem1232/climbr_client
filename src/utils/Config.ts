@@ -109,52 +109,52 @@ const adminAxios = axios.create({
 });
 
 
-const handle401Error = (dispatch: any, navigate: any) => {
-    dispatch(logout());
-    navigate('/');
-    toast.info("Session Expired");
-};
+// const handle401Error = (dispatch: any, navigate: any) => {
+//     dispatch(logout());
+//     navigate('/');
+//     toast.info("Session Expired");
+// };
 
 
-const addRequestInterceptor = (axiosInstance: any) => {
-    axiosInstance.interceptors.request.use(
-        (config: any) => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                config.headers['Authorization'] = `Bearer ${token}`;
-            }
-            return config;
-        },
-        (error: any) => {
-            return Promise.reject(error);
-        }
-    );
-};
+// const addRequestInterceptor = (axiosInstance: any) => {
+//     axiosInstance.interceptors.request.use(
+//         (config: any) => {
+//             const token = localStorage.getItem('token');
+//             if (token) {
+//                 config.headers['Authorization'] = `Bearer ${token}`;
+//             }
+//             return config;
+//         },
+//         (error: any) => {
+//             return Promise.reject(error);
+//         }
+//     );
+// };
 
 
 
-const addResponseInterceptor = (axiosInstance: any) => {
-    axiosInstance.interceptors.response.use(
-        (response: any) => response,
-        (error: any) => {
-            if (error.response && error.response.status === 401) {
-                const dispatch = useDispatch();
-                const navigate = useNavigate();
-                handle401Error(dispatch, navigate);
-            }
-            return Promise.reject(error);
-        }
-    );
-};
+// const addResponseInterceptor = (axiosInstance: any) => {
+//     axiosInstance.interceptors.response.use(
+//         (response: any) => response,
+//         (error: any) => {
+//             if (error.response && error.response.status === 401) {
+//                 const dispatch = useDispatch();
+//                 const navigate = useNavigate();
+//                 handle401Error(dispatch, navigate);
+//             }
+//             return Promise.reject(error);
+//         }
+//     );
+// };
 
 
-addRequestInterceptor(userAxios);
-addRequestInterceptor(recruiterAxios);
-addRequestInterceptor(adminAxios);
+// addRequestInterceptor(userAxios);
+// addRequestInterceptor(recruiterAxios);
+// addRequestInterceptor(adminAxios);
 
-addResponseInterceptor(userAxios);
-addResponseInterceptor(recruiterAxios);
-addResponseInterceptor(adminAxios);
+// addResponseInterceptor(userAxios);
+// addResponseInterceptor(recruiterAxios);
+// addResponseInterceptor(adminAxios);
 
 export { userAxios, recruiterAxios, adminAxios };
 

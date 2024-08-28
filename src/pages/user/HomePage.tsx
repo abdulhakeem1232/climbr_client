@@ -22,7 +22,7 @@ function HomePage() {
 
             <div className='flex flex-1 px-20 bg-gray-100'>
                 <div className='w-full md:w-1/4 hidden md:block lg:block ml-12'>
-                    {/* <Profile /> */}
+                    <Profile />
                 </div>
                 <div className='w-full md:w-1/2 flex justify-center flex-col items-center mx-4'>
                     <Toaster position="top-center" richColors />
